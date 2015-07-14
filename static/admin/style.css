@@ -153,7 +153,7 @@ hr {
     background-color: #0079bc;
     color: #FFF;
     line-height: 28px;
-    min-width:84px;
+    min-width: 84px;
     cursor: pointer;
 }
 
@@ -167,19 +167,44 @@ hr {
     width: 14px;
 }
 
-.ul li{
+.ul li {
     line-height: 24px;
     padding-bottom: 8px;
     margin-bottom: 8px;
     border-bottom: 1px solid #DDD;
 }
 
-
-#index-container{
-    padding:24px 32px;
+.lbl{
+    background-color: #DDD;
+    color: #666;
+    font-size: 10px;
+    padding: 4px;
 }
 
-#admin-nav{
+#index-container {
+    padding: 24px 32px;
+}
+
+#admin-nav {
     width: 120px;
     margin-right: 24px;
+}
+
+#article-container {
+    padding-left: 144px;
+}
+
+#article-container .article .title {
+    font-size: 1.1em;
+    display: inline-block;
+}
+
+#article-container .article .title a {
+    font-weight: bold;
+}
+
+#article-container .article {
+    line-height: 40px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #DDD;
 }

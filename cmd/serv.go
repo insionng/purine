@@ -63,6 +63,7 @@ func ServeMiddleware(ctx *cli.Context) {
 func ServeRouting(ctx *cli.Context) {
 	adminGroup := tango.NewGroup()
 	adminGroup.Any("/login", new(admin.Login))
+	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Get("/", new(admin.Index))
 
 	vars.Server.Group("/admin", adminGroup)
