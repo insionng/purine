@@ -1,0 +1,158 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0
+}
+
+header, footer, section, article, aside, nav, address, figure, figcaption, menu, details {
+    display: block
+}
+
+audio, canvas, video {
+    display: inline-block
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+fieldset, img {
+    border: 0
+}
+
+address, caption, cite, code, dfn, em, th, var {
+    font-style: normal;
+    font-weight: normal
+}
+
+ol, ul {
+    list-style: none
+}
+
+caption, th {
+    text-align: left
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal
+}
+
+q:before, q:after {
+    content: ''
+}
+
+abbr, acronym {
+    border: 0;
+    font-variant: normal
+}
+
+sup {
+    vertical-align: text-top
+}
+
+sub {
+    vertical-align: text-bottom
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit
+}
+
+legend {
+    color: #000
+}
+
+html, body {
+    background-color: #FFF;
+    color: #444;
+    font-size: 13px;
+    line-height: 24px;
+    font-family: Ubuntu, Consolas, "Microsoft YaHei", Verdana, Tahoma, Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #0079bc
+}
+
+a:hover {
+    color: #005b9b
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+h3 {
+    font-size: 1.4em;
+}
+
+h4 {
+    font-size: 1.2em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .4em;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #DDD;
+    height: 0;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.clear:after {
+    content: "";
+    clear: both;
+    height: 0;
+    width: 0;
+}
+
+.form .group {
+    margin-top: 12px;
+    line-height: 30px;
+}
+
+.form .ipt {
+    border: 1px solid #BBB;
+    padding: 6px 10px 7px 10px;
+    outline: none;
+}
+
+.form .ipt:focus {
+    background-color: #e5fffd;
+    border-color: #888;
+}
+
+.form .chk {
+    vertical-align: text-bottom;
+}
+
+.form .btn {
+    height: 30px;
+    border: none;
+    background-color: #0079bc;
+    color: #FFF;
+    line-height: 28px;
+    min-width: 56px;
+    cursor: pointer;
+}
+
+.form .btn:hover {
+    background-color: #005b9b;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" href="/static/admin/style.css"/>
+    <style>
+        #login-container {
+            margin-left: 32px;
+            margin-top: 32px;
+            width: 400px;
+        }
+
+        #login-form label.left {
+            margin-right: 12px;
+            width: 56px;
+        }
+
+        #login-form .ipt {
+            width: 240px;
+        }
+
+        #login-container hr {
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+<div id="login-container">
+    <h1>Login</h1>
+    <hr/>
+    <form id="login-form" action="/admin/login" method="post" class="form">
+        <div class="group clear">
+            <label class="left" for="username">Username</label>
+            <input id="username" class="ipt" type="text" name="username" required="required"/>
+        </div>
+        <div class="group clear">
+            <label class="left" for="password">Password</label>
+            <input id="password" class="ipt" type="password" name="password" required="required"/>
+        </div>
+        <div class="group clear">
+            <label class="left">&nbsp;</label>
+            <input class="chk" type="checkbox" name="remember" id="remember"/>
+            <span class="chk-txt">Remember</span>
+        </div>
+        <div class="group clear">
+            <label class="left">&nbsp;</label>
+            <input class="btn" type="submit" name="login" value="Login"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>
