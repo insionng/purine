@@ -5,13 +5,13 @@ import (
 	"github.com/tango-contrib/renders"
 )
 
-type Login struct {
-	renders.Renderer
+type Index struct {
 	tango.Ctx
+	renders.Renderer
 }
 
-func (l *Login) Get() {
-	if err := l.Render("admin/login.tmpl"); err != nil {
+func (i *Index) Get() {
+	if err := i.Render("admin/index.tmpl"); err != nil {
 		panic(err)
 	}
 }

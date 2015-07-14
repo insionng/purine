@@ -6,11 +6,11 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/model"
+	"github.com/fuxiaohei/purine/route/admin"
 	"github.com/fuxiaohei/purine/vars"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/renders"
-    "github.com/fuxiaohei/purine/route/admin"
 )
 
 var servCmd cli.Command = cli.Command{
@@ -61,8 +61,9 @@ func ServeMiddleware(ctx *cli.Context) {
 }
 
 func ServeRouting(ctx *cli.Context) {
-    adminGroup := tango.NewGroup()
-    adminGroup.Any("/login",new(admin.Login))
+	adminGroup := tango.NewGroup()
+	adminGroup.Any("/login", new(admin.Login))
+	adminGroup.Get("/", new(admin.Index))
 
-    vars.Server.Group("/admin",adminGroup)
+	vars.Server.Group("/admin", adminGroup)
 }

@@ -2,7 +2,8 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>login</title>
+    <title>Login</title>
+    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/static/admin/style.css"/>
     <style>
         #login-container {
@@ -13,7 +14,7 @@
 
         #login-form label.left {
             margin-right: 12px;
-            width: 56px;
+            width: 84px;
         }
 
         #login-form .ipt {
@@ -31,11 +32,17 @@
     <hr/>
     <form id="login-form" action="/admin/login" method="post" class="form">
         <div class="group clear">
-            <label class="left" for="username">Username</label>
+            <label class="left" for="username">
+                <i class="fa fa-user"></i>
+                Username
+            </label>
             <input id="username" class="ipt" type="text" name="username" required="required"/>
         </div>
         <div class="group clear">
-            <label class="left" for="password">Password</label>
+            <label class="left" for="password">
+                <i class="fa fa-eye"></i>
+                Password
+            </label>
             <input id="password" class="ipt" type="password" name="password" required="required"/>
         </div>
         <div class="group clear">
@@ -45,7 +52,7 @@
         </div>
         <div class="group clear">
             <label class="left">&nbsp;</label>
-            <input class="btn" type="submit" name="login" value="Login"/>
+            <button class="btn" type="submit"><i class="fa fa-sign-in"></i>Login</button>
         </div>
     </form>
 </div>

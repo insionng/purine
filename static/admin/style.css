@@ -73,6 +73,10 @@ html, body {
     font-family: Ubuntu, Consolas, "Microsoft YaHei", Verdana, Tahoma, Arial, sans-serif;
 }
 
+input, textarea, select, option, button {
+    font-family: Ubuntu, Consolas, "Microsoft YaHei", Verdana, Tahoma, Arial, sans-serif;
+}
+
 a {
     text-decoration: none;
     color: #0079bc
@@ -149,10 +153,33 @@ hr {
     background-color: #0079bc;
     color: #FFF;
     line-height: 28px;
-    min-width: 56px;
+    min-width:84px;
     cursor: pointer;
 }
 
 .form .btn:hover {
     background-color: #005b9b;
+}
+
+.fa {
+    margin-right: 6px;
+    display: inline-block;
+    width: 14px;
+}
+
+.ul li{
+    line-height: 24px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #DDD;
+}
+
+
+#index-container{
+    padding:24px 32px;
+}
+
+#admin-nav{
+    width: 120px;
+    margin-right: 24px;
 }
