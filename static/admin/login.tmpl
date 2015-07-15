@@ -1,36 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/static/admin/style.css"/>
-    <style>
-        #login-container {
-            margin-left: 32px;
-            margin-top: 32px;
-            width: 400px;
-        }
-
-        #login-form label.left {
-            margin-right: 12px;
-            width: 84px;
-        }
-
-        #login-form .ipt {
-            width: 240px;
-        }
-
-        #login-container hr {
-            margin-bottom: 16px;
-        }
-    </style>
-</head>
-<body>
+{{template "admin/header.tmpl" .}}
 <div id="login-container">
     <h1>Login</h1>
     <hr/>
     <form id="login-form" action="/admin/login" method="post" class="form">
+        {{if .Error}}<div class="group center">
+            <strong class="alert">{{.Error}}</strong>
+        </div>{{end}}
         <div class="group clear">
             <label class="left" for="username">
                 <i class="fa fa-user"></i>
@@ -56,5 +31,4 @@
         </div>
     </form>
 </div>
-</body>
-</html>
+{{template "admin/footer.tmpl" .}}

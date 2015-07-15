@@ -72,13 +72,14 @@ func NewSiteData(ctx *cli.Context) {
 	}
 	engine.SetLogger(nil) // close logger
 
-	if err = engine.Sync2(new(model.User)); err != nil {
+	if err = engine.Sync2(new(model.User), new(model.Token)); err != nil {
 		log.Error("NewSite|%s", err.Error())
 		return
 	}
 
-	log.Info("NewSite|%-8s|SyncDb|%s", "SQLite",
+	log.Info("NewSite|%-8s|SyncDb|%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
+		reflect.TypeOf(new(model.Token)).String(),
 	)
 	log.Info("NewSite|%-8s|Success", "SQLite")
 	engine.Close()

@@ -1,17 +1,51 @@
 package admin
 
 import (
+	"github.com/fuxiaohei/purine/mapi"
+	"github.com/fuxiaohei/purine/model"
+	"github.com/fuxiaohei/purine/route/base"
 	"github.com/lunny/tango"
-	"github.com/tango-contrib/renders"
+	"net/http"
+	"time"
 )
 
 type Login struct {
-	renders.Renderer
+	base.AdminRender
+	base.BaseBinder
 	tango.Ctx
 }
 
 func (l *Login) Get() {
-	if err := l.Render("admin/login.tmpl"); err != nil {
-		panic(err)
+	l.Title("Login")
+	l.Render("login.tmpl")
+}
+
+func (l *Login) Post() {
+	// bind form
+	form := new(mapi.LoginForm)
+	if err := l.Bind(form); err != nil {
+		l.Assign("Error", err.Error())
+		l.Render("login.tmpl")
+		return
 	}
+
+	// call login mapi
+	res := mapi.Call(mapi.Login, form)
+	if !res.Status {
+		l.Assign("Error", res.Error)
+		l.Render("login.tmpl")
+		return
+	}
+
+	// save token to cookie
+	token := res.Data["token"].(*model.Token)
+	l.Cookies().Set(&http.Cookie{
+		Name:     "x-token",
+		Value:    token.Token,
+		Path:     "/",
+		Expires:  time.Unix(token.ExpireTime, 0),
+		MaxAge:   int(token.ExpireTime - time.Now().Unix()),
+		HttpOnly: true,
+	})
+	l.Redirect("/admin")
 }

@@ -8,7 +8,9 @@ import (
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/admin"
 	"github.com/fuxiaohei/purine/vars"
+	"github.com/go-xorm/xorm"
 	"github.com/lunny/tango"
+	"github.com/mattn/go-sqlite3"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/renders"
 )
@@ -23,7 +25,10 @@ var servCmd cli.Command = cli.Command{
 			log.Error("Serv|%-8s|ReadFail", "Config")
 			return
 		}
-		log.Error("Serv|%-8s|Read|%s", "Config", configTomlFile)
+		log.Info("Serv|%-8s|Read|%s", "Config", configTomlFile)
+
+		// start Db
+		ServeDb(ctx)
 
 		// start server
 		ServeMiddleware(ctx)
@@ -41,6 +46,19 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 		return nil
 	}
 	return cfg
+}
+
+func ServeDb(ctx *cli.Context) {
+	sqliteVersion, _, _ := sqlite3.Version()
+	log.Info("SErv|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
+
+	engine, err := xorm.NewEngine("sqlite3", databaseFile)
+	if err != nil {
+		log.Error("Serv|%s", err.Error())
+		return
+	}
+	engine.SetLogger(nil) // close logger
+	vars.Db = engine
 }
 
 func ServeMiddleware(ctx *cli.Context) {

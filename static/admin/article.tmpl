@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Article</title>
-    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/static/admin/style.css"/>
-</head>
-<body>
+{{template "admin/header.tmpl" .}}
 <div id="index-container" class="clear">
     {{template "admin/nav.tmpl" .}}
     <div id="article-container">
-        <h3>Article</h3>
+        <h3>Article
+            <a class="article-new" href="/admin/write">
+                <i class="fa fa-plus"></i>Write
+            </a>
+        </h3>
         <hr/>
         <div id="article-container-all">
             <div class="article">
@@ -19,15 +15,31 @@
                     <a href="#">Accelerator,提升阅读速度的新尝试</a>
                 </h5>
                 <span class="status lbl">draft</span>
+                <span class="act">
+                    <a class="preview" href="#">
+                        <i class="fa fa-eye"></i>Preview
+                    </a>
+                    <a class="edit" href="#">
+                        <i class="fa fa-edit"></i>Edit
+                    </a>
+                    <a class="del" href="#">
+                        <i class="fa fa-remove"></i>Delete
+                    </a>
+                </span>
             </div>
             <div class="article">
                 <h5 class="title">
                     <span class="date">06.05</span>
                     <a href="#">年度最好的城镇建设游戏Banished</a>
                 </h5>
+                <span class="cmt lbl">12</span>
             </div>
+            <ul class="pager">
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+            </ul>
         </div>
     </div>
 </div>
-</body>
-</html>
+{{template "admin/footer.tmpl" .}}

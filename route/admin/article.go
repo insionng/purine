@@ -1,17 +1,14 @@
 package admin
 
 import (
-	"github.com/lunny/tango"
-	"github.com/tango-contrib/renders"
+	"github.com/fuxiaohei/purine/route/base"
 )
 
 type Article struct {
-	tango.Ctx
-	renders.Renderer
+	base.AdminRender
 }
 
 func (a *Article) Get() {
-	if err := a.Render("admin/article.tmpl"); err != nil {
-		panic(err)
-	}
+	a.Title("Article")
+	a.Render("article.tmpl")
 }

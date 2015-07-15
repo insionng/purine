@@ -127,6 +127,14 @@ hr {
     width: 0;
 }
 
+.center{
+    text-align: center;
+}
+
+.alert{
+    color: #ba4936;
+}
+
 .form .group {
     margin-top: 12px;
     line-height: 30px;
@@ -153,7 +161,7 @@ hr {
     background-color: #0079bc;
     color: #FFF;
     line-height: 28px;
-    min-width: 84px;
+    min-width: 92px;
     cursor: pointer;
 }
 
@@ -162,9 +170,9 @@ hr {
 }
 
 .fa {
-    margin-right: 6px;
     display: inline-block;
-    width: 14px;
+    width: 16px;
+    text-align: left;
 }
 
 .ul li {
@@ -174,11 +182,49 @@ hr {
     border-bottom: 1px solid #DDD;
 }
 
-.lbl{
+.lbl {
     background-color: #DDD;
     color: #666;
     font-size: 10px;
     padding: 4px;
+}
+
+.pager {
+    padding: 8px 0;
+}
+
+.pager li {
+    display: inline-block;
+}
+
+.pager li a {
+    margin-right: 6px;
+    padding: 4px 8px;
+}
+
+.pager li a:hover,
+.pager li a.current {
+    background-color: #e2f0ff;
+    color: #444;
+}
+
+#login-container {
+    margin-left: 32px;
+    margin-top: 32px;
+    width: 400px;
+}
+
+#login-form label.left {
+    margin-right: 12px;
+    width: 92px;
+}
+
+#login-form .ipt {
+    width: 240px;
+}
+
+#login-container hr {
+    margin-bottom: 16px;
 }
 
 #index-container {
@@ -197,6 +243,7 @@ hr {
 #article-container .article .title {
     font-size: 1.1em;
     display: inline-block;
+    padding-right: 1em;
 }
 
 #article-container .article .title a {
@@ -207,4 +254,39 @@ hr {
     line-height: 40px;
     margin-bottom: 8px;
     border-bottom: 1px solid #DDD;
+}
+
+#article-container .article .act a {
+    margin-left: 1em;
+}
+
+#article-container .article .preview {
+    color: #666;
+}
+
+#article-container .article .edit {
+    color: #c66545;
+}
+
+#article-container .article .del {
+    color: #9d110f;
+}
+
+#article-container .article .act {
+    display: none;
+}
+
+#article-container .article:hover .act {
+    display: inline-block;
+}
+
+#article-container .article .cmt {
+    background-color: #649d5a;
+    color: #FFF;
+}
+
+#article-container .article-new {
+    font-size: 13px;
+    margin-left: 1em;
+    color: #ba4936;
 }

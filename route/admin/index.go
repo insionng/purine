@@ -1,17 +1,14 @@
 package admin
 
 import (
-	"github.com/lunny/tango"
-	"github.com/tango-contrib/renders"
+	"github.com/fuxiaohei/purine/route/base"
 )
 
 type Index struct {
-	tango.Ctx
-	renders.Renderer
+	base.AdminRender
 }
 
 func (i *Index) Get() {
-	if err := i.Render("admin/index.tmpl"); err != nil {
-		panic(err)
-	}
+	i.Title("Index")
+	i.Render("index.tmpl")
 }
