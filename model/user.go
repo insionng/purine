@@ -70,3 +70,20 @@ func CreateToken(user, expire int64) (*Token, error) {
 	}
 	return t, nil
 }
+
+func GetValidToken(token string) (*Token, error) {
+	t := new(Token)
+	if _, err := vars.Db.Where("token = ?", token).Get(t); err != nil {
+		log.Error("Db|GetValidToken|%s|%s", token, err.Error())
+		return nil, err
+	}
+	// wrong token
+	if t.Token != token {
+		return nil, nil
+	}
+	// expired
+	if time.Now().Unix() > t.ExpireTime {
+		return nil, nil
+	}
+	return t, nil
+}

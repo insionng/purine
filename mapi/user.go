@@ -50,3 +50,29 @@ func Login(v interface{}) *Res {
 		"user":  user,
 	})
 }
+
+func Auth(v interface{}) *Res {
+	token, ok := v.(string)
+	if !ok {
+		return Fail(paramTypeError(""))
+	}
+	// get token
+	t, err := model.GetValidToken(token)
+	if err != nil {
+		return Fail(err)
+	}
+	// get user
+	user, err := model.GetUserBy("id", t.UserId)
+	if err != nil {
+		return Fail(err)
+	}
+	if user == nil {
+		return Fail(ERR_USER_MISSING)
+	}
+
+	// return data
+	return Success(map[string]interface{}{
+		"token": token,
+		"user":  user,
+	})
+}

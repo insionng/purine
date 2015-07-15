@@ -6,6 +6,7 @@ import (
 
 type Article struct {
 	base.AdminRender
+	base.BaseAuther
 }
 
 func (a *Article) Get() {

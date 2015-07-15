@@ -7,6 +7,7 @@ import (
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/admin"
+	"github.com/fuxiaohei/purine/route/base"
 	"github.com/fuxiaohei/purine/vars"
 	"github.com/go-xorm/xorm"
 	"github.com/lunny/tango"
@@ -63,6 +64,7 @@ func ServeDb(ctx *cli.Context) {
 
 func ServeMiddleware(ctx *cli.Context) {
 	vars.Server.Use(binding.Bind())
+	vars.Server.Use(base.AuthHandler())
 	vars.Server.Use(tango.Static(tango.StaticOptions{
 		RootPath: "static",
 		Prefix:   "/static",

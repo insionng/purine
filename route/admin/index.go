@@ -6,6 +6,7 @@ import (
 
 type Index struct {
 	base.AdminRender
+	base.BaseAuther
 }
 
 func (i *Index) Get() {

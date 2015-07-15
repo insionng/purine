@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/fuxiaohei/purine/utils"
 	"github.com/mattn/go-sqlite3"
 	"reflect"
 	"time"
@@ -81,8 +82,32 @@ func NewSiteData(ctx *cli.Context) {
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 	)
+
+	// site init data
+	NewSiteInitData(engine)
+
 	log.Info("NewSite|%-8s|Success", "SQLite")
 	engine.Close()
+}
+
+// new site init data
+func NewSiteInitData(engine *xorm.Engine) {
+	// default user
+	user := &model.User{
+		Name:      "admin",
+		Email:     "admin@example.com",
+		Url:       "#",
+		AvatarUrl: utils.GravatarLink("admin@example.com"),
+		Profile:   "this is an administrator",
+		Role:      model.USER_ROLE_ADMIN,
+		Status:    model.USER_STATUS_ACTIVE,
+	}
+	user.Salt = utils.Md5String("123456789")[8:24]
+	user.Password = utils.Sha256String("123456789" + user.Salt)
+	if _, err := engine.Insert(user); err != nil {
+		log.Error("NewSite|%s", err.Error())
+		return
+	}
 }
 
 // check is new
