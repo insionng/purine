@@ -23,3 +23,13 @@ func (a *Article) Get() {
 	a.Assign("Pager", res.Data["pager"].(*utils.Pager))
 	a.Render("article.tmpl")
 }
+
+type Write struct {
+	base.AdminRender
+	base.BaseAuther
+}
+
+func (w *Write) Get() {
+	w.Title("Write")
+	w.Render("write.tmpl")
+}

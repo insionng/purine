@@ -53,7 +53,7 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 
 func ServeDb(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("SErv|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("Serv|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
 
 	engine, err := xorm.NewEngine("sqlite3", databaseFile)
 	if err != nil {
@@ -90,6 +90,7 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup := tango.NewGroup()
 	adminGroup.Any("/login", new(admin.Login))
 	adminGroup.Get("/logout", new(admin.Logout))
+	adminGroup.Any("/write", new(admin.Write))
 	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Get("/", new(admin.Index))
 

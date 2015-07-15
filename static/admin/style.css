@@ -290,3 +290,9 @@ hr {
     margin-left: 1em;
     color: #ba4936;
 }
+
+.editormd-menu .fa{
+    font-size: 14px !important;
+    font-weight: normal !important;
+    width: auto !important;
+}

@@ -1,0 +1,34 @@
+{{template "admin/header.tmpl" .}}
+<div id="index-container" class="clear">
+    {{template "admin/nav.tmpl" .}}
+    <div id="index-editormd"></div>
+</div>
+<link rel="stylesheet" href="https://pandao.github.io/editor.md/css/editormd.min.css"/>
+<script src="https://pandao.github.io/editor.md/editormd.min.js"></script>
+<script>
+    var indexMarkdownEditor = editormd("index-editormd", {
+        height: 580,
+        tex: true,
+        path:"https://pandao.github.io/editor.md/lib/",
+        tocm: true,
+        emoji: true,
+        taskList: true,
+        codeFold: true,
+        searchReplace: true,
+        htmlDecode: "style,script,iframe",
+        flowChart: true,
+        sequenceDiagram: true,
+        onfullscreen: function() {
+            this.editor.css("border-radius", 0).css("z-index", 120);
+        },
+        onfullscreenExit: function() {
+            this.editor.css({
+                zIndex: 10,
+                border: "none",
+                "border-radius": "5px"
+            });
+            this.resize();
+        }
+    });
+</script>
+{{template "admin/footer.tmpl" .}}
