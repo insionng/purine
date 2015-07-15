@@ -36,7 +36,7 @@ func ListArticle(v interface{}) *Res {
 	sess := vars.Db.NewSession()
 	defer sess.Close()
 
-	if opt.OnlyStatus {
+	if opt.OnlyStatus != "" {
 		sess.Where("status = ?", opt.OnlyStatus)
 	} else {
 		sess.Where("status != ?", model.ARTICLE_STATUS_DELETE)
