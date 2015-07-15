@@ -8,12 +8,14 @@ import (
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/admin"
 	"github.com/fuxiaohei/purine/route/base"
+	"github.com/fuxiaohei/purine/utils"
 	"github.com/fuxiaohei/purine/vars"
 	"github.com/go-xorm/xorm"
 	"github.com/lunny/tango"
 	"github.com/mattn/go-sqlite3"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/renders"
+	"html/template"
 )
 
 var servCmd cli.Command = cli.Command{
@@ -77,6 +79,10 @@ func ServeMiddleware(ctx *cli.Context) {
 		Reload:     true,
 		Directory:  "static",
 		Extensions: []string{".tmpl"},
+		Funcs: template.FuncMap{
+			"Str2HTML":   utils.Str2HTML,
+			"Pager2HTML": utils.Pager2HTML,
+		},
 	}))
 }
 

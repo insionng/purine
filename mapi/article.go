@@ -1,16 +1,15 @@
 package mapi
 
 import (
-	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/model"
-	"github.com/fuxiaohei/purine/vars"
+	"github.com/fuxiaohei/purine/utils"
 )
 
 type ArticleListOption struct {
-	OnlyStatus string
-	Page       int
-	Size       int
-	Order      string
+	Status string
+	Page   int64
+	Size   int64
+	Order  string
 }
 
 func prepareArticleListOption(opt *ArticleListOption) *ArticleListOption {
@@ -33,23 +32,31 @@ func ListArticle(v interface{}) *Res {
 	}
 	opt = prepareArticleListOption(opt)
 
-	sess := vars.Db.NewSession()
-	defer sess.Close()
-
-	if opt.OnlyStatus != "" {
-		sess.Where("status = ?", opt.OnlyStatus)
-	} else {
-		sess.Where("status != ?", model.ARTICLE_STATUS_DELETE)
+	if opt.Status != "" {
+		articles, err := model.ListStatusArticle(opt.Status, opt.Page, opt.Size, opt.Order)
+		if err != nil {
+			return Fail(err)
+		}
+		count, err := model.CountStatusArticle(opt.Status)
+		if err != nil {
+			return Fail(err)
+		}
+		return Success(map[string]interface{}{
+			"articles": articles,
+			"pager":    utils.CreatePager(opt.Page, opt.Size, count),
+		})
 	}
-	sess.Limit(opt.Page, (opt.Page-1)*opt.Size).OrderBy(opt.Order)
 
-	articles := []*model.Article{}
-	if err := sess.Find(&articles); err != nil {
-		log.Error("Db|ListArticle|%v|%s", opt, err.Error())
+	articles, err := model.ListGeneralArticle(opt.Page, opt.Size, opt.Order)
+	if err != nil {
 		return Fail(err)
 	}
-
+	count, err := model.CountGeneralArticle()
+	if err != nil {
+		return Fail(err)
+	}
 	return Success(map[string]interface{}{
 		"articles": articles,
+		"pager":    utils.CreatePager(opt.Page, opt.Size, count),
 	})
 }
