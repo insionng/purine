@@ -15,7 +15,7 @@ const (
 
 	USER_STATUS_ACTIVE = "active"
 	USER_STATUS_BLOCK  = "block"
-	USER_STATUS_DELETE = "delete"
+	USER_STATUS_DELETE = "deleted"
 )
 
 type User struct {

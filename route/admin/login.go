@@ -49,3 +49,18 @@ func (l *Login) Post() {
 	})
 	l.Redirect("/admin")
 }
+
+type Logout struct {
+	tango.Ctx
+}
+
+func (l *Logout) Get() {
+	l.Cookies().Set(&http.Cookie{
+		Name:     "x-token",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -3600,
+		HttpOnly: false,
+	})
+	l.Redirect("/admin/login")
+}

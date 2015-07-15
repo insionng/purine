@@ -73,14 +73,19 @@ func NewSiteData(ctx *cli.Context) {
 	}
 	engine.SetLogger(nil) // close logger
 
-	if err = engine.Sync2(new(model.User), new(model.Token)); err != nil {
+	if err = engine.Sync2(new(model.User),
+		new(model.Token),
+		new(model.Article),
+		new(model.Tag)); err != nil {
 		log.Error("NewSite|%s", err.Error())
 		return
 	}
 
-	log.Info("NewSite|%-8s|SyncDb|%s,%s", "SQLite",
+	log.Info("NewSite|%-8s|SyncDb|%s,%s,%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
+		reflect.TypeOf(new(model.Article)).String(),
+		reflect.TypeOf(new(model.Tag)).String(),
 	)
 
 	// site init data
@@ -105,6 +110,25 @@ func NewSiteInitData(engine *xorm.Engine) {
 	user.Salt = utils.Md5String("123456789")[8:24]
 	user.Password = utils.Sha256String("123456789" + user.Salt)
 	if _, err := engine.Insert(user); err != nil {
+		log.Error("NewSite|%s", err.Error())
+		return
+	}
+
+	// default article
+	article := &model.Article{
+		Title:   "简洁的静态博客构建工具 —— 纸小墨（InkPaper）",
+		Link:    "blog-first",
+		Preview: "纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。",
+		Body: `# 纸小墨简介
+        纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。`,
+		TagString:     "blog",
+		Hits:          1,
+		Comments:      0,
+		Status:        model.ARTICLE_STATUS_PUBLISH,
+		CommentStatus: model.ARTICLE_COMMENT_OPEN,
+		AuthorId:      user.Id,
+	}
+	if _, err := engine.Insert(article); err != nil {
 		log.Error("NewSite|%s", err.Error())
 		return
 	}
