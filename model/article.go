@@ -4,6 +4,7 @@ import (
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/vars"
 	"net/url"
+	"strings"
 	"time"
 )
 
@@ -103,8 +104,31 @@ func SaveArticle(a *Article) (*Article, error) {
 			log.Error("Db|SaveArticle|%d|%s", a.Id, err.Error())
 			return nil, err
 		}
+
+	}
+	if a.TagString != "" {
+		if err := saveTags(a.Id, a.TagString); err != nil {
+			return nil, err
+		}
 	}
 	return GetArticleBy("id", a.Id)
+}
+
+func saveTags(id int64, tagStr string) error {
+	// delete old tags
+	if _, err := vars.Db.Where("article_id = ?", id).Delete(new(Tag)); err != nil {
+		log.Error("Db|SaveTags|%d,%s|%s", id, tagStr, err.Error())
+		return err
+	}
+	// save new tags
+	tags := strings.Split(strings.Replace(tagStr, "，", ",", -1), ",")
+	for _, t := range tags {
+		if _, err := vars.Db.Insert(&Tag{ArticleId: id, Tag: t}); err != nil {
+			log.Error("Db|SaveTags|%d,%s|%s", id, t, err.Error())
+			return err
+		}
+	}
+	return nil
 }
 
 type Tag struct {
