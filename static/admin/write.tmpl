@@ -40,11 +40,26 @@
 </div>
 <link rel="stylesheet" href="/static/admin/editor-md/css/editormd.min.css"/>
 <script src="/static/admin/editor-md/editormd.min.js"></script>
+<script src="/static/admin/editor-md/languages/en.js"></script>
 <script>
-    var indexMarkdownEditor = editormd("editormd", {
-        width:1266,
-        height: 600,
-        path:"/static/admin/editor-md/lib/"
+    $(function(){
+        var indexMarkdownEditor = editormd("editormd", {
+            width:1266,
+            height: 600,
+            name:"body",
+            path:"/static/admin/editor-md/lib/"
+        });
+       $('#write-form').on("submit",function(e){
+           e.preventDefault();
+           $.ajax({
+               url:"/admin/write",
+               method:"post",
+               data:$(this).serialize(),
+               success:function(res){
+                   console.log(res);
+               }
+           })
+       })
     });
 </script>
 {{template "admin/footer.tmpl" .}}

@@ -318,6 +318,10 @@ hr {
     padding: 12px !important;
 }
 
+.editormd-preview-close-btn{
+    width: auto !important;
+}
+
 #write-container .form .group > label {
     display: inline-block;
     width: 60px;

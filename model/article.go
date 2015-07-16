@@ -78,6 +78,35 @@ func CountStatusArticle(status string) (int64, error) {
 	return vars.Db.Where("status = ?", status).Count(new(Article))
 }
 
+func GetArticleBy(col string, v interface{}) (*Article, error) {
+	a := new(Article)
+	if _, err := vars.Db.Where(col+" = ?", v).Get(a); err != nil {
+		log.Error("Db|GetArticleBy|%s,%v|%s", col, v, err.Error())
+		return nil, err
+	}
+	if a.Id > 0 {
+		return a, nil
+	}
+	return nil, nil
+}
+
+func SaveArticle(a *Article) (*Article, error) {
+	if a.Id > 0 {
+		if _, err := vars.Db.Where("id = ?", a.Id).
+			Cols("title,link,update_time,preview,body,topic,tag_string,status,comment_status").
+			Update(a); err != nil {
+			log.Error("Db|SaveArticle|%d|%s", a.Id, err.Error())
+			return nil, err
+		}
+	} else {
+		if _, err := vars.Db.Insert(a); err != nil {
+			log.Error("Db|SaveArticle|%d|%s", a.Id, err.Error())
+			return nil, err
+		}
+	}
+	return GetArticleBy("id", a.Id)
+}
+
 type Tag struct {
 	Id        int64
 	ArticleId int64

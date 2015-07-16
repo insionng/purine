@@ -5,6 +5,7 @@ import (
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/base"
 	"github.com/fuxiaohei/purine/utils"
+	"github.com/lunny/tango"
 )
 
 type Article struct {
@@ -26,10 +27,25 @@ func (a *Article) Get() {
 
 type Write struct {
 	base.AdminRender
+	base.BaseBinder
 	base.BaseAuther
+	tango.Ctx
 }
 
 func (w *Write) Get() {
 	w.Title("Write")
 	w.Render("write.tmpl")
+}
+
+// ajax callback
+func (w *Write) Post() {
+	form := new(mapi.ArticleForm)
+	if err := w.Bind(form); err != nil {
+		w.ServeJson(mapi.Fail(err))
+		return
+	}
+	form.AuthorId = w.AuthUser.Id
+
+	res := mapi.Call(mapi.WriteArticle, form)
+	w.ServeJson(res)
 }
