@@ -1,34 +1,50 @@
 {{template "admin/header.tmpl" .}}
 <div id="index-container" class="clear">
     {{template "admin/nav.tmpl" .}}
-    <div id="index-editormd"></div>
+    <div id="write-container">
+        <h3>Write</h3>
+        <hr/>
+        <form id="write-form" action="/admin/write" method="post" class="form">
+            <div class="group clear">
+                <label for="title">Title</label>
+                <input id="title" class="ipt" type="text" name="title" required="required"/>
+            </div>
+            <div class="group clear">
+                <label for="link">Link</label>
+                <input id="link" class="ipt" type="text" name="link" required="required"/>
+            </div>
+            <div class="group clear">
+                <div id="editormd"></div>
+            </div>
+            <div class="group clear">
+                <label for="format">Format</label>
+                <select name="format" id="format" class="select">
+                    <option value="markdown">Markdown</option>
+                </select>
+            </div>
+            <div class="group clear">
+                <label for="tag">Tags</label>
+                <input id="tag" class="ipt" type="text" name="tag"/>
+            </div>
+            <div class="group clear">
+                <label>&nbsp;</label>
+                <input class="chk" type="checkbox" name="draft" value="draft"/>
+                <span class="chk-txt">As Draft</span>
+            </div>
+            <div class="group clear">
+                <label>&nbsp;</label>
+                <input class="btn" type="submit" value="Publish"/>
+            </div>
+        </form>
+    </div>
 </div>
-<link rel="stylesheet" href="https://pandao.github.io/editor.md/css/editormd.min.css"/>
-<script src="https://pandao.github.io/editor.md/editormd.min.js"></script>
+<link rel="stylesheet" href="/static/admin/editor-md/css/editormd.min.css"/>
+<script src="/static/admin/editor-md/editormd.min.js"></script>
 <script>
-    var indexMarkdownEditor = editormd("index-editormd", {
-        height: 580,
-        tex: true,
-        path:"https://pandao.github.io/editor.md/lib/",
-        tocm: true,
-        emoji: true,
-        taskList: true,
-        codeFold: true,
-        searchReplace: true,
-        htmlDecode: "style,script,iframe",
-        flowChart: true,
-        sequenceDiagram: true,
-        onfullscreen: function() {
-            this.editor.css("border-radius", 0).css("z-index", 120);
-        },
-        onfullscreenExit: function() {
-            this.editor.css({
-                zIndex: 10,
-                border: "none",
-                "border-radius": "5px"
-            });
-            this.resize();
-        }
+    var indexMarkdownEditor = editormd("editormd", {
+        width:1266,
+        height: 600,
+        path:"/static/admin/editor-md/lib/"
     });
 </script>
 {{template "admin/footer.tmpl" .}}

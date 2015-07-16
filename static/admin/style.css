@@ -169,6 +169,10 @@ hr {
     background-color: #005b9b;
 }
 
+.form .select {
+    padding: 5px 6px 6px 6px;
+}
+
 .fa {
     display: inline-block;
     width: 16px;
@@ -236,7 +240,8 @@ hr {
     margin-right: 24px;
 }
 
-#article-container {
+#article-container,
+#write-container {
     padding-left: 144px;
 }
 
@@ -291,8 +296,33 @@ hr {
     color: #ba4936;
 }
 
-.editormd-menu .fa{
-    font-size: 14px !important;
+.editormd {
+    margin-left: 0 !important;
+}
+
+.editormd-menu .fa {
+    font-size: 13px !important;
     font-weight: normal !important;
     width: auto !important;
+}
+
+.editormd-menu i[name=lowercase] {
+    margin-top: 0 !important;
+}
+
+.editormd-menu > li {
+    padding: 0 !important;
+}
+
+.editormd-preview-container {
+    padding: 12px !important;
+}
+
+#write-container .form .group > label {
+    display: inline-block;
+    width: 60px;
+}
+
+#write-container .form .ipt {
+    width: 1180px;
 }
