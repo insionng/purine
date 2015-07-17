@@ -1,0 +1,53 @@
+{{template "admin/_header.tmpl" .}}
+<div id="index-container" class="clear">
+    {{template "admin/_nav.tmpl" .}}
+    <div id="setting-container">
+        <h3>Setting</h3>
+        <hr/>
+        <ul id="setting-nav">
+            <li><a href="#setting-general" class="current">General</a></li>
+            <li><a href="#setting-content">Content</a></li>
+        </ul>
+        <hr/>
+        <div id="setting-general" class="setting">
+            <form id="setting-general-form" class="form" action="/admin/setting?general=true" method="post">
+                <div class="group clear">
+                    <label for="title">Title</label>
+                    <input id="title" class="ipt" type="text" name="title" required="required"/>
+                </div>
+                <div class="group clear">
+                    <label for="subtitle">Subtitle</label>
+                    <input id="subtitle" class="ipt" type="text" name="subtitle"/>
+                </div>
+                <div class="group clear">
+                    <label for="description">Description</label>
+                    <input id="description" class="ipt" type="text" name="description"/>
+                </div>
+                <div class="group clear">
+                    <label for="keyword">Keyword</label>
+                    <input id="keyword" class="ipt" type="text" name="keyword"/>
+                </div>
+                <div class="group clear">
+                    <label>&nbsp;</label>
+                    <input class="btn" type="submit" value="Submit"/>
+                </div>
+            </form>
+        </div>
+        <div id="setting-content" class="setting hide">
+            setting content
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#setting-nav').on("click", "a", function (e) {
+            var target = $(this).attr("href");
+            $(".setting").hide();
+            $(target).show();
+
+            $('.current').removeClass("current");
+            $(this).addClass("current");
+        });
+    });
+</script>
+{{template "admin/_footer.tmpl" .}}

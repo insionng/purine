@@ -351,11 +351,30 @@ hr {
 }
 
 #profile-form .ipt,
-#password-form .ipt {
+#password-form .ipt,
+#setting-general-form .ipt{
     width: 480px;
 }
 
 #profile-form textarea.ipt {
     height: 120px;
     resize: none;
+}
+
+#setting-nav li{
+    display: inline-block;
+}
+
+#setting-nav li a{
+    padding: 4px 8px;
+}
+
+#setting-nav li a.current{
+    background-color: #DDD;
+    color: #444;
+}
+
+#setting-general-form label{
+    display: inline-block;
+    width: 96px;
 }

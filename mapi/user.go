@@ -63,6 +63,9 @@ func Auth(v interface{}) *Res {
 	if err != nil {
 		return Fail(err)
 	}
+	if t == nil {
+		return Fail(ERR_USER_MISSING)
+	}
 	// get user
 	user, err := model.GetUserBy("id", t.UserId)
 	if err != nil {
