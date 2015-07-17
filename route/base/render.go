@@ -58,3 +58,9 @@ func (r *AdminRender) Render(tpl string) {
 	}
 	r.BaseRender.Render(tpl)
 }
+
+func (r *AdminRender) RenderError(err error) {
+	r.Title("Error")
+	r.Assign("Error", err.Error())
+	r.Render("error.tmpl")
+}

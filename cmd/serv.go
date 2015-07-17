@@ -91,6 +91,7 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup.Any("/login", new(admin.Login))
 	adminGroup.Get("/logout", new(admin.Logout))
 	adminGroup.Any("/write", new(admin.Write))
+	adminGroup.Any("/delete", new(admin.Delete))
 	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Get("/", new(admin.Index))
 

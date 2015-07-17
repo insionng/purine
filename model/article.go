@@ -134,6 +134,16 @@ func saveTags(id int64, tagStr string) error {
 	return nil
 }
 
+func RemoveArticle(id int64) error {
+	a := new(Article)
+	a.Status = ARTICLE_STATUS_DELETE
+	if _, err := vars.Db.Where("id = ?", id).Cols("status").Update(a); err != nil {
+		log.Error("Db|RemoveArticle|%d|%s", id, err.Error())
+		return err
+	}
+	return nil
+}
+
 type Tag struct {
 	Id        int64
 	ArticleId int64

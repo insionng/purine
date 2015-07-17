@@ -131,7 +131,7 @@ hr {
     text-align: center;
 }
 
-.hide{
+.hide {
     display: none;
 }
 
@@ -139,7 +139,7 @@ hr {
     color: #ba4936;
 }
 
-.success{
+.success {
     color: #5d9d61;
 }
 
@@ -179,6 +179,10 @@ hr {
 
 .form .select {
     padding: 5px 6px 6px 6px;
+}
+
+.form .btn.alert {
+    background-color: #ba4936;;
 }
 
 .fa {
@@ -326,7 +330,7 @@ hr {
     padding: 12px !important;
 }
 
-.editormd-preview-close-btn{
+.editormd-preview-close-btn {
     width: auto !important;
 }
 

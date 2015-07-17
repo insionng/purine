@@ -1,0 +1,21 @@
+{{template "admin/header.tmpl" .}}
+<div id="index-container" class="clear">
+    {{template "admin/nav.tmpl" .}}
+    <div id="article-container">
+        <h3>Delete - {{.Article.Title}}</h3>
+        <hr/>
+        <div id="delete-container">
+            <form id="delete-form" class="form" action="/admin/delete" method="post">
+                <input type="hidden" name="id" value="{{.Article.Id}}"/>
+                <div class="group clear">
+                    <p>If the article is removed, all relative comments are removed together.</p>
+
+                    <p class="alert"><strong>Are You Sure ?</strong></p>
+
+                    <p><br/><input class="btn alert" type="submit" name="del" value="Delete"/></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{template "admin/footer.tmpl" .}}

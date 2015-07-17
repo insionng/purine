@@ -128,3 +128,14 @@ func WriteArticle(v interface{}) *Res {
 		"article": article,
 	})
 }
+
+func DelArticle(v interface{}) *Res {
+	id, ok := v.(int64)
+	if !ok {
+		return Fail(paramTypeError(id))
+	}
+	if err := model.RemoveArticle(id); err != nil {
+		return Fail(err)
+	}
+	return Success(nil)
+}
