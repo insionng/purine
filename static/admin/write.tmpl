@@ -1,6 +1,6 @@
-{{template "admin/header.tmpl" .}}
+{{template "admin/_header.tmpl" .}}
 <div id="index-container" class="clear">
-    {{template "admin/nav.tmpl" .}}
+    {{template "admin/_nav.tmpl" .}}
     <div id="write-container">
         <h3>Write{{if .Article}} - {{.Article.Title}}{{end}}</h3>
         <hr/>
@@ -77,4 +77,4 @@
         })
     });
 </script>
-{{template "admin/footer.tmpl" .}}
+{{template "admin/_footer.tmpl" .}}
