@@ -131,8 +131,16 @@ hr {
     text-align: center;
 }
 
+.hide{
+    display: none;
+}
+
 .alert {
     color: #ba4936;
+}
+
+.success{
+    color: #5d9d61;
 }
 
 .form .group {

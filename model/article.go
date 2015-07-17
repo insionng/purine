@@ -44,6 +44,9 @@ func (a *Article) Date(layout string) string {
 }
 
 func (a *Article) Href() string {
+	if a.Link != "" {
+		return a.Link
+	}
 	return url.QueryEscape(a.Title)
 }
 
@@ -54,7 +57,7 @@ func (a *Article) IsDraft() bool {
 func ListGeneralArticle(page, size int64, order string) ([]*Article, error) {
 	articles := make([]*Article, 0)
 	if err := vars.Db.Where("status != ?", ARTICLE_STATUS_DELETE).
-		Limit(int(page), int((page-1)*size)).OrderBy(order).Find(&articles); err != nil {
+		Limit(int(size), int((page-1)*size)).OrderBy(order).Find(&articles); err != nil {
 		log.Error("Db|ListGeneralArticle|%d,%d|%s|%s", page, size, order, err.Error())
 		return nil, err
 	}
@@ -68,7 +71,7 @@ func CountGeneralArticle() (int64, error) {
 func ListStatusArticle(status string, page, size int64, order string) ([]*Article, error) {
 	articles := make([]*Article, 0)
 	if err := vars.Db.Where("status = ?", status).
-		Limit(int(page), int((page-1)*size)).OrderBy(order).Find(&articles); err != nil {
+		Limit(int(size), int((page-1)*size)).OrderBy(order).Find(&articles); err != nil {
 		log.Error("Db|ListStatusArticle|%s|%d,%d|%s|%s", status, page, size, order, err.Error())
 		return nil, err
 	}

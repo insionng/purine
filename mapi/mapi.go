@@ -10,9 +10,9 @@ import (
 )
 
 type Res struct {
-	Status bool
-	Error  string
-	Data   map[string]interface{}
+	Status bool                   `json:"status"`
+	Error  string                 `json:"error,omitempty"`
+	Data   map[string]interface{} `json:"data"`
 }
 
 type Func func(interface{}) *Res

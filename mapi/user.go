@@ -38,6 +38,8 @@ func Login(v interface{}) *Res {
 	// create token
 	if form.Remember == 0 {
 		form.Remember = 3600
+	} else {
+		form.Remember = form.Remember * 3600 * 24
 	}
 	token, err := model.CreateToken(user.Id, form.Remember)
 	if err != nil {

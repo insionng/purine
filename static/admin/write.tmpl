@@ -5,6 +5,10 @@
         <h3>Write</h3>
         <hr/>
         <form id="write-form" action="/admin/write" method="post" class="form">
+            <div class="group success clear hide">
+                <strong>Saved Success ! you can edit it continuously.</strong>
+            </div>
+            <div class="group alert clear hide"></div>
             <div class="group clear">
                 <label for="title">Title</label>
                 <input id="title" class="ipt" type="text" name="title" required="required"/>
@@ -34,6 +38,7 @@
             <div class="group clear">
                 <label>&nbsp;</label>
                 <input class="btn" type="submit" value="Publish"/>
+                <input id="id" type="hidden" name="id" value="0"/>
             </div>
         </form>
     </div>
@@ -42,24 +47,32 @@
 <script src="/static/admin/editor-md/editormd.min.js"></script>
 <script src="/static/admin/editor-md/languages/en.js"></script>
 <script>
-    $(function(){
+    $(function () {
         var indexMarkdownEditor = editormd("editormd", {
-            width:1266,
+            width: 1266,
             height: 600,
-            name:"body",
-            path:"/static/admin/editor-md/lib/"
+            name: "body",
+            path: "/static/admin/editor-md/lib/"
         });
-       $('#write-form').on("submit",function(e){
-           e.preventDefault();
-           $.ajax({
-               url:"/admin/write",
-               method:"post",
-               data:$(this).serialize(),
-               success:function(res){
-                   console.log(res);
-               }
-           })
-       })
+        $('#write-form').on("submit", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: "/admin/write",
+                method: "post",
+                data: $(this).serialize(),
+                beforeSend:function(){
+                    $('.group.hide').hide();
+                },
+                success: function (res) {
+                    if (res.status) {
+                        $('.group.success').show();
+                        $('#id').val(res.data.article.Id);
+                        return;
+                    }
+                    $(".group.alert").html("<strong>" + res.error + "</strong>").show();
+                }
+            })
+        })
     });
 </script>
 {{template "admin/footer.tmpl" .}}

@@ -11,11 +11,14 @@ import (
 type Article struct {
 	base.AdminRender
 	base.BaseAuther
+	tango.Ctx
 }
 
 func (a *Article) Get() {
 	a.Title("Article")
-	opt := &mapi.ArticleListOption{}
+	opt := &mapi.ArticleListOption{
+		Page: a.FormInt64("page", 1),
+	}
 	res := mapi.Call(mapi.ListArticle, opt)
 	if !res.Status {
 		panic(res.Error)
