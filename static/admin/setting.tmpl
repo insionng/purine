@@ -11,21 +11,31 @@
         <hr/>
         <div id="setting-general" class="setting">
             <form id="setting-general-form" class="form" action="/admin/setting?general=true" method="post">
+                {{if .Error}}
+                <div class="group clear">
+                    <p class="alert"><strong>{{.Error}}</strong></p>
+                </div>
+                {{end}}
+                {{if .Success}}
+                <div class="group clear">
+                    <p class="success"><strong>Data Updated !</strong></p>
+                </div>
+                {{end}}
                 <div class="group clear">
                     <label for="title">Title</label>
-                    <input id="title" class="ipt" type="text" name="title" required="required"/>
+                    <input id="title" class="ipt" type="text" name="title" required="required" value="{{.General.title}}"/>
                 </div>
                 <div class="group clear">
                     <label for="subtitle">Subtitle</label>
-                    <input id="subtitle" class="ipt" type="text" name="subtitle"/>
+                    <input id="subtitle" class="ipt" type="text" name="subtitle" value="{{.General.subtitle}}"/>
                 </div>
                 <div class="group clear">
                     <label for="description">Description</label>
-                    <input id="description" class="ipt" type="text" name="description"/>
+                    <input id="description" class="ipt" type="text" name="description" value="{{.General.desc}}"/>
                 </div>
                 <div class="group clear">
                     <label for="keyword">Keyword</label>
-                    <input id="keyword" class="ipt" type="text" name="keyword"/>
+                    <input id="keyword" class="ipt" type="text" name="keyword" value="{{.General.keyword}}"/>
                 </div>
                 <div class="group clear">
                     <label>&nbsp;</label>

@@ -255,7 +255,8 @@ hr {
 
 #article-container,
 #write-container,
-#profile-container {
+#profile-container,
+#setting-container{
     padding-left: 144px;
 }
 
