@@ -38,6 +38,16 @@ type Write struct {
 
 func (w *Write) Get() {
 	w.Title("Write")
+	id := w.FormInt64("id")
+	if id > 0 {
+		article, err := model.GetArticleBy("id", id)
+		if err != nil {
+			w.RenderError(err)
+			return
+		}
+		w.Title("Write - " + article.Title)
+		w.Assign("Article", article)
+	}
 	w.Render("write.tmpl")
 }
 
