@@ -19,16 +19,16 @@ import (
 )
 
 var servCmd cli.Command = cli.Command{
-	Name:  "serv",
+	Name:  "server",
 	Usage: "run http server to render and show pages",
 	Action: func(ctx *cli.Context) {
 		// read config file
 		cfg := ServeConfig(ctx)
 		if cfg == nil {
-			log.Error("Serv|%-8s|ReadFail", "Config")
+			log.Error("Server|%-8s|ReadFail", "Config")
 			return
 		}
-		log.Info("Serv|%-8s|Read|%s", "Config", configTomlFile)
+		log.Info("Server|%-8s|Read|%s", "Config", configTomlFile)
 
 		// start Db
 		ServeDb(ctx)
@@ -36,7 +36,7 @@ var servCmd cli.Command = cli.Command{
 		// start server
 		ServeMiddleware(ctx)
 		ServeRouting(ctx)
-		log.Info("Serv|%-8s|%s:%s", "Http", cfg.Server.Host, cfg.Server.Port)
+		log.Info("Server|%-8s|%s:%s", "Http", cfg.Server.Host, cfg.Server.Port)
 
 		vars.Server.Run(fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port))
 	},
@@ -45,7 +45,7 @@ var servCmd cli.Command = cli.Command{
 func ServeConfig(ctx *cli.Context) *model.Config {
 	cfg := new(model.Config)
 	if _, err := toml.DecodeFile(configTomlFile, cfg); err != nil {
-		log.Error("Serv|%-8s|%s", "Config", err.Error())
+		log.Error("Server|%-8s|%s", "Config", err.Error())
 		return nil
 	}
 	return cfg
@@ -53,11 +53,11 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 
 func ServeDb(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("Serv|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("Server|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
 
 	engine, err := xorm.NewEngine("sqlite3", databaseFile)
 	if err != nil {
-		log.Error("Serv|%s", err.Error())
+		log.Error("Server|%s", err.Error())
 		return
 	}
 	engine.SetLogger(nil) // close logger
