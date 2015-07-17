@@ -24,6 +24,7 @@ type User struct {
 	Password string
 	Salt     string
 
+	Nick       string
 	Email      string `xorm:"unique"`
 	Url        string
 	AvatarUrl  string
@@ -48,6 +49,26 @@ func GetUserBy(col string, v interface{}) (*User, error) {
 		return nil, nil
 	}
 	return u, nil
+}
+
+func UpdateUser(u *User) error {
+	if _, err := vars.Db.Cols("name,nick,email,url,profile,avatar_url").
+		Where("id = ?", u.Id).Update(u); err != nil {
+		log.Error("Db|UpdateUser|%d|%s", u.Id, err.Error())
+		return err
+	}
+	return nil
+}
+
+func UpdatePassword(id int64, newPassword string) error {
+	u := new(User)
+	u.Salt = utils.Md5String(newPassword)[8:24]
+	u.Password = utils.Sha256String(newPassword + u.Salt)
+	if _, err := vars.Db.Cols("password,salt").Where("id = ?", id).Update(u); err != nil {
+		log.Error("Db|UpdatePassword|%d|%s", id, err.Error())
+		return err
+	}
+	return nil
 }
 
 type Token struct {

@@ -1,0 +1,75 @@
+{{template "admin/header.tmpl" .}}
+<div id="index-container" class="clear">
+    {{template "admin/nav.tmpl" .}}
+    <div id="profile-container">
+        <h3>Profile</h3>
+        <hr/>
+        <form id="profile-form" class="form" action="/admin/profile" method="post">
+            {{if .Error}}
+            <div class="group clear">
+                <p class="alert"><strong>{{.Error}}</strong></p>
+            </div>
+            {{end}}
+            {{if .Success}}
+            <div class="group clear">
+                <p class="success"><strong>Profile Updated !</strong></p>
+            </div>
+            {{end}}
+            <div class="group clear">
+                <label class="left" for="user">User</label>
+                <input id="user" type="text" name="user" value="{{.User.Name}}" class="ipt" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="nick">Nick</label>
+                <input id="nick" class="ipt" type="text" name="nick" value="{{.User.Nick}}" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="email">Email</label>
+                <input id="email" class="ipt" type="email" name="email" value="{{.User.Email}}" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="url">Url</label>
+                <input id="url" class="ipt" type="url" name="url" value="{{.User.Url}}"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="profile">Profile</label>
+                <textarea class="ipt" name="profile" id="profile">{{.User.Profile}}</textarea>
+            </div>
+            <div class="group clear">
+                <label class="left">&nbsp;</label>
+                <input class="btn" type="submit" value="Save Changes"/>
+            </div>
+            <br/>
+        </form>
+        <hr/>
+        <form id="password-form" class="form" action="/admin/password" method="post">
+            {{if .PasswordError}}
+            <div class="group clear">
+                <p class="alert"><strong>{{.PasswordError}}</strong></p>
+            </div>
+            {{end}}
+            {{if .PasswordSuccess}}
+            <div class="group clear">
+                <p class="success"><strong>Password Updated !</strong></p>
+            </div>
+            {{end}}
+            <div class="group clear">
+                <label class="left" for="old">Old Password</label>
+                <input id="old" class="ipt" type="password" name="old" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="new">New Password</label>
+                <input id="new" class="ipt" type="password" name="new" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left" for="confirm">Confirm</label>
+                <input id="confirm" class="ipt" type="password" name="confirm" required="required"/>
+            </div>
+            <div class="group clear">
+                <label class="left">&nbsp;</label>
+                <input class="btn" type="submit" value="Change Password"/>
+            </div>
+        </form>
+    </div>
+</div>
+{{template "admin/footer.tmpl" .}}

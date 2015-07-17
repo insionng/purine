@@ -171,6 +171,7 @@ hr {
     line-height: 28px;
     min-width: 92px;
     cursor: pointer;
+    padding: 0 12px;
 }
 
 .form .btn:hover {
@@ -253,7 +254,8 @@ hr {
 }
 
 #article-container,
-#write-container {
+#write-container,
+#profile-container {
     padding-left: 144px;
 }
 
@@ -341,4 +343,19 @@ hr {
 
 #write-container .form .ipt {
     width: 1180px;
+}
+
+#profile-form label.left,
+#password-form label.left{
+    width: 96px;
+}
+
+#profile-form .ipt,
+#password-form .ipt {
+    width: 480px;
+}
+
+#profile-form textarea.ipt {
+    height: 120px;
+    resize: none;
 }
