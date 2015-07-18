@@ -1,6 +1,7 @@
 package base
 
 import (
+	"github.com/fuxiaohei/purine/model"
 	"github.com/tango-contrib/renders"
 	"path"
 )
@@ -63,4 +64,20 @@ func (r *AdminRender) RenderError(err error) {
 	r.Title("Error")
 	r.Assign("Error", err.Error())
 	r.Render("error.tmpl")
+}
+
+type ThemeRender struct {
+	BaseRender
+}
+
+func (t *ThemeRender) Render(tpl string) {
+	if t.themePrefix == "" {
+		theme, err := model.GetCurrentTheme()
+		if err != nil {
+			panic(err)
+		}
+		t.themePrefix = theme.Directory
+		t.Assign("ThemeLink", "/"+path.Join("static", t.themePrefix))
+	}
+	t.BaseRender.Render(tpl)
 }

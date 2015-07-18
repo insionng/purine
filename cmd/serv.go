@@ -6,6 +6,7 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/model"
+	"github.com/fuxiaohei/purine/route"
 	"github.com/fuxiaohei/purine/route/admin"
 	"github.com/fuxiaohei/purine/route/base"
 	"github.com/fuxiaohei/purine/utils"
@@ -99,4 +100,6 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup.Get("/", new(admin.Index))
 
 	vars.Server.Group("/admin", adminGroup)
+
+	vars.Server.Get("/", new(route.Index))
 }

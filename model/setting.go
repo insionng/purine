@@ -55,6 +55,10 @@ type Theme struct {
 }
 
 func GetThemes() ([]*Theme, error) {
+	themeSetting, err := GetSettings("theme")
+	if err != nil {
+		return nil, err
+	}
 	dirs, err := ioutil.ReadDir("static")
 	if err != nil {
 		return nil, err
@@ -89,7 +93,40 @@ func GetThemes() ([]*Theme, error) {
 		if t.Version == "" {
 			t.Version = "0.0"
 		}
+
+		// is current
+		if t.Directory == themeSetting["theme"] {
+			t.IsCurrent = true
+		}
+
 		themes = append(themes, t)
 	}
 	return themes, nil
+}
+
+func GetCurrentTheme() (*Theme, error) {
+	themeSetting, err := GetSettings("theme")
+	if err != nil {
+		return nil, err
+	}
+
+	t := new(Theme)
+	t.Directory = themeSetting["theme"]
+	t.IsCurrent = true
+	tomlFile := path.Join("static", t.Directory, "theme.toml")
+	if com.IsFile(tomlFile) {
+		if _, err := toml.DecodeFile(tomlFile, t); err != nil {
+			log.Error("Db|GetCurrentTheme|%s|%s", tomlFile, err.Error())
+			return nil, err
+		}
+	}
+	// fill data
+	if t.Name == "" {
+		t.Name = t.Directory
+	}
+	if t.Version == "" {
+		t.Version = "0.0"
+	}
+
+	return t, nil
 }
