@@ -32,3 +32,14 @@ func SaveGeneral(v interface{}) *Res {
 	}
 	return Success(nil)
 }
+
+/*
+func ListTheme(_ interface{}) *Res {
+    themes,err := model.GetThemes()
+    if err != nil{
+        return Fail(err)
+    }
+    return Success(map[string]interface{}{
+        "themes":themes,
+    })
+}*/

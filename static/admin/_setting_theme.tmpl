@@ -1,0 +1,14 @@
+<h5>Theme</h5>
+<ul id="theme-list">{{range .Themes}}
+    <li>
+        <span class="name"><strong>{{.Name}}</strong></span>
+        <span class="ver">{{.Version}}</span>
+        {{if .IsCurrent}}
+        <span class="current">
+            <span class="lbl success">current</span>
+        </span>
+        {{else}}
+        <a href="#" class="set">set current</a>
+        {{end}}
+    </li>{{end}}
+</ul>

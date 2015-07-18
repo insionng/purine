@@ -21,6 +21,14 @@ func (s *Setting) Get() {
 		return
 	}
 	s.Assign("General", generalSettings)
+
+	themes, err := model.GetThemes()
+	if err != nil {
+		s.RenderError(err)
+		return
+	}
+	s.Assign("Themes", themes)
+
 	s.Title("Setting")
 	s.Render("setting.tmpl")
 }

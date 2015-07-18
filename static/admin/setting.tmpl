@@ -7,6 +7,7 @@
         <ul id="setting-nav">
             <li><a href="#setting-general" class="current">General</a></li>
             <li><a href="#setting-content">Content</a></li>
+            <li><a href="#setting-theme">Theme</a></li>
         </ul>
         <hr/>
         <div id="setting-general" class="setting">
@@ -46,6 +47,9 @@
         <div id="setting-content" class="setting hide">
             setting content
         </div>
+        <div id="setting-theme" class="setting hide">
+            {{template "admin/_setting_theme.tmpl" .}}
+        </div>
     </div>
 </div>
 <script>
@@ -58,6 +62,10 @@
             $('.current').removeClass("current");
             $(this).addClass("current");
         });
+        var hash = window.location.hash;
+        if(hash){
+            $('#setting-nav a[href='+hash+']').trigger("click");
+        }
     });
 </script>
 {{template "admin/_footer.tmpl" .}}

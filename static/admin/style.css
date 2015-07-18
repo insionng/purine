@@ -206,6 +206,11 @@ hr {
     padding: 4px;
 }
 
+.lbl.success{
+    background-color: #5d9d61;
+    color: #FFF;
+}
+
 .pager {
     padding: 8px 0;
 }
@@ -378,4 +383,23 @@ hr {
 #setting-general-form label{
     display: inline-block;
     width: 96px;
+}
+
+#theme-list li{
+    padding-top: 8px;
+    margin-top: 8px;
+    border-top: 1px dashed #EEE;
+}
+
+#theme-list li > span{
+    display: inline-block;
+    min-width: 100px;
+}
+
+#theme-list .set{
+    display: none;
+}
+
+#theme-list li:hover .set{
+    display: inline;
 }
