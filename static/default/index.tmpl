@@ -1,1 +1,90 @@
-theme link {{.ThemeLink}}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.Title}}</title>
+    <link rel="shortcut icon" href="{{.ThemeLink}}/favicon.ico" type="image/x-icon"/>
+    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{.ThemeLink}}/style.css"/>
+</head>
+<body>
+<header id="header">
+    <div class="container960 center" id="header-container">
+        <h1 id="title">
+            <a href="/">Purine</a>
+            <span class="subtitle">a simple blog engine</span>
+        </h1>
+        <ul id="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/archive">Archive</a></li>
+            <!--<li><a href=""></a></li>-->
+        </ul>
+    </div>
+</header>
+<div id="body">
+    <div class="container960" id="body-container">
+        <article class="article">
+            <aside class="meta clear">
+                <span class="date left">
+                    <i class="fa fa-clock-o"></i>
+                    3 hours ago
+                </span>
+                <span class="right author">
+                    <i class="fa fa-user"></i>
+                    fuxiaohei
+                </span>
+                <span class="right comment">
+                    <i class="fa fa-comment"></i>
+                    12
+                </span>
+            </aside>
+            <header class="title">
+                <h2><a href="#">Revel应用部署的经验</a></h2>
+            </header>
+            <div class="preview">
+                <p>前两天去上海参加 Gopher China 2015 大会，见到很多久闻大名的大神和朋友，感觉很好。而且看到许多的企业，尤其是大企业都已经开始成规模的使用 golang，说明 golang 本身的设计和性能，已经受到了大家的认可。当然其实有很多的话题，不局限在 golang 了。</p>
+            </div>
+            <div class="more center">
+                <a href="#">-- Read More-- </a>
+            </div>
+        </article>
+        <article class="article">
+            <aside class="meta clear">
+                <span class="date left">
+                    <i class="fa fa-clock-o"></i>
+                    3 hours ago
+                </span>
+                <span class="right author">
+                    <i class="fa fa-user"></i>
+                    fuxiaohei
+                </span>
+                <span class="right comment">
+                    <i class="fa fa-comment"></i>
+                    12
+                </span>
+            </aside>
+            <header class="title">
+                <h2><a href="#">Revel应用部署的经验</a></h2>
+            </header>
+            <div class="preview">
+                <p>前两天去上海参加 Gopher China 2015 大会，见到很多久闻大名的大神和朋友，感觉很好。而且看到许多的企业，尤其是大企业都已经开始成规模的使用 golang，说明 golang 本身的设计和性能，已经受到了大家的认可。当然其实有很多的话题，不局限在 golang 了。</p>
+            </div>
+            <div class="more center">
+                <a href="#">-- Read More-- </a>
+            </div>
+        </article>
+        <div class="pager clear">
+            <a class="prev left" href="#">prev</a>
+            <a class="next right" href="#">next</a>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container960 center" id="footer-container">
+        © 2015 Designed by FuXiaoHei. Powered by <a href="#">Purine</a> using the Default Theme.
+    </div>
+</footer>
+</body>
+</html>
