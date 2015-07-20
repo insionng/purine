@@ -14,7 +14,6 @@ type Index struct {
 }
 
 func (idx *Index) Get() {
-	idx.Title("Index")
 	opt := &mapi.ArticleListOption{
 		Page: idx.FormInt64("page", 1),
 	}

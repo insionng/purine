@@ -70,6 +70,11 @@ type ThemeRender struct {
 	BaseRender
 }
 
+func (t *ThemeRender) HasAssign(key string) bool {
+	_, ok := t.viewData[key]
+	return ok
+}
+
 func (t *ThemeRender) Render(tpl string) {
 	if t.themePrefix == "" {
 		theme, err := model.GetCurrentTheme()
@@ -83,6 +88,9 @@ func (t *ThemeRender) Render(tpl string) {
 	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
 	if err != nil {
 		panic(err)
+	}
+	if !t.HasAssign("Title") {
+		t.Title(generalSettings["title"])
 	}
 	t.Assign("General", generalSettings)
 	t.BaseRender.Render(tpl)
