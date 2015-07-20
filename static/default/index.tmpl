@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{.Title}}</title>
+    <meta name="keywords" content="{{.General.keyword}}"/>
+    <meta name="description" content="{{.General.desc}}" />
     <link rel="shortcut icon" href="{{.ThemeLink}}/favicon.ico" type="image/x-icon"/>
     <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{{.ThemeLink}}/style.css"/>
@@ -13,8 +15,8 @@
 <header id="header">
     <div class="container960 center" id="header-container">
         <h1 id="title">
-            <a href="/">Purine</a>
-            <span class="subtitle">a simple blog engine</span>
+            <a href="/">{{.General.title}}</a>
+            <span class="subtitle">{{.General.subtitle}}</span>
         </h1>
         <ul id="nav">
             <li><a href="/">Home</a></li>
@@ -25,60 +27,36 @@
 </header>
 <div id="body">
     <div class="container960" id="body-container">
+        {{range .Articles}}
         <article class="article">
             <aside class="meta clear">
                 <span class="date left">
                     <i class="fa fa-clock-o"></i>
-                    3 hours ago
+                   {{TimeUnixFormatFriend .CreateTime}}
                 </span>
                 <span class="right author">
                     <i class="fa fa-user"></i>
-                    fuxiaohei
+                    {{.User.Nick}}
                 </span>
+                {{if .HasComment}}
                 <span class="right comment">
                     <i class="fa fa-comment"></i>
-                    12
+                    {{.Comments}}
                 </span>
+                {{end}}
             </aside>
             <header class="title">
-                <h2><a href="#">Revel应用部署的经验</a></h2>
+                <h2><a href="{{.Href}}" title="{{.Title}}" target="_blank">{{.Title}}</a></h2>
             </header>
             <div class="preview">
-                <p>前两天去上海参加 Gopher China 2015 大会，见到很多久闻大名的大神和朋友，感觉很好。而且看到许多的企业，尤其是大企业都已经开始成规模的使用 golang，说明 golang 本身的设计和性能，已经受到了大家的认可。当然其实有很多的话题，不局限在 golang 了。</p>
+                {{Md2HTML .Preview}}
             </div>
             <div class="more center">
-                <a href="#">-- Read More-- </a>
+                <a href="{{.Href}}" target="_blank">-- Read More-- </a>
             </div>
         </article>
-        <article class="article">
-            <aside class="meta clear">
-                <span class="date left">
-                    <i class="fa fa-clock-o"></i>
-                    3 hours ago
-                </span>
-                <span class="right author">
-                    <i class="fa fa-user"></i>
-                    fuxiaohei
-                </span>
-                <span class="right comment">
-                    <i class="fa fa-comment"></i>
-                    12
-                </span>
-            </aside>
-            <header class="title">
-                <h2><a href="#">Revel应用部署的经验</a></h2>
-            </header>
-            <div class="preview">
-                <p>前两天去上海参加 Gopher China 2015 大会，见到很多久闻大名的大神和朋友，感觉很好。而且看到许多的企业，尤其是大企业都已经开始成规模的使用 golang，说明 golang 本身的设计和性能，已经受到了大家的认可。当然其实有很多的话题，不局限在 golang 了。</p>
-            </div>
-            <div class="more center">
-                <a href="#">-- Read More-- </a>
-            </div>
-        </article>
-        <div class="pager clear">
-            <a class="prev left" href="#">prev</a>
-            <a class="next right" href="#">next</a>
-        </div>
+        {{end}}
+        {{Pager2Simple .Pager "/page/%d.html"}}
     </div>
 </div>
 <footer id="footer">

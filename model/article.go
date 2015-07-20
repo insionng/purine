@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/vars"
 	"net/url"
@@ -36,7 +37,8 @@ type Article struct {
 	Status        string
 	CommentStatus string
 
-	tagData []*Tag `xorm:"-"`
+	tagData  []*Tag `xorm:"-"`
+	userData *User  `xorm:"-"`
 }
 
 func (a *Article) Date(layout string) string {
@@ -44,14 +46,34 @@ func (a *Article) Date(layout string) string {
 }
 
 func (a *Article) Href() string {
-	if a.Link != "" {
-		return a.Link
+	l := a.Link
+	if l == "" {
+		l = url.QueryEscape(a.Title)
 	}
-	return url.QueryEscape(a.Title)
+	return fmt.Sprintf("%d/%s.html", a.Id, l)
 }
 
 func (a *Article) IsDraft() bool {
 	return a.Status == ARTICLE_STATUS_DRAFT
+}
+
+func (a *Article) HasComment() bool {
+	return a.Comments > 0
+}
+
+func (a *Article) User() *User {
+	if a.userData == nil {
+		u, err := GetUserBy("id", a.AuthorId)
+		if err != nil || u == nil {
+			a.userData = &User{
+				Name: "Unknown",
+				Nick: "Unknown",
+			}
+		} else {
+			a.userData = u
+		}
+	}
+	return a.userData
 }
 
 func ListGeneralArticle(page, size int64, order string) ([]*Article, error) {

@@ -81,8 +81,12 @@ func ServeMiddleware(ctx *cli.Context) {
 		Directory:  "static",
 		Extensions: []string{".tmpl"},
 		Funcs: template.FuncMap{
-			"Str2HTML":   utils.Str2HTML,
-			"Pager2HTML": utils.Pager2HTML,
+			"Str2HTML":             utils.Str2HTML,
+			"Md2HTML":              utils.Md2Html,
+			"Pager2HTML":           utils.Pager2HTML,
+			"Pager2Simple":         utils.Pager2HTMLSimple,
+			"TimeUnixFormat":       utils.TimeUnixFormat,
+			"TimeUnixFormatFriend": utils.FriendTimeUnixFormat,
 		},
 	}))
 }

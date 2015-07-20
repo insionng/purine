@@ -79,5 +79,11 @@ func (t *ThemeRender) Render(tpl string) {
 		t.themePrefix = theme.Directory
 		t.Assign("ThemeLink", "/"+path.Join("static", t.themePrefix))
 	}
+	// assign general data
+	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
+	if err != nil {
+		panic(err)
+	}
+	t.Assign("General", generalSettings)
 	t.BaseRender.Render(tpl)
 }
