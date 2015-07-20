@@ -104,6 +104,8 @@ h4 {
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: .4em;
+    margin-top: .4em;
+    font-weight: bold;
 }
 
 hr {
@@ -328,17 +330,34 @@ sup,sub{
 }
 
 #body-container .article .preview{
-    font-size: 18px;
-    line-height: 36px;
-}
-
-#body-container .article .preview:first-letter{
-    font-size: 24px;
+    font-size: 16px;
+    line-height: 32px;
+    padding: 0 6px;
 }
 
 #body-container .article .more{
     font-size: 13px;
     line-height: 60px;
+}
+
+.article .preview h1{
+    font-size: 1.5rem;
+}
+
+.article .preview h2{
+    font-size: 1.35rem;
+}
+
+.article .preview h3{
+    font-size: 1.2rem;
+}
+
+.article .preview h4{
+    font-size: 1.1rem;
+}
+
+.article .preview h5{
+    font-size: 1.05rem;
 }
 
 #body-container .pager{

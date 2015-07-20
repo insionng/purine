@@ -119,11 +119,10 @@ func NewSiteInitData(engine *xorm.Engine) {
 
 	// default article
 	article := &model.Article{
-		Title:   "简洁的静态博客构建工具 —— 纸小墨（InkPaper）",
-		Link:    "blog-first",
-		Preview: "纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。",
-		Body: `# 纸小墨简介
-        纸小墨（InkPaper）是一个使用GO语言编写的静态博客构建工具，可以快速搭建博客网站。优点是无依赖跨平台，配置简单构建快速，注重于简洁易用与排版优化。`,
+		Title:         "Welcome to Purine",
+		Link:          "welcome-to-purine",
+		Preview:       blogPreview,
+		Body:          blogContent,
 		TagString:     "blog",
 		Hits:          1,
 		Comments:      0,
@@ -138,8 +137,8 @@ func NewSiteInitData(engine *xorm.Engine) {
 
 	// default settings
 	settings := make([]interface{}, 0)
-	settings = append(settings, &model.Setting{"title", "purine", 0})
-	settings = append(settings, &model.Setting{"subtitle", "purine-blog", 0})
+	settings = append(settings, &model.Setting{"title", "Purine", 0})
+	settings = append(settings, &model.Setting{"subtitle", "a simple blog engine", 0})
 	settings = append(settings, &model.Setting{"desc", "a simple blog engine by golang", 0})
 	settings = append(settings, &model.Setting{"keyword", "purine,blog,golang", 0})
 	settings = append(settings, &model.Setting{"theme", "default", 0})
@@ -156,3 +155,57 @@ func IsNewSite(ctx *cli.Context) bool {
 	}
 	return true
 }
+
+var (
+	blogContent = `Welcome to ` + "`" + `Purine` + "`" + `. Now there are some tips to tell you how to use ` + "`" + `Purine` + "`" + ` blog. If you encounter any problems, raise an issue on [Github](https://github.fom/fuxiaohei/purine) or an email to [me](mailto:fuxiaohei@vip.qq.com).
+
+## What is Purine
+
+` + "`" + `Purine` + "`" + ` is a dynamic blog engine by [Go](https://golang.org). You can write contents by [Markdown](http://daringfireball.net/projects/markdown/) and manage them easily. It's familiar to a simple WordPress.
+
+### Installation
+
+You can install ` + "`" + `Purine` + "`" + ` with distributed binary files directly. [**Download.**](#) But if in manually , read following topics.
+
+<!--more-->
+
+##### Requirements
+
+Install basic things: 
+
+` + "`" + `Go 1.3+` + "`" + `
+
+` + "`" + `SQLite` + "`" + `
+
+Then, download and compile source codes:
+
+	go get github.com/fuxiaohei/purine
+
+### Setup
+
+First step, create a new blog with default data :
+
+` + "`" + `purine new` + "`" + `
+
+Now a pure blog website are created. Visit ` + "`" + `http://localhost:9999` + "`" + ` to preview it.
+
+### Management
+
+The admin account are created by default. You can sign in admin pages from ` + "`" + `http://localhost:9999/admin/login` + "`" + ` with default user **admin** and password **123456789**.
+
+**Warning:  Please change your admin account name and password after setup for safety.**
+
+### Documentation
+
+Read more documentation about configuration, command and customization at [Github Wiki](#).`
+
+	blogPreview = `Welcome to ` + "`" + `Purine` + "`" + `. Now there are some tips to tell you how to use ` + "`" + `Purine` + "`" + ` blog. If you encounter any problems, raise an issue on [Github](https://github.fom/fuxiaohei/purine) or an email to [me](mailto:fuxiaohei@vip.qq.com).
+
+## What is Purine
+
+` + "`" + `Purine` + "`" + ` is a dynamic blog engine by [Go](https://golang.org). You can write contents by [Markdown](http://daringfireball.net/projects/markdown/) and manage them easily. It's familiar to a simple WordPress.
+
+### Installation
+
+You can install ` + "`" + `Purine` + "`" + ` with distributed binary files directly. [**Download.**](#) But if in manually , read following topics.`
+)

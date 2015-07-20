@@ -5,37 +5,37 @@
         <h3>Write{{if .Article}} - {{.Article.Title}}{{end}}</h3>
         <hr/>
         <form id="write-form" action="/admin/write" method="post" class="form">
-            <div class="group success clear hide">
+            <div class="group success hide">
                 <strong>Saved Success ! you can edit it continuously.</strong>
             </div>
-            <div class="group alert clear hide"></div>
-            <div class="group clear">
+            <div class="group alert hide"></div>
+            <div class="group">
                 <label for="title">Title</label>
                 <input id="title" class="ipt" type="text" name="title" required="required" value="{{.Article.Title}}"/>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <label for="link">Link</label>
                 <input id="link" class="ipt" type="text" name="link" required="required" value="{{.Article.Link}}"/>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <div id="editormd"></div>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <label for="format">Format</label>
                 <select name="format" id="format" class="select">
                     <option value="markdown">Markdown</option>
                 </select>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <label for="tag">Tags</label>
                 <input id="tag" class="ipt" type="text" name="tag" value="{{.Article.TagString}}"/>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <label>&nbsp;</label>
                 <input class="chk" type="checkbox" name="draft" value="draft"{{if .Article.IsDraft}} checked{{end}}/>
                 <span class="chk-txt">As Draft</span>
             </div>
-            <div class="group clear">
+            <div class="group">
                 <label>&nbsp;</label>
                 <input class="btn" type="submit" value="Publish"/>
                 <input id="id" type="hidden" name="id" value="{{.Article.Id}}"/>
