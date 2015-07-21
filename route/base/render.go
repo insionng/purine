@@ -42,7 +42,9 @@ func (r *BaseRender) Render(status int, tpl string) {
 }
 
 func (r *BaseRender) RenderError(status int, err error) {
-	r.Title("Error")
+	if !r.HasAssign("Title") {
+		r.Title("Error")
+	}
 	r.Assign("Status", status)
 	if err != nil {
 		r.Assign("Error", err.Error())
@@ -113,5 +115,14 @@ func (t *ThemeRender) Render(tpl string) {
 
 func (t *ThemeRender) RenderError(status int, err error) {
 	t.fillDefault()
+	if status == 404 {
+		t.Title("NOT FOUND")
+	}
+	if status == 401 {
+		t.Title("FORBBIDEN")
+	}
+	if status >= 500 {
+		t.Title("SERVER ERROR")
+	}
 	t.BaseRender.RenderError(status, err)
 }

@@ -356,7 +356,8 @@ sup,sub{
     padding: 60px 0;
 }
 
-#body-container .article{
+#body-container .article,
+#error-container{
     padding: 18px 24px 24px 24px;
     background-color: #FFF;
     box-shadow:0 2px 8px rgba(34,34,34,0.25);
@@ -404,4 +405,9 @@ sup,sub{
 #footer-container{
     padding: 24px 0 60px 0;
     text-transform: uppercase;
+}
+
+#error-container{
+    margin: 60px auto;
+    width: 480px;
 }
