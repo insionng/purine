@@ -19,7 +19,7 @@ type Article struct {
 func (a *Article) Get() {
 	param, err := mapi.ParseArticleRouteParam(blogParamRule, a.Param("*article"))
 	if err != nil {
-		a.NotFound()
+		a.RenderError(500, err)
 		return
 	}
 	res := mapi.Call(mapi.GetArticle, param)
@@ -30,5 +30,5 @@ func (a *Article) Get() {
 		a.Render("article.tmpl")
 		return
 	}
-	a.NotFound()
+	a.RenderError(404, nil)
 }

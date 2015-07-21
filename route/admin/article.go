@@ -42,7 +42,7 @@ func (w *Write) Get() {
 	if id > 0 {
 		article, err := model.GetArticleBy("id", id)
 		if err != nil {
-			w.RenderError(err)
+			w.RenderError(500, err)
 			return
 		}
 		w.Title("Write - " + article.Title)
@@ -95,7 +95,7 @@ func (d *Delete) Post() {
 	id := d.FormInt64("id")
 	res := mapi.Call(mapi.DelArticle, id)
 	if !res.Status {
-		d.RenderError(errors.New(res.Error))
+		d.RenderError(500, errors.New(res.Error))
 		return
 	}
 	d.Redirect("/admin/article")

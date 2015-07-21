@@ -17,14 +17,14 @@ type Setting struct {
 func (s *Setting) Get() {
 	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
 	if err != nil {
-		s.RenderError(err)
+		s.RenderError(500, err)
 		return
 	}
 	s.Assign("General", generalSettings)
 
 	themes, err := model.GetThemes()
 	if err != nil {
-		s.RenderError(err)
+		s.RenderError(500, err)
 		return
 	}
 	s.Assign("Themes", themes)

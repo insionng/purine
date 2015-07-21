@@ -3,6 +3,7 @@ package base
 import (
 	"github.com/fuxiaohei/purine/model"
 	"github.com/tango-contrib/renders"
+	"net/http"
 	"path"
 )
 
@@ -17,6 +18,11 @@ func (r *BaseRender) Title(title string) {
 	r.Assign("Title", title)
 }
 
+func (r *BaseRender) HasAssign(key string) bool {
+	_, ok := r.viewData[key]
+	return ok
+}
+
 func (r *BaseRender) Assign(key string, value interface{}) {
 	if len(r.viewData) == 0 {
 		r.viewData = map[string]interface{}{
@@ -26,13 +32,22 @@ func (r *BaseRender) Assign(key string, value interface{}) {
 	r.viewData[key] = value
 }
 
-func (r *BaseRender) Render(tpl string) {
+func (r *BaseRender) Render(status int, tpl string) {
 	if r.themePrefix != "" {
 		tpl = path.Join(r.themePrefix, tpl)
 	}
-	if err := r.Renderer.Render(tpl, r.viewData); err != nil {
+	if err := r.Renderer.StatusRender(status, tpl, r.viewData); err != nil {
 		panic(err)
 	}
+}
+
+func (r *BaseRender) RenderError(status int, err error) {
+	r.Title("Error")
+	r.Assign("Status", status)
+	if err != nil {
+		r.Assign("Error", err.Error())
+	}
+	r.Render(status, "error.tmpl")
 }
 
 type AdminRender struct {
@@ -57,25 +72,21 @@ func (r *AdminRender) Render(tpl string) {
 	if r.themePrefix == "" {
 		r.themePrefix = "admin"
 	}
-	r.BaseRender.Render(tpl)
+	r.BaseRender.Render(http.StatusOK, tpl)
 }
 
-func (r *AdminRender) RenderError(err error) {
-	r.Title("Error")
-	r.Assign("Error", err.Error())
-	r.Render("error.tmpl")
+func (r *AdminRender) RenderError(status int, err error) {
+	if r.themePrefix == "" {
+		r.themePrefix = "admin"
+	}
+	r.BaseRender.RenderError(status, err)
 }
 
 type ThemeRender struct {
 	BaseRender
 }
 
-func (t *ThemeRender) HasAssign(key string) bool {
-	_, ok := t.viewData[key]
-	return ok
-}
-
-func (t *ThemeRender) Render(tpl string) {
+func (t *ThemeRender) fillDefault() {
 	if t.themePrefix == "" {
 		theme, err := model.GetCurrentTheme()
 		if err != nil {
@@ -93,5 +104,14 @@ func (t *ThemeRender) Render(tpl string) {
 		t.Title(generalSettings["title"])
 	}
 	t.Assign("General", generalSettings)
-	t.BaseRender.Render(tpl)
+}
+
+func (t *ThemeRender) Render(tpl string) {
+	t.fillDefault()
+	t.BaseRender.Render(http.StatusOK, tpl)
+}
+
+func (t *ThemeRender) RenderError(status int, err error) {
+	t.fillDefault()
+	t.BaseRender.RenderError(status, err)
 }
