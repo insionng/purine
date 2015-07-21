@@ -1,36 +1,30 @@
 {{template "default/_header.tmpl" .}}
 <div id="body">
     <div class="container960" id="body-container">
-        {{range .Articles}}
         <article class="article">
             <aside class="meta clear">
                 <span class="date left">
                     <i class="fa fa-clock-o"></i>
-                   {{TimeUnixFormatFriend .CreateTime}}
+                   {{TimeUnixFormatFriend .Article.CreateTime}}
                 </span>
                 <span class="right author">
                     <i class="fa fa-user"></i>
-                    {{.User.Nick}}
+                    {{.Article.User.Nick}}
                 </span>
-                {{if .HasComment}}
+                {{if .Article.HasComment}}
                 <span class="right comment">
                     <i class="fa fa-comment"></i>
-                    {{.Comments}}
+                    {{.Article.Comments}}
                 </span>
                 {{end}}
             </aside>
             <header class="title">
-                <h2><a href="/{{.Href}}" title="{{.Title}}" target="_blank">{{.Title}}</a></h2>
+                <h2><a href="/{{.Article.Href}}" title="{{.Article.Title}}">{{.Article.Title}}</a></h2>
             </header>
-            <div class="preview markdown">
-                {{Md2HTML .Preview}}
-            </div>
-            <div class="more center">
-                <a href="/{{.Href}}" target="_blank">-- Read More-- </a>
+            <div class="body markdown">
+                {{Md2HTML .Article.Body}}
             </div>
         </article>
-        {{end}}
-        {{Pager2Simple .Pager "/page/%d.html"}}
     </div>
 </div>
 {{template "default/_footer.tmpl" .}}

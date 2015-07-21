@@ -251,6 +251,60 @@ sup,sub{
     color: #FFF;
 }
 
+.markdown{
+    font-size: 16px;
+    line-height: 36px;
+    padding: 0 6px;
+}
+
+.markdown h1{
+    font-size: 1.5rem;
+    padding-bottom: .4em;
+    border-bottom: 1px dashed #EAEAEA;
+}
+
+.markdown h2{
+    font-size: 1.35rem;
+    padding-bottom: .4em;
+    border-bottom: 1px dashed #EAEAEA;
+}
+
+.markdown h3{
+    font-size: 1.2rem;
+    padding-bottom: .4em;
+    border-bottom: 1px dashed #EAEAEA;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3{
+    margin-top: .6em;
+}
+
+.markdown h4{
+    font-size: 1.1rem;
+}
+
+.markdown h5{
+    font-size: 1.05rem;
+}
+
+.markdown p code{
+    font-family: Georgia,Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+    background-color: #EEE;
+    padding: 2px 4px;
+}
+
+.markdown pre {
+    font-family:Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+    padding: 8px 18px;
+    background-color: #EEE;
+    margin: 8px 0;
+}
+
+.markdown pre code{
+    font-family:Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+}
 
 .container960{
     margin-left: auto;
@@ -329,35 +383,9 @@ sup,sub{
     line-height: 60px;
 }
 
-#body-container .article .preview{
-    font-size: 16px;
-    line-height: 32px;
-    padding: 0 6px;
-}
-
 #body-container .article .more{
     font-size: 13px;
     line-height: 60px;
-}
-
-.article .preview h1{
-    font-size: 1.5rem;
-}
-
-.article .preview h2{
-    font-size: 1.35rem;
-}
-
-.article .preview h3{
-    font-size: 1.2rem;
-}
-
-.article .preview h4{
-    font-size: 1.1rem;
-}
-
-.article .preview h5{
-    font-size: 1.05rem;
 }
 
 #body-container .pager{

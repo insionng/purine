@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/utils"
+	"strconv"
 	"strings"
 )
 
@@ -12,7 +13,9 @@ const (
 )
 
 var (
-	ERR_ARTICLE_LINK = errors.New("article-link-exist")
+	ERR_ARTICLE_LINK    = errors.New("article-link-exist")
+	ERR_ARTICLE_MISSING = errors.New("article-missing")
+	ERR_ARTICLE_PARAM   = errors.New("article-param-fail")
 )
 
 type ArticleListOption struct {
@@ -138,4 +141,65 @@ func DelArticle(v interface{}) *Res {
 		return Fail(err)
 	}
 	return Success(nil)
+}
+
+type ArticleRouteParam struct {
+	Id   int64
+	Link string
+}
+
+func ParseArticleRouteParam(rule string, routeRule string) (*ArticleRouteParam, error) {
+	rules := strings.Split(rule, "/")
+	paramRules := strings.Split(routeRule, "/")
+	if len(rules) != len(paramRules) {
+		return nil, ERR_ARTICLE_PARAM
+	}
+	p := new(ArticleRouteParam)
+	for i, r := range rules {
+		if r == "id" {
+			var err error
+			if p.Id, err = strconv.ParseInt(paramRules[i], 10, 64); err != nil {
+				return nil, err
+			}
+		}
+		if r == "link" {
+			p.Link = paramRules[i]
+		}
+	}
+	return p, nil
+}
+
+func GetArticle(v interface{}) *Res {
+	param, ok := v.(*ArticleRouteParam)
+	if !ok {
+		return Fail(paramTypeError(new(ArticleRouteParam)))
+	}
+	var (
+		article *model.Article
+		err     error
+	)
+	if param.Id > 0 {
+		article, err = model.GetArticleBy("id", param.Id)
+		if err != nil {
+			return Fail(err)
+		}
+	}
+	if param.Link != "" {
+		article, err = model.GetArticleBy("link", param.Link)
+		if err != nil {
+			return Fail(err)
+		}
+	}
+
+	// check value
+	if param.Id > 0 && param.Id != article.Id {
+		return Fail(ERR_ARTICLE_MISSING)
+	}
+	if param.Link != "" && param.Link != article.Link {
+		return Fail(ERR_ARTICLE_MISSING)
+	}
+
+	return Success(map[string]interface{}{
+		"article": article,
+	})
 }

@@ -105,5 +105,6 @@ func ServeRouting(ctx *cli.Context) {
 
 	vars.Server.Group("/admin", adminGroup)
 
+	vars.Server.Get("/*article.html", new(route.Article))
 	vars.Server.Get("/", new(route.Index))
 }
