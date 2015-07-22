@@ -121,8 +121,7 @@ hr {
 }
 
 .clear:after {
-    content: " ";
-    display: block;
+    content: "";
     height: 0;
     clear: both;
     overflow: hidden;

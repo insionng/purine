@@ -19,10 +19,14 @@
                 {{end}}
             </aside>
             <header class="title">
-                <h2><a href="/{{.Article.Href}}" title="{{.Article.Title}}">{{.Article.Title}}</a></h2>
+                <h2><a href="/article/{{.Article.Href}}" title="{{.Article.Title}}">{{.Article.Title}}</a></h2>
             </header>
             <div class="body markdown">
                 {{Md2HTML .Article.Body}}
+            </div>
+            <div class="tag t-right">
+                <i class="fa fa-tags"></i>
+                {{.Article.TagString}}
             </div>
         </article>
     </div>

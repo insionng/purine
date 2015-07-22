@@ -6,12 +6,12 @@
         <hr/>
         <form id="profile-form" class="form" action="/admin/profile" method="post">
             {{if .Error}}
-            <div class="group clear">
+            <div class="group">
                 <p class="alert"><strong>{{.Error}}</strong></p>
             </div>
             {{end}}
             {{if .Success}}
-            <div class="group clear">
+            <div class="group">
                 <p class="success"><strong>Profile Updated !</strong></p>
             </div>
             {{end}}

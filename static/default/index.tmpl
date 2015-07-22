@@ -20,13 +20,13 @@
                 {{end}}
             </aside>
             <header class="title">
-                <h2><a href="/{{.Href}}" title="{{.Title}}" target="_blank">{{.Title}}</a></h2>
+                <h2><a href="/article/{{.Href}}" title="{{.Title}}" target="_blank">{{.Title}}</a></h2>
             </header>
             <div class="preview markdown">
                 {{Md2HTML .Preview}}
             </div>
             <div class="more center">
-                <a href="/{{.Href}}" target="_blank">-- Read More-- </a>
+                <a href="/article/{{.Href}}" target="_blank">-- Read More-- </a>
             </div>
         </article>
         {{end}}

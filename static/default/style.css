@@ -126,6 +126,13 @@ sup,sub{
     float: right;
 }
 
+.t-left{
+    text-align: left;
+}
+.t-right{
+    text-align: right;
+}
+
 .clear:after {
     content: " ";
     display: block;
@@ -364,7 +371,8 @@ sup,sub{
     margin-bottom: 60px;
 }
 
-#body-container .article .meta{
+#body-container .article .meta,
+#body-container .article .tag{
     text-transform: uppercase;
     color: #999;
     line-height: 48px;
