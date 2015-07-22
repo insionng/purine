@@ -1,6 +1,7 @@
 package route
 
 import (
+	"errors"
 	"github.com/fuxiaohei/purine/mapi"
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/base"
@@ -14,13 +15,15 @@ type Index struct {
 }
 
 func (idx *Index) Get() {
+	page := idx.ParamInt64(":page", 1)
 	opt := &mapi.ArticleListOption{
-		Page: idx.FormInt64("page", 1),
-		Size: 4,
+		Page: page,
+		Size: 2,
 	}
 	res := mapi.Call(mapi.ListArticle, opt)
 	if !res.Status {
-		panic(res.Error)
+		idx.RenderError(500, errors.New(res.Error))
+		return
 	}
 	idx.Assign("Articles", res.Data["articles"].([]*model.Article))
 	idx.Assign("Pager", res.Data["pager"].(*utils.Pager))

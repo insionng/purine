@@ -114,7 +114,7 @@ hr {
     height: 0;
 }
 
-sup,sub{
+sup, sub {
     font-size: .6em;
 }
 
@@ -126,10 +126,11 @@ sup,sub{
     float: right;
 }
 
-.t-left{
+.t-left {
     text-align: left;
 }
-.t-right{
+
+.t-right {
     text-align: right;
 }
 
@@ -221,7 +222,7 @@ sup,sub{
     padding: 4px;
 }
 
-.lbl.success{
+.lbl.success {
     background-color: #5d9d61;
     color: #FFF;
 }
@@ -246,37 +247,37 @@ sup,sub{
 }
 
 .pager .prev,
-.pager .next{
+.pager .next {
     padding: 6px 24px;
     text-transform: uppercase;
     cursor: pointer;
 }
 
 .pager .prev:hover,
-.pager .next:hover{
+.pager .next:hover {
     background-color: #40b1ff;
     color: #FFF;
 }
 
-.markdown{
+.markdown {
     font-size: 16px;
     line-height: 36px;
     padding: 0 6px;
 }
 
-.markdown h1{
+.markdown h1 {
     font-size: 1.5rem;
     padding-bottom: .4em;
     border-bottom: 1px dashed #EAEAEA;
 }
 
-.markdown h2{
+.markdown h2 {
     font-size: 1.35rem;
     padding-bottom: .4em;
     border-bottom: 1px dashed #EAEAEA;
 }
 
-.markdown h3{
+.markdown h3 {
     font-size: 1.2rem;
     padding-bottom: .4em;
     border-bottom: 1px dashed #EAEAEA;
@@ -284,138 +285,139 @@ sup,sub{
 
 .markdown h1,
 .markdown h2,
-.markdown h3{
+.markdown h3 {
     margin-top: .6em;
 }
 
-.markdown h4{
+.markdown h4 {
     font-size: 1.1rem;
 }
 
-.markdown h5{
+.markdown h5 {
     font-size: 1.05rem;
 }
 
-.markdown p code{
-    font-family: Georgia,Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+.markdown p code {
+    font-family: Georgia, Consolas, "Microsoft YaHei", "Courier New", Arial, monospace;
     background-color: #EEE;
     padding: 2px 4px;
 }
 
 .markdown pre {
-    font-family:Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+    font-family: Consolas, "Microsoft YaHei", "Courier New", Arial, monospace;
     padding: 8px 18px;
     background-color: #EEE;
     margin: 8px 0;
+    word-break: break-all;
+    word-wrap: break-word;
+    line-height: 24px;
 }
 
-.markdown pre code{
-    font-family:Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+.markdown pre code {
+    font-family: Consolas, "Microsoft YaHei", "Courier New", Arial, monospace;
 }
 
-.container960{
+.container960 {
     margin-left: auto;
     margin-right: auto;
     width: 960px;
 }
 
-#header{
+#header {
     background-color: #3cb3ff;
     padding: 48px 0;
     box-shadow: 0 0 6px #666;
 }
 
-#header ,
-#header a{
+#header,
+#header a {
     color: #FAFAFA;
     text-shadow: 0 0 3px #444;
 }
 
-#title a{
+#title a {
     display: block;
     font-size: 2em;
     line-height: 48px;
 }
 
-#title .subtitle{
+#title .subtitle {
     font-size: 0.6em;
     margin-top: 30px;
     display: block;
     color: #DDD;
 }
 
-
-#header a:hover{
+#header a:hover {
     color: #fff198;
 }
 
-#nav{
+#nav {
     margin-top: 40px;
 }
 
-#nav li{
+#nav li {
     display: inline-block;
     font-size: 1.4em;
     margin: 0 16px;
 }
 
-#body-container{
+#body-container {
     padding: 60px 0;
 }
 
 #body-container .article,
-#error-container{
+#error-container {
     padding: 18px 24px 24px 24px;
     background-color: #FFF;
-    box-shadow:0 2px 8px rgba(34,34,34,0.25);
+    box-shadow: 0 2px 8px rgba(34, 34, 34, 0.25);
     margin-bottom: 60px;
 }
 
 #body-container .article .meta,
-#body-container .article .tag{
+#body-container .article .tag {
     text-transform: uppercase;
     color: #999;
     line-height: 48px;
 }
 
-#body-container .article .meta > span.left{
+#body-container .article .meta > span.left {
     margin-right: 14px;
 }
 
-#body-container .article .meta > span.right{
+#body-container .article .meta > span.right {
     margin-left: 14px;
 }
 
-
-#body-container .article .title{
+#body-container .article .title {
     font-size: 1.4em;
     line-height: 60px;
 }
 
-#body-container .article .more{
+#body-container .article .more {
     font-size: 13px;
     line-height: 60px;
 }
 
-#body-container .pager{
+#body-container .pager {
     font-size: 16px;
 }
 
-#body-container .pager a:hover{
-    box-shadow:0 2px 8px rgba(34,34,34,0.25);
+#body-container .pager a:hover {
+    box-shadow: 0 2px 8px rgba(34, 34, 34, 0.25);
 }
 
 #footer-container,
-#footer-container a{
+#footer-container a {
     color: #BBB;
 }
 
-#footer-container{
+#footer-container {
     padding: 24px 0 60px 0;
     text-transform: uppercase;
 }
 
-#error-container{
+#error-container {
     margin: 60px auto;
     width: 480px;
 }

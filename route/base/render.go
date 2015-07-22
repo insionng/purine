@@ -86,9 +86,13 @@ func (r *AdminRender) RenderError(status int, err error) {
 
 type ThemeRender struct {
 	BaseRender
+	isFillDefault bool
 }
 
 func (t *ThemeRender) fillDefault() {
+	if t.isFillDefault {
+		return
+	}
 	if t.themePrefix == "" {
 		theme, err := model.GetCurrentTheme()
 		if err != nil {

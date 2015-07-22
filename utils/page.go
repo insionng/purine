@@ -42,10 +42,10 @@ func Pager2HTML(p *Pager, layout string) template.HTML {
 func Pager2HTMLSimple(p *Pager, layout string) template.HTML {
 	tpl := `<div class="pager clear">`
 	if p.Current > 1 {
-		tpl += `<a class="prev left" href="` + fmt.Sprintf(layout, p.Current+1) + `">prev</a>`
+		tpl += `<a class="prev left" href="` + fmt.Sprintf(layout, p.Current-1) + `">prev</a>`
 	}
-	if p.Current > 1 && p.Current >= p.Pages {
-		tpl += `<a class="next right" href="` + fmt.Sprintf(layout, p.Current-1) + `">next</a>`
+	if p.Current < p.Pages {
+		tpl += `<a class="next right" href="` + fmt.Sprintf(layout, p.Current+1) + `">next</a>`
 	}
 	tpl += "</div>"
 	return template.HTML(tpl)

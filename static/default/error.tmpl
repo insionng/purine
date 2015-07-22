@@ -19,7 +19,21 @@
     <hr/>
     <div class="error-message">
         <p> It's so sorry about that the page can't be found in this site. Please announce to administrator.</p>
-        <p>Visit <a href="/">Homepage</a></p>
+        <p>visit <a href="/">Homepage</a>.</p>
+    </div>
+    {{else if eq .Status 401}}
+    <h2>This page is FORBIDDEN !</h2>
+    <hr/>
+    <div class="error-message">
+        <p> It's so sorry about that no access to visit this page. Please announce to administrator.</p>
+        <p>visit <a href="/">Homepage</a>.</p>
+    </div>
+    {{else}}
+    <h2>This page is CRASHED !</h2>
+    <hr/>
+    <div class="error-message">
+        <p> It's so sorry about that the page is crashed. Please announce to administrator.</p>
+        <p>visit <a href="/">Homepage</a>.</p>
     </div>
     {{end}}
 </div>
