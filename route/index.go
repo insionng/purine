@@ -17,8 +17,9 @@ type Index struct {
 func (idx *Index) Get() {
 	page := idx.ParamInt64(":page", 1)
 	opt := &mapi.ArticleListOption{
-		Page: page,
-		Size: 2,
+		Page:   page,
+		Size:   4,
+		Status: model.ARTICLE_STATUS_PUBLISH,
 	}
 	res := mapi.Call(mapi.ListArticle, opt)
 	if !res.Status {

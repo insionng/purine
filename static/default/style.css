@@ -297,6 +297,10 @@ sup, sub {
     font-size: 1.05rem;
 }
 
+.markdown p{
+    margin-bottom: 18px;
+}
+
 .markdown p code {
     font-family: Georgia, Consolas, "Microsoft YaHei", "Courier New", Arial, monospace;
     background-color: #EEE;

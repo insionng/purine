@@ -24,10 +24,12 @@
             <div class="body markdown">
                 {{Md2HTML .Article.Body}}
             </div>
+            {{if .Article.TagString}}
             <div class="tag t-right">
                 <i class="fa fa-tags"></i>
                 {{.Article.TagString}}
             </div>
+            {{end}}
         </article>
     </div>
 </div>
