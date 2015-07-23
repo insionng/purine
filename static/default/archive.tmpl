@@ -1,0 +1,18 @@
+{{template "default/_header.tmpl" .}}
+<div id="body">
+    <div class="container960" id="body-container">
+        <div id="archive-container">
+            <h1>Archive</h1>
+            <hr/>
+            <ul id="archive-list">
+                {{range .Articles}}
+                <li>
+                    <span class="date">{{TimeUnixFormat .CreateTime "01.02"}}</span>
+                    <a href="/article/{{.Href}}" target="_blank" class="title">{{.Title}}</a>
+                </li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</div>
+{{template "default/_footer.tmpl" .}}

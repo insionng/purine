@@ -86,7 +86,13 @@ func (r *AdminRender) RenderError(status int, err error) {
 
 type ThemeRender struct {
 	BaseRender
-	isFillDefault bool
+	generalSettings map[string]string
+	isFillDefault   bool
+}
+
+func (t *ThemeRender) GetSetting(key string) string {
+	t.fillDefault()
+	return t.generalSettings[key]
 }
 
 func (t *ThemeRender) fillDefault() {
@@ -106,6 +112,7 @@ func (t *ThemeRender) fillDefault() {
 	if err != nil {
 		panic(err)
 	}
+	t.generalSettings = generalSettings
 	if !t.HasAssign("Title") {
 		t.Title(generalSettings["title"])
 	}

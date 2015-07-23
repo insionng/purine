@@ -74,6 +74,15 @@ func ListArticle(v interface{}) *Res {
 	})
 }
 
+func ListArticleArchive(_ interface{}) *Res {
+	opt := &ArticleListOption{
+		Status: model.ARTICLE_STATUS_PUBLISH,
+		Page:   1,
+		Size:   9999,
+	}
+	return ListArticle(opt)
+}
+
 type ArticleForm struct {
 	Title    string `form:"title" binding:"Required"`
 	Link     string `form:"link" binding:"Required;AlphaDashDot"`
