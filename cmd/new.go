@@ -77,17 +77,19 @@ func NewSiteData(ctx *cli.Context) {
 		new(model.Token),
 		new(model.Article),
 		new(model.Tag),
-		new(model.Setting)); err != nil {
+		new(model.Setting),
+		new(model.Media)); err != nil {
 		log.Error("NewSite|%s", err.Error())
 		return
 	}
 
-	log.Info("NewSite|%-8s|SyncDb|%s,%s,%s,%s,%s", "SQLite",
+	log.Info("NewSite|%-8s|SyncDb|%s,%s,%s,%s,%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 		reflect.TypeOf(new(model.Article)).String(),
 		reflect.TypeOf(new(model.Tag)).String(),
 		reflect.TypeOf(new(model.Setting)).String(),
+		reflect.TypeOf(new(model.Media)).String(),
 	)
 
 	// site init data
