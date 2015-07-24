@@ -1,7 +1,10 @@
 package mapi
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/fuxiaohei/purine/model"
+	"strconv"
 	"strings"
 )
 
@@ -29,26 +32,32 @@ func (sg *SettingGeneral) Get(key string) string {
 	return ""
 }
 
+func struct2Map(v interface{}) (map[string]interface{}, error) {
+	bytes, err := json.Marshal(v)
+	if err != nil {
+		return nil, err
+	}
+	mapData := make(map[string]interface{})
+	if err = json.Unmarshal(bytes, &mapData); err != nil {
+		return nil, err
+	}
+	return mapData, nil
+}
+
 func SaveGeneralSetting(v interface{}) *Res {
 	form, ok := v.(*SettingGeneralForm)
 	if !ok {
 		return Fail(paramTypeError(new(SettingGeneralForm)))
 	}
-
-	if err := model.SaveSetting("title", form.Title, 0); err != nil {
+	mapData, err := struct2Map(form)
+	if err != nil {
 		return Fail(err)
 	}
 
-	if err := model.SaveSetting("subtitle", form.Subtitle, 0); err != nil {
-		return Fail(err)
-	}
-
-	if err := model.SaveSetting("desc", form.Desc, 0); err != nil {
-		return Fail(err)
-	}
-
-	if err := model.SaveSetting("keyword", form.Keyword, 0); err != nil {
-		return Fail(err)
+	for k, v := range mapData {
+		if err = model.SaveSetting(strings.ToLower(k), fmt.Sprint(v), 0); err != nil {
+			return Fail(err)
+		}
 	}
 	return Success(nil)
 }
@@ -79,3 +88,47 @@ func ListTheme(_ interface{}) *Res {
         "themes":themes,
     })
 }*/
+
+type SettingMediaForm struct {
+	MaxSize    int64  `form:"max_size" binding:"Required"`
+	ImageExt   string `form:"image_ext"`
+	FileExt    string `form:"file_ext"`
+	NameFormat string `form:"form_format"`
+}
+
+type SettingMedia SettingMediaForm
+
+func ReadMediaSetting(v interface{}) *Res {
+	settings, err := model.GetSettings("media_maxsize",
+		"media_imageext",
+		"media_fileexit",
+		"media_nameformat")
+	if err != nil {
+		return Fail(err)
+	}
+	mediaSetting := &SettingMedia{
+		ImageExt:   settings["media_imageext"],
+		FileExt:    settings["media_fileext"],
+		NameFormat: settings["media_nameformat"],
+	}
+	mediaSetting.MaxSize, _ = strconv.ParseInt(settings["media_maxsize"], 10, 64)
+	prepareMediaSetting(mediaSetting)
+	return Success(map[string]interface{}{
+		"media": mediaSetting,
+	})
+}
+
+func prepareMediaSetting(m *SettingMedia) {
+	if m.MaxSize == 0 {
+		m.MaxSize = 1024 * 1024 // 1M
+	}
+	if m.ImageExt == "" {
+		m.ImageExt = ".jpg,.jpeg,.png,.gif"
+	}
+	if m.FileExt == "" {
+		m.FileExt = ".txt,.zip,.doc,.xls,.ppt,.pdf"
+	}
+	if m.NameFormat == "" {
+		m.NameFormat = ":hash"
+	}
+}

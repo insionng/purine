@@ -7,6 +7,7 @@
         <ul id="setting-nav">
             <li><a href="#setting-general" class="current">General</a></li>
             <li><a href="#setting-content">Content</a></li>
+            <li><a href="#setting-media">Media</a></li>
             <li><a href="#setting-theme">Theme</a></li>
         </ul>
         <hr/>
@@ -49,6 +50,9 @@
         </div>
         <div id="setting-theme" class="setting hide">
             {{template "admin/_setting_theme.tmpl" .}}
+        </div>
+        <div id="setting-media" class="setting hide">
+            {{template "admin/_setting_media.tmpl" .}}
         </div>
     </div>
 </div>
