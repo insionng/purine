@@ -1,6 +1,9 @@
 package mapi
 
-import "github.com/fuxiaohei/purine/model"
+import (
+	"github.com/fuxiaohei/purine/model"
+	"strings"
+)
 
 type SettingGeneralForm struct {
 	Title    string `form:"title" binding:"Required"`
@@ -9,7 +12,24 @@ type SettingGeneralForm struct {
 	Keyword  string `form:"keyword"`
 }
 
-func SaveGeneral(v interface{}) *Res {
+type SettingGeneral SettingGeneralForm // alias as value usage , not form binding
+
+func (sg *SettingGeneral) Get(key string) string {
+	key = strings.ToLower(key)
+	switch key {
+	case "title":
+		return sg.Title
+	case "subtitle":
+		return sg.Subtitle
+	case "desc":
+		return sg.Desc
+	case "keyword":
+		return sg.Keyword
+	}
+	return ""
+}
+
+func SaveGeneralSetting(v interface{}) *Res {
 	form, ok := v.(*SettingGeneralForm)
 	if !ok {
 		return Fail(paramTypeError(new(SettingGeneralForm)))
@@ -31,6 +51,22 @@ func SaveGeneral(v interface{}) *Res {
 		return Fail(err)
 	}
 	return Success(nil)
+}
+
+func ReadGeneralSetting(v interface{}) *Res {
+	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
+	if err != nil {
+		return Fail(err)
+	}
+	general := &SettingGeneral{
+		Title:    generalSettings["title"],
+		Subtitle: generalSettings["subtitle"],
+		Desc:     generalSettings["desc"],
+		Keyword:  generalSettings["keyword"],
+	}
+	return Success(map[string]interface{}{
+		"general": general,
+	})
 }
 
 /*

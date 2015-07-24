@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"errors"
 	"github.com/fuxiaohei/purine/mapi"
 	"github.com/fuxiaohei/purine/model"
 	"github.com/fuxiaohei/purine/route/base"
@@ -15,12 +16,12 @@ type Setting struct {
 }
 
 func (s *Setting) Get() {
-	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
-	if err != nil {
-		s.RenderError(500, err)
+	res := mapi.Call(mapi.ReadGeneralSetting, nil)
+	if !res.Status {
+		s.RenderError(500, errors.New(res.Error))
 		return
 	}
-	s.Assign("General", generalSettings)
+	s.Assign("General", res.Data["general"].(*mapi.SettingGeneral))
 
 	themes, err := model.GetThemes()
 	if err != nil {
@@ -48,7 +49,7 @@ func (s *Setting) postGeneral() {
 		s.Get()
 		return
 	}
-	res := mapi.Call(mapi.SaveGeneral, form)
+	res := mapi.Call(mapi.SaveGeneralSetting, form)
 	if !res.Status {
 		s.Assign("Error", res.Error)
 		s.Get()
