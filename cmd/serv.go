@@ -101,6 +101,7 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup.Any("/delete", new(admin.Delete))
 	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Any("/setting", new(admin.Setting))
+	adminGroup.Get("/media", new(admin.Media))
 	adminGroup.Post("/upload", new(admin.Upload))
 	adminGroup.Get("/", new(admin.Index))
 

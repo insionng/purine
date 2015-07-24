@@ -120,6 +120,14 @@ hr {
     float: right;
 }
 
+.abs{
+    position: absolute;
+}
+
+.rel{
+    position: relative;
+}
+
 .clear:after {
     content: "";
     height: 0;
@@ -262,7 +270,8 @@ hr {
 #article-container,
 #write-container,
 #profile-container,
-#setting-container{
+#setting-container,
+#upload-form{
     padding-left: 144px;
 }
 
@@ -403,4 +412,36 @@ hr {
 
 #theme-list li:hover .set{
     display: inline;
+}
+
+#upload-form{
+    margin-top: 24px;
+}
+
+#file-upload {
+    position: absolute;
+    width: 160px;
+    height: 32px;
+    top: 0;
+    left: 144px;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    direction: ltr;
+    cursor: pointer;
+}
+
+#file-upload-progress{
+    height: 20px;
+    margin:24px 0;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+#file-upload-progress .progress-bar{
+    float: left;
+    width: 0;
+    height: 100%;
+    color: #fff;
+    background-color: #5d9d61;
 }

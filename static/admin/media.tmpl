@@ -1,0 +1,43 @@
+{{template "admin/_header.tmpl" .}}
+<div id="index-container" class="clear">
+    {{template "admin/_nav.tmpl" .}}
+    <div id="media-container">
+        <h3>Media</h3>
+        <hr/>
+        <form id="upload-form" class="form rel" enctype="multipart/form-data">
+            <button class="btn">
+                <i class="fa fa-plus"></i>
+                <span>Select files...</span>
+            </button>
+            <input id="file-upload" type="file" name="file" multiple>
+            <div id="file-upload-progress" class="progress">
+                <div class="progress-bar"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{.ThemeLink}}/fileupload/vendor/jquery.ui.widget.js"></script>
+<script src="{{.ThemeLink}}/fileupload/jquery.fileupload.js"></script>
+<script>
+    $(function () {
+        'use strict';
+        $('#file-upload').fileupload({
+            url: "/admin/upload",
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $('<p/>').text(file.name).appendTo('#files');
+                });
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#file-upload-progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+</script>
+{{template "admin/_footer.tmpl" .}}
