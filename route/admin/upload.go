@@ -14,6 +14,10 @@ type Upload struct {
 
 func (u *Upload) Post() {
 	u.Req().ParseMultipartForm(16 << 20)
-	res := mapi.Call(mapi.UploadMedia, u.Ctx)
+	meta := &mapi.UploadMediaMeta{
+		u.Ctx,
+		u.AuthUser,
+	}
+	res := mapi.Call(mapi.UploadMedia, meta)
 	u.ServeJson(res)
 }

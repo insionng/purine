@@ -1,5 +1,7 @@
 package model
 
+import "github.com/fuxiaohei/purine/vars"
+
 const (
 	MEDIA_TYPE_IMAGE = "image"
 	MEDIA_TYPE_FILE  = "file"
@@ -17,4 +19,11 @@ type Media struct {
 
 	CreateTime int64 `xorm:"created"`
 	Downloads  int
+}
+
+func SaveMedia(m *Media) error {
+	if _, err := vars.Db.Insert(m); err != nil {
+		return err
+	}
+	return nil
 }

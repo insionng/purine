@@ -6,6 +6,7 @@
 # Folders
 _obj
 _test
+static/upload
 
 # Architecture specific extensions/prefixes
 *.[568vq]

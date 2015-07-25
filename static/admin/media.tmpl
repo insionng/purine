@@ -13,6 +13,7 @@
             <div id="file-upload-progress" class="progress">
                 <div class="progress-bar"></div>
             </div>
+            <div id="file-upload-error" class="hide alert">error</div>
         </form>
     </div>
 </div>
@@ -24,13 +25,20 @@
         $('#file-upload').fileupload({
             url: "/admin/upload",
             dataType: 'json',
-            done: function (e, data) {
-                $.each(data.result.files, function (index, file) {
-                    $('<p/>').text(file.name).appendTo('#files');
-                });
+            add:function(e,data){
+                $('#file-upload-error').hide();
                 $('#file-upload-progress .progress-bar').css(
                         'width', '0%'
                 );
+                data.submit();
+            },
+            done: function (e, data) {
+                if(!data.result.status){
+                    $('#file-upload-error').html("<strong>"+data.result.error+"</strong>").show();
+                }
+                $.each(data.result.files, function (index, file) {
+                    $('<p/>').text(file.name).appendTo('#files');
+                });
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
