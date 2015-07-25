@@ -10,11 +10,26 @@
                 <span>Select files...</span>
             </button>
             <input id="file-upload" type="file" name="file" multiple>
-            <div id="file-upload-progress" class="progress">
+            <div id="file-upload-progress" class="progress hide">
                 <div class="progress-bar"></div>
             </div>
+            <div id="files" class="hide"></div>
             <div id="file-upload-error" class="hide alert">error</div>
         </form>
+        <hr/>
+        <div id="media-list">
+            {{range .Media}}
+            <div class="media">
+                <span class="name"><strong>{{.Name}}</strong></span>
+                <span class="size">{{FriendBytesSize .FileSize}}</span>
+                <span class="date">{{TimeUnixFormatFriend .CreateTime}}</span>
+                <span class="del">
+                    <a href="/admin/media/delete?id={{.Id}}" class="alert"><i class="fa fa-remove"></i>Delete</a>
+                </span>
+            </div>
+            {{end}}
+            {{Pager2HTML .Pager "/admin/media?page=%d"}}
+        </div>
     </div>
 </div>
 <script src="{{.ThemeLink}}/fileupload/vendor/jquery.ui.widget.js"></script>
@@ -27,6 +42,7 @@
             dataType: 'json',
             add:function(e,data){
                 $('#file-upload-error').hide();
+                $('#file-upload-progress,#files').show();
                 $('#file-upload-progress .progress-bar').css(
                         'width', '0%'
                 );
@@ -35,10 +51,10 @@
             done: function (e, data) {
                 if(!data.result.status){
                     $('#file-upload-error').html("<strong>"+data.result.error+"</strong>").show();
+                    return;
                 }
-                $.each(data.result.files, function (index, file) {
-                    $('<p/>').text(file.name).appendTo('#files');
-                });
+                $('<p/>').text(data.result.data.media.Name).appendTo('#files');
+
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -49,6 +65,9 @@
             }
         }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        $('.del').on("click",function(){
+            return confirm("remove the media file really ?");
+        })
     });
 </script>
 {{template "admin/_footer.tmpl" .}}

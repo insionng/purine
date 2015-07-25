@@ -85,7 +85,9 @@ func UploadMedia(v interface{}) *Res {
 		return Fail(err)
 	}
 
-	return Success(nil)
+	return Success(map[string]interface{}{
+		"media": m,
+	})
 }
 
 type fileSizer interface {
@@ -106,4 +108,47 @@ func getUploadFileSize(f multipart.File) (int64, error) {
 		return fi.Size(), nil
 	}
 	return 0, nil
+}
+
+type MediaListOption struct {
+	Page, Size int64
+}
+
+func ListMedia(v interface{}) *Res {
+	opt, ok := v.(*MediaListOption)
+	if !ok {
+		return Fail(paramTypeError(opt))
+	}
+	media, err := model.ListMedia(opt.Page, opt.Size)
+	if err != nil {
+		return Fail(err)
+	}
+	count, err := model.CountMedia()
+	if err != nil {
+		return Fail(err)
+	}
+	return Success(map[string]interface{}{
+		"media": media,
+		"pager": utils.CreatePager(opt.Page, opt.Size, count),
+	})
+}
+
+func DelMedia(v interface{}) *Res {
+	id, ok := v.(int64)
+	if !ok {
+		return Fail(paramTypeError(id))
+	}
+	media, err := model.GetMediaBy("id", id)
+	if err != nil {
+		return Fail(err)
+	}
+	// remove media file
+	if err = os.Remove(media.FilePath); err != nil {
+		return Fail(err)
+	}
+	// remove database record
+	if err = model.RemoveMedia(id); err != nil {
+		return Fail(err)
+	}
+	return Success(nil)
 }

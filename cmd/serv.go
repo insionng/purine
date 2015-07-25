@@ -87,6 +87,7 @@ func ServeMiddleware(ctx *cli.Context) {
 			"Pager2Simple":         utils.Pager2HTMLSimple,
 			"TimeUnixFormat":       utils.TimeUnixFormat,
 			"TimeUnixFormatFriend": utils.FriendTimeUnixFormat,
+			"FriendBytesSize":      utils.FriendBytesSize,
 		},
 	}))
 }
@@ -102,6 +103,7 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Any("/setting", new(admin.Setting))
 	adminGroup.Get("/media", new(admin.Media))
+	adminGroup.Get("/media/delete", new(admin.MediaDelete))
 	adminGroup.Post("/upload", new(admin.Upload))
 	adminGroup.Get("/", new(admin.Index))
 

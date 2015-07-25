@@ -60,9 +60,11 @@ func AuthHandler() tango.HandlerFunc {
 			}
 		}
 		// fail redirect
-		if url := auth.FailRedirect(); url != "" {
-			ctx.Redirect(url, 302)
-			return
+		if ctx.Req().Method == "GET" {
+			if url := auth.FailRedirect(); url != "" {
+				ctx.Redirect(url, 302)
+				return
+			}
 		}
 
 		// auth fail , no redirect, to show 401

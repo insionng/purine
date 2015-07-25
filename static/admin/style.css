@@ -271,7 +271,8 @@ hr {
 #write-container,
 #profile-container,
 #setting-container,
-#upload-form{
+#upload-form,
+#media-list{
     padding-left: 144px;
 }
 
@@ -415,7 +416,7 @@ hr {
 }
 
 #upload-form{
-    margin-top: 24px;
+    margin: 24px 0;
 }
 
 #file-upload {
@@ -438,10 +439,45 @@ hr {
     background-color: transparent;
 }
 
+#files{
+    margin-top: 16px;
+}
+
+#files p{
+    margin-bottom: 12px;
+}
+
 #file-upload-progress .progress-bar{
     float: left;
     width: 0;
     height: 100%;
     color: #fff;
     background-color: #5d9d61;
+}
+
+#media-list .media{
+    line-height: 40px;
+    border-bottom: 1px dashed #DDD;
+}
+
+#media-list span{
+    margin-right: 24px;
+}
+
+#media-list .date,
+#media-list .size{
+    color: #AAA;
+    text-transform: uppercase;
+}
+
+#media-list .del{
+    display: none;
+}
+
+#media-list .del a:hover{
+    color: #ff5a41;
+}
+
+#media-list .media:hover .del{
+    display: inline;
 }

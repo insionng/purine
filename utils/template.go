@@ -33,3 +33,14 @@ func FriendTimeUnixFormat(unixStamp int64) string {
 func Md2Html(str string) template.HTML {
 	return template.HTML(string(blackfriday.MarkdownCommon([]byte(str))))
 }
+
+func FriendBytesSize(size int64) string {
+	sFloat := float64(size)
+	if sFloat >= 1024*1024 {
+		return fmt.Sprintf("%.1f MB", sFloat/1024/1024)
+	}
+	if sFloat > 1024 {
+		return fmt.Sprintf("%.1f KB", sFloat/1024)
+	}
+	return fmt.Sprintf("%.1f B", sFloat)
+}
