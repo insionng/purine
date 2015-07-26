@@ -30,7 +30,7 @@ func (l *Login) Post() {
 	}
 
 	// call login mapi
-	res := mapi.Call(mapi.Login, form)
+	res := mapi.Call(mapi.User.Login, form)
 	if !res.Status {
 		l.Assign("Error", res.Error)
 		l.Render("login.tmpl")

@@ -25,7 +25,7 @@ func (idx *Index) Get() {
 		Size:   4,
 		Status: model.ARTICLE_STATUS_PUBLISH,
 	}
-	res := mapi.Call(mapi.ListArticle, opt)
+	res := mapi.Call(mapi.Article.List, opt)
 	if !res.Status {
 		idx.RenderError(500, errors.New(res.Error))
 		return
@@ -47,7 +47,7 @@ type Archive struct {
 
 func (a *Archive) Get() {
 	a.Title("Archive")
-	res := mapi.Call(mapi.ListArticleArchive, nil)
+	res := mapi.Call(mapi.Article.ListArchive, nil)
 	if !res.Status {
 		a.RenderError(500, errors.New(res.Error))
 		return

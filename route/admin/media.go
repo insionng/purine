@@ -21,7 +21,7 @@ func (m *Media) Get() {
 		Page: m.FormInt64("page", 1),
 		Size: 10,
 	}
-	res := mapi.Call(mapi.ListMedia, opt)
+	res := mapi.Call(mapi.Media.List, opt)
 	if !res.Status {
 		m.RenderError(500, errors.New(res.Error))
 		return
@@ -52,7 +52,7 @@ func (u *Upload) Post() {
 	if u.Form("from") == "editor" {
 		meta.FormName = "editormd-image-file"
 	}
-	res := mapi.Call(mapi.UploadMedia, meta)
+	res := mapi.Call(mapi.Media.Upload, meta)
 	if u.Form("from") == "editor" {
 		m := make(map[string]interface{})
 		m["success"] = 1
@@ -86,7 +86,7 @@ func (md *MediaDelete) Get() {
 		md.Redirect("/admin/media")
 		return
 	}
-	res := mapi.Call(mapi.DelMedia, id)
+	res := mapi.Call(mapi.Media.Remove, id)
 	if !res.Status {
 		md.RenderError(500, errors.New(res.Error))
 		return

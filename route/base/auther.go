@@ -52,7 +52,7 @@ func AuthHandler() tango.HandlerFunc {
 		// read token
 		token := auth.GetAuthToken(ctx)
 		if token != "" {
-			result := mapi.Call(mapi.Auth, token)
+			result := mapi.Call(mapi.User.Auth, token)
 			if result.Status {
 				auth.SetAuthUser(result.Data["user"].(*model.User))
 				ctx.Next()

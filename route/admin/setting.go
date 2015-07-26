@@ -16,7 +16,7 @@ type Setting struct {
 }
 
 func (s *Setting) Get() {
-	res := mapi.Call(mapi.ReadGeneralSetting, nil)
+	res := mapi.Call(mapi.Setting.ReadGeneral, nil)
 	if !res.Status {
 		s.RenderError(500, errors.New(res.Error))
 		return
@@ -30,7 +30,7 @@ func (s *Setting) Get() {
 	}
 	s.Assign("Themes", themes)
 
-	res = mapi.Call(mapi.ReadMediaSetting, nil)
+	res = mapi.Call(mapi.Setting.ReadMedia, nil)
 	if !res.Status {
 		s.RenderError(500, errors.New(res.Error))
 		return
@@ -60,7 +60,7 @@ func (s *Setting) postGeneral() {
 		s.Get()
 		return
 	}
-	res := mapi.Call(mapi.SaveGeneralSetting, form)
+	res := mapi.Call(mapi.Setting.SaveGeneral, form)
 	if !res.Status {
 		s.Assign("Error", res.Error)
 		s.Get()
@@ -77,7 +77,7 @@ func (s *Setting) postMedia() {
 		s.Get()
 		return
 	}
-	res := mapi.Call(mapi.SaveMediaSetting, form)
+	res := mapi.Call(mapi.Setting.SaveMedia, form)
 	if !res.Status {
 		s.Assign("MediaError", res.Error)
 		s.Get()

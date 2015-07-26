@@ -36,10 +36,10 @@ func Fail(err error) *Res {
 func funcName(fn Func) string {
 	name := runtime.FuncForPC(reflect.ValueOf(fn).Pointer()).Name()
 	nameData := strings.Split(name, "/")
-	if len(nameData) > 3 {
-		nameData = nameData[len(nameData)-3:]
+	if len(nameData) > 2 {
+		nameData = nameData[len(nameData)-2:]
 	}
-	return strings.Join(nameData, "/")
+	return strings.TrimSuffix(strings.Join(nameData, "."), "·fm")
 }
 
 func Call(fn Func, param interface{}) *Res {

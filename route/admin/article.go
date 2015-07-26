@@ -20,7 +20,7 @@ func (a *Article) Get() {
 	opt := &mapi.ArticleListOption{
 		Page: a.FormInt64("page", 1),
 	}
-	res := mapi.Call(mapi.ListArticle, opt)
+	res := mapi.Call(mapi.Article.List, opt)
 	if !res.Status {
 		panic(res.Error)
 	}
@@ -60,7 +60,7 @@ func (w *Write) Post() {
 	}
 	form.AuthorId = w.AuthUser.Id
 
-	res := mapi.Call(mapi.WriteArticle, form)
+	res := mapi.Call(mapi.Article.Write, form)
 	w.ServeJson(res)
 }
 
@@ -93,7 +93,7 @@ func (d *Delete) Get() {
 
 func (d *Delete) Post() {
 	id := d.FormInt64("id")
-	res := mapi.Call(mapi.DelArticle, id)
+	res := mapi.Call(mapi.Article.Remove, id)
 	if !res.Status {
 		d.RenderError(500, errors.New(res.Error))
 		return

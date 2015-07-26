@@ -8,6 +8,12 @@ import (
 	"strings"
 )
 
+var (
+	Setting = new(settingApi)
+)
+
+type settingApi struct{}
+
 type SettingGeneralForm struct {
 	Title    string `form:"title" binding:"Required"`
 	Subtitle string `form:"subtitle"`
@@ -44,7 +50,7 @@ func struct2Map(v interface{}) (map[string]interface{}, error) {
 	return mapData, nil
 }
 
-func SaveGeneralSetting(v interface{}) *Res {
+func (_ *settingApi) SaveGeneral(v interface{}) *Res {
 	form, ok := v.(*SettingGeneralForm)
 	if !ok {
 		return Fail(paramTypeError(new(SettingGeneralForm)))
@@ -62,7 +68,7 @@ func SaveGeneralSetting(v interface{}) *Res {
 	return Success(nil)
 }
 
-func ReadGeneralSetting(v interface{}) *Res {
+func (_ *settingApi) ReadGeneral(v interface{}) *Res {
 	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
 	if err != nil {
 		return Fail(err)
@@ -98,7 +104,7 @@ type SettingMediaForm struct {
 
 type SettingMedia SettingMediaForm
 
-func ReadMediaSetting(v interface{}) *Res {
+func (_ *settingApi) ReadMedia(v interface{}) *Res {
 	settings, err := model.GetSettings("media_maxsize",
 		"media_imageext",
 		"media_fileexit",
@@ -118,7 +124,7 @@ func ReadMediaSetting(v interface{}) *Res {
 	})
 }
 
-func SaveMediaSetting(v interface{}) *Res {
+func (_ *settingApi) SaveMedia(v interface{}) *Res {
 	form, ok := v.(*SettingMediaForm)
 	if !ok {
 		return Fail(paramTypeError(form))

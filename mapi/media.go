@@ -17,7 +17,11 @@ import (
 var (
 	ERR_MEDIA_LARGE      = errors.New("media-too-large")
 	ERR_MEDIA_WRONG_TYPE = errors.New("media-error-type")
+
+	Media = new(mediaApi)
 )
+
+type mediaApi struct{}
 
 type UploadMediaMeta struct {
 	Ctx      tango.Ctx
@@ -26,12 +30,12 @@ type UploadMediaMeta struct {
 	IsImage  bool
 }
 
-func UploadMedia(v interface{}) *Res {
+func (_ *mediaApi) Upload(v interface{}) *Res {
 	meta, ok := v.(*UploadMediaMeta)
 	if !ok {
 		return Fail(paramTypeError(meta))
 	}
-	res := ReadMediaSetting(nil)
+	res := Setting.ReadMedia(nil)
 	if !res.Status {
 		return res
 	}
@@ -116,7 +120,7 @@ type MediaListOption struct {
 	Page, Size int64
 }
 
-func ListMedia(v interface{}) *Res {
+func (_ *mediaApi) List(v interface{}) *Res {
 	opt, ok := v.(*MediaListOption)
 	if !ok {
 		return Fail(paramTypeError(opt))
@@ -135,7 +139,7 @@ func ListMedia(v interface{}) *Res {
 	})
 }
 
-func DelMedia(v interface{}) *Res {
+func (_ *mediaApi) Remove(v interface{}) *Res {
 	id, ok := v.(int64)
 	if !ok {
 		return Fail(paramTypeError(id))

@@ -17,12 +17,12 @@ type Article struct {
 }
 
 func (a *Article) Get() {
-	param, err := mapi.ParseArticleRouteParam(blogParamRule, a.Param("*article"))
+	param, err := mapi.Article.ParseRoute(blogParamRule, a.Param("*article"))
 	if err != nil {
 		a.RenderError(500, err)
 		return
 	}
-	res := mapi.Call(mapi.GetArticle, param)
+	res := mapi.Call(mapi.Article.Get, param)
 	if res.Status {
 		article := res.Data["article"].(*model.Article)
 		a.Assign("Article", article)

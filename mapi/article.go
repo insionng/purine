@@ -16,7 +16,11 @@ var (
 	ERR_ARTICLE_LINK    = errors.New("article-link-exist")
 	ERR_ARTICLE_MISSING = errors.New("article-missing")
 	ERR_ARTICLE_PARAM   = errors.New("article-param-fail")
+
+	Article *articleApi = new(articleApi)
 )
+
+type articleApi struct{}
 
 type ArticleListOption struct {
 	Status string
@@ -38,7 +42,7 @@ func prepareArticleListOption(opt *ArticleListOption) *ArticleListOption {
 	return opt
 }
 
-func ListArticle(v interface{}) *Res {
+func (_ *articleApi) List(v interface{}) *Res {
 	opt, ok := v.(*ArticleListOption)
 	if !ok {
 		return Fail(paramTypeError(new(ArticleListOption)))
@@ -74,13 +78,13 @@ func ListArticle(v interface{}) *Res {
 	})
 }
 
-func ListArticleArchive(_ interface{}) *Res {
+func (a *articleApi) ListArchive(_ interface{}) *Res {
 	opt := &ArticleListOption{
 		Status: model.ARTICLE_STATUS_PUBLISH,
 		Page:   1,
 		Size:   9999,
 	}
-	return ListArticle(opt)
+	return a.List(opt)
 }
 
 type ArticleForm struct {
@@ -94,7 +98,7 @@ type ArticleForm struct {
 	AuthorId int64
 }
 
-func WriteArticle(v interface{}) *Res {
+func (_ *articleApi) Write(v interface{}) *Res {
 	form, ok := v.(*ArticleForm)
 	if !ok {
 		return Fail(paramTypeError(new(ArticleForm)))
@@ -141,7 +145,7 @@ func WriteArticle(v interface{}) *Res {
 	})
 }
 
-func DelArticle(v interface{}) *Res {
+func (_ *articleApi) Remove(v interface{}) *Res {
 	id, ok := v.(int64)
 	if !ok {
 		return Fail(paramTypeError(id))
@@ -157,7 +161,7 @@ type ArticleRouteParam struct {
 	Link string
 }
 
-func ParseArticleRouteParam(rule string, routeRule string) (*ArticleRouteParam, error) {
+func (_ *articleApi) ParseRoute(rule string, routeRule string) (*ArticleRouteParam, error) {
 	rules := strings.Split(rule, "/")
 	paramRules := strings.Split(routeRule, "/")
 	if len(rules) != len(paramRules) {
@@ -178,7 +182,7 @@ func ParseArticleRouteParam(rule string, routeRule string) (*ArticleRouteParam, 
 	return p, nil
 }
 
-func GetArticle(v interface{}) *Res {
+func (_ *articleApi) Get(v interface{}) *Res {
 	param, ok := v.(*ArticleRouteParam)
 	if !ok {
 		return Fail(paramTypeError(new(ArticleRouteParam)))

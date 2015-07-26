@@ -110,7 +110,7 @@ func (t *ThemeRender) fillDefault() {
 		t.Assign("ThemeLink", "/"+path.Join("static", t.themePrefix))
 	}
 	// assign general data
-	res := mapi.Call(mapi.ReadGeneralSetting, nil)
+	res := mapi.Call(mapi.Setting.ReadGeneral, nil)
 	if !res.Status {
 		panic(errors.New(res.Error))
 	}

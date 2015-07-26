@@ -26,7 +26,7 @@ func (p *Profile) Post() {
 		return
 	}
 	form.Id = p.AuthUser.Id
-	res := mapi.Call(mapi.UpdateProfile, form)
+	res := mapi.Call(mapi.User.UpdateProfile, form)
 	if !res.Status {
 		p.Assign("Error", res.Error)
 	} else {
@@ -53,7 +53,7 @@ func (p *Password) Post() {
 	}
 	form.User = p.AuthUser
 
-	res := mapi.Call(mapi.UpdatePassword, form)
+	res := mapi.Call(mapi.User.UpdatePassword, form)
 	if !res.Status {
 		p.Assign("PasswordError", res.Error)
 	} else {
