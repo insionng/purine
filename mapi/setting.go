@@ -118,6 +118,29 @@ func ReadMediaSetting(v interface{}) *Res {
 	})
 }
 
+func SaveMediaSetting(v interface{}) *Res {
+	form, ok := v.(*SettingMediaForm)
+	if !ok {
+		return Fail(paramTypeError(form))
+	}
+
+	if form.NameFormat == "" {
+		form.NameFormat = ":hash"
+	}
+
+	mapData, err := struct2Map(form)
+	if err != nil {
+		return Fail(err)
+	}
+
+	for k, v := range mapData {
+		if err = model.SaveSetting("media_"+strings.ToLower(k), fmt.Sprint(v), 0); err != nil {
+			return Fail(err)
+		}
+	}
+	return Success(nil)
+}
+
 func prepareMediaSetting(m *SettingMedia) {
 	if m.MaxSize == 0 {
 		m.MaxSize = 1024 * 1024 // 1M

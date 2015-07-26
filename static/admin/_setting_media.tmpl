@@ -1,1 +1,28 @@
-media
+<form id="setting-media-form" class="form" action="/admin/setting?media=true" method="post">
+    {{if .MediaError}}
+    <div class="group clear">
+        <p class="alert"><strong>{{.MediaError}}</strong></p>
+    </div>
+    {{end}}
+    {{if .MediaSuccess}}
+    <div class="group clear">
+        <p class="success"><strong>Settings Updated !</strong></p>
+    </div>
+    {{end}}
+    <div class="group clear">
+        <label for="size">Max Size</label>
+        <input id="size" class="ipt" type="number" name="max_size" required="required" value="{{.Media.MaxSize}}"/>
+    </div>
+    <div class="group clear">
+        <label for="image-ext">Image Suffix</label>
+        <input id="image-ext" class="ipt" type="text" name="image_ext" value="{{.Media.ImageExt}}"/>
+    </div>
+    <div class="group clear">
+        <label for="file-ext">File Suffix</label>
+        <input id="file-ext" class="ipt" type="text" name="file_ext" value="{{.Media.FileExt}}"/>
+    </div>
+    <div class="group clear">
+        <label>&nbsp;</label>
+        <input class="btn" type="submit" value="Submit"/>
+    </div>
+</form>

@@ -30,6 +30,13 @@ func (s *Setting) Get() {
 	}
 	s.Assign("Themes", themes)
 
+	res = mapi.Call(mapi.ReadMediaSetting, nil)
+	if !res.Status {
+		s.RenderError(500, errors.New(res.Error))
+		return
+	}
+	s.Assign("Media", res.Data["media"].(*mapi.SettingMedia))
+
 	s.Title("Setting")
 	s.Render("setting.tmpl")
 }
@@ -37,6 +44,10 @@ func (s *Setting) Get() {
 func (s *Setting) Post() {
 	if s.Form("general") == "true" {
 		s.postGeneral()
+		return
+	}
+	if s.Form("media") == "true" {
+		s.postMedia()
 		return
 	}
 	s.Get()
@@ -57,4 +68,21 @@ func (s *Setting) postGeneral() {
 	}
 	s.Assign("Success", true)
 	s.Get()
+}
+
+func (s *Setting) postMedia() {
+	form := new(mapi.SettingMediaForm)
+	if err := s.Bind(form); err != nil {
+		s.Assign("MediaError", err.Error())
+		s.Get()
+		return
+	}
+	res := mapi.Call(mapi.SaveMediaSetting, form)
+	if !res.Status {
+		s.Assign("MediaError", res.Error)
+		s.Get()
+		return
+	}
+	s.Assign("MediaSuccess", true)
+	s.Redirect("/admin/setting#setting-media")
 }

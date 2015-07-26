@@ -120,11 +120,11 @@ hr {
     float: right;
 }
 
-.abs{
+.abs {
     position: absolute;
 }
 
-.rel{
+.rel {
     position: relative;
 }
 
@@ -215,7 +215,7 @@ hr {
     padding: 4px;
 }
 
-.lbl.success{
+.lbl.success {
     background-color: #5d9d61;
     color: #FFF;
 }
@@ -272,7 +272,7 @@ hr {
 #profile-container,
 #setting-container,
 #upload-form,
-#media-list{
+#media-list {
     padding-left: 144px;
 }
 
@@ -363,13 +363,14 @@ hr {
 }
 
 #profile-form label.left,
-#password-form label.left{
+#password-form label.left {
     width: 96px;
 }
 
 #profile-form .ipt,
 #password-form .ipt,
-#setting-general-form .ipt{
+#setting-general-form .ipt,
+#setting-media-form .ipt {
     width: 480px;
 }
 
@@ -378,44 +379,45 @@ hr {
     resize: none;
 }
 
-#setting-nav li{
+#setting-nav li {
     display: inline-block;
 }
 
-#setting-nav li a{
+#setting-nav li a {
     padding: 4px 8px;
 }
 
-#setting-nav li a.current{
+#setting-nav li a.current {
     background-color: #DDD;
     color: #444;
 }
 
-#setting-general-form label{
+#setting-general-form label,
+#setting-media-form label {
     display: inline-block;
     width: 96px;
 }
 
-#theme-list li{
+#theme-list li {
     padding-top: 8px;
     margin-top: 8px;
     border-top: 1px dashed #EEE;
 }
 
-#theme-list li > span{
+#theme-list li > span {
     display: inline-block;
     min-width: 100px;
 }
 
-#theme-list .set{
+#theme-list .set {
     display: none;
 }
 
-#theme-list li:hover .set{
+#theme-list li:hover .set {
     display: inline;
 }
 
-#upload-form{
+#upload-form {
     margin: 24px 0;
 }
 
@@ -432,22 +434,22 @@ hr {
     cursor: pointer;
 }
 
-#file-upload-progress{
+#file-upload-progress {
     height: 20px;
-    margin:16px 0;
+    margin: 16px 0;
     overflow: hidden;
     background-color: transparent;
 }
 
-#files{
+#files {
     margin-top: 16px;
 }
 
-#files p{
+#files p {
     margin-bottom: 12px;
 }
 
-#file-upload-progress .progress-bar{
+#file-upload-progress .progress-bar {
     float: left;
     width: 0;
     height: 100%;
@@ -455,29 +457,29 @@ hr {
     background-color: #5d9d61;
 }
 
-#media-list .media{
+#media-list .media {
     line-height: 40px;
     border-bottom: 1px dashed #DDD;
 }
 
-#media-list span{
+#media-list span {
     margin-right: 24px;
 }
 
 #media-list .date,
-#media-list .size{
+#media-list .size {
     color: #AAA;
     text-transform: uppercase;
 }
 
-#media-list .del{
+#media-list .del {
     display: none;
 }
 
-#media-list .del a:hover{
+#media-list .del a:hover {
     color: #ff5a41;
 }
 
-#media-list .media:hover .del{
+#media-list .media:hover .del {
     display: inline;
 }
