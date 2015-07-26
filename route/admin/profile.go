@@ -19,7 +19,7 @@ func (p *Profile) Get() {
 }
 
 func (p *Profile) Post() {
-	form := new(mapi.ProfileForm)
+	form := new(mapi.UserProfileForm)
 	if err := p.Bind(form); err != nil {
 		p.Assign("Error", err.Error())
 		p.Get()
@@ -43,7 +43,7 @@ type Password struct {
 }
 
 func (p *Password) Post() {
-	form := new(mapi.PasswordForm)
+	form := new(mapi.UserPasswordForm)
 	if err := p.Bind(form); err != nil {
 		p.Assign("PasswordError", err.Error())
 		p.Title("Profile")

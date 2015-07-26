@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	logFormat      = "Http   | %s | %s | %s | %s "
-	logErrorFormat = "Http   | %s | %s | %s | %s | %v"
+	logFormat      = "Http   | %s | %s | %s | %.1f ms "
+	logErrorFormat = "Http   | %s | %s | %s | %.1f ms | %v"
 )
 
 func LoggingHandler() tango.HandlerFunc {
@@ -54,14 +54,14 @@ func LoggingHandler() tango.HandlerFunc {
 					friendRemoteString(ctx.Req().RemoteAddr),
 					ctx.Req().Method,
 					p,
-					time.Since(start)))
+					time.Since(start).Seconds()*1000))
 		} else {
 			ctx.Error(
 				fmt.Sprintf(logErrorFormat,
 					friendRemoteString(ctx.Req().RemoteAddr),
 					ctx.Req().Method,
 					p,
-					time.Since(start),
+					time.Since(start).Seconds()*1000,
 					ctx.Result))
 		}
 	}

@@ -18,20 +18,20 @@ var (
 	ERR_MEDIA_LARGE      = errors.New("media-too-large")
 	ERR_MEDIA_WRONG_TYPE = errors.New("media-error-type")
 
-	Media = new(mediaApi)
+	Media = new(MediaApi)
 )
 
-type mediaApi struct{}
+type MediaApi struct{}
 
-type UploadMediaMeta struct {
+type MediaUploadMeta struct {
 	Ctx      tango.Ctx
 	User     *model.User
 	FormName string
 	IsImage  bool
 }
 
-func (_ *mediaApi) Upload(v interface{}) *Res {
-	meta, ok := v.(*UploadMediaMeta)
+func (_ *MediaApi) Upload(v interface{}) *Res {
+	meta, ok := v.(*MediaUploadMeta)
 	if !ok {
 		return Fail(paramTypeError(meta))
 	}
@@ -120,7 +120,7 @@ type MediaListOption struct {
 	Page, Size int64
 }
 
-func (_ *mediaApi) List(v interface{}) *Res {
+func (_ *MediaApi) List(v interface{}) *Res {
 	opt, ok := v.(*MediaListOption)
 	if !ok {
 		return Fail(paramTypeError(opt))
@@ -139,7 +139,7 @@ func (_ *mediaApi) List(v interface{}) *Res {
 	})
 }
 
-func (_ *mediaApi) Remove(v interface{}) *Res {
+func (_ *MediaApi) Remove(v interface{}) *Res {
 	id, ok := v.(int64)
 	if !ok {
 		return Fail(paramTypeError(id))

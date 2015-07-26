@@ -22,7 +22,7 @@ func (l *Login) Get() {
 
 func (l *Login) Post() {
 	// bind form
-	form := new(mapi.LoginForm)
+	form := new(mapi.UserLoginForm)
 	if err := l.Bind(form); err != nil {
 		l.Assign("Error", err.Error())
 		l.Render("login.tmpl")

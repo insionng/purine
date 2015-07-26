@@ -10,21 +10,21 @@ var (
 	ERR_USER_MISSING        = errors.New("user-missing")
 	ERR_USER_WRONG_PASSWORD = errors.New("user-wrong-password")
 
-	User = new(userApi)
+	User = new(UserApi)
 )
 
-type userApi struct{}
+type UserApi struct{}
 
-type LoginForm struct {
+type UserLoginForm struct {
 	Name     string `form:"username" binding:"Required"`
 	Password string `form:"password" binding:"Required"`
 	Remember int64  `form:"remember"`
 }
 
-func (_ *userApi) Login(v interface{}) *Res {
-	form, ok := v.(*LoginForm)
+func (_ *UserApi) Login(v interface{}) *Res {
+	form, ok := v.(*UserLoginForm)
 	if !ok {
-		return Fail(paramTypeError(new(LoginForm)))
+		return Fail(paramTypeError(new(UserLoginForm)))
 	}
 	// get user
 	user, err := model.GetUserBy("name", form.Name)
@@ -58,7 +58,7 @@ func (_ *userApi) Login(v interface{}) *Res {
 	})
 }
 
-func (_ *userApi) Auth(v interface{}) *Res {
+func (_ *UserApi) Auth(v interface{}) *Res {
 	token, ok := v.(string)
 	if !ok {
 		return Fail(paramTypeError(""))
@@ -92,7 +92,7 @@ var (
 	ERR_PASSWORD_CONFIRM = errors.New("password-confirm-fail")
 )
 
-type ProfileForm struct {
+type UserProfileForm struct {
 	User    string `form:"user" binding:"Required;AlphaDashDot"`
 	Nick    string `form:"nick" binding:"Required"`
 	Email   string `form:"email" binding:"Required;Email"`
@@ -101,10 +101,10 @@ type ProfileForm struct {
 	Id      int64
 }
 
-func (_ *userApi) UpdateProfile(v interface{}) *Res {
-	form, ok := v.(*ProfileForm)
+func (_ *UserApi) UpdateProfile(v interface{}) *Res {
+	form, ok := v.(*UserProfileForm)
 	if !ok {
-		return Fail(paramTypeError(new(ProfileForm)))
+		return Fail(paramTypeError(new(UserProfileForm)))
 	}
 	u := &model.User{
 		Name:    form.User,
@@ -139,17 +139,17 @@ func (_ *userApi) UpdateProfile(v interface{}) *Res {
 	})
 }
 
-type PasswordForm struct {
+type UserPasswordForm struct {
 	User    *model.User
 	Old     string `form:"old" binding:"Required"`
 	New     string `form:"new" binding:"Required"`
 	Confirm string `form:"confirm" binding:"Required"`
 }
 
-func (_ *userApi) UpdatePassword(v interface{}) *Res {
-	form, ok := v.(*PasswordForm)
+func (_ *UserApi) UpdatePassword(v interface{}) *Res {
+	form, ok := v.(*UserPasswordForm)
 	if !ok {
-		return Fail(paramTypeError(new(PasswordForm)))
+		return Fail(paramTypeError(new(UserPasswordForm)))
 	}
 	if form.Confirm != form.New {
 		return Fail(ERR_PASSWORD_CONFIRM)
