@@ -17,19 +17,19 @@ import (
 	"time"
 )
 
-var newCmd cli.Command = cli.Command{
-	Name:  "new",
-	Usage: "create new site for first run",
+var installCmd cli.Command = cli.Command{
+	Name:  "install",
+	Usage: "install new site for first run",
 	Action: func(ctx *cli.Context) {
 		t := time.Now()
 		// if is not new site,
 		if !IsNewSite(ctx) {
-			log.Info("NewSite|%-8s", "Done")
+			log.Info("NewSite | %-8s", "Done")
 			return
 		}
 		NewSite(ctx)
 		NewSiteData(ctx)
-		log.Info("NewSite|%-8s|%.1fms", "Finish", time.Since(t).Seconds()*1e3)
+		log.Info("NewSite | %-8s | %.1fms", "Finish", time.Since(t).Seconds()*1e3)
 	},
 }
 
@@ -46,29 +46,29 @@ func NewSite(ctx *cli.Context) {
 	var buf bytes.Buffer
 	encoder := toml.NewEncoder(&buf)
 	if err := encoder.Encode(config); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
 	// write config.toml
 	if err := ioutil.WriteFile(configTomlFile, buf.Bytes(), os.ModePerm); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
-	log.Info("NewSite|%-8s|%s", "Init", configTomlFile)
-	log.Info("NewSite|%-8s|%s", "Version", config.Version)
-	log.Info("NewSite|%-8s|%s:%s", "Server", config.Server.Host, config.Server.Port)
+	log.Info("NewSite | %-8s | %s", "Init", configTomlFile)
+	log.Info("NewSite | %-8s | %s", "Version", config.Version)
+	log.Info("NewSite | %-8s | %s:%s", "Server", config.Server.Host, config.Server.Port)
 }
 
 // new site data
 func NewSiteData(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("NewSite|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("NewSite | %-8s | %s | %s", "SQLite", sqliteVersion, databaseFile)
 
 	engine, err := xorm.NewEngine("sqlite3", databaseFile)
 	if err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 	engine.SetLogger(nil) // close logger
@@ -79,11 +79,11 @@ func NewSiteData(ctx *cli.Context) {
 		new(model.Tag),
 		new(model.Setting),
 		new(model.Media)); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
-	log.Info("NewSite|%-8s|SyncDb|%s,%s,%s,%s,%s,%s", "SQLite",
+	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 		reflect.TypeOf(new(model.Article)).String(),
@@ -95,7 +95,7 @@ func NewSiteData(ctx *cli.Context) {
 	// site init data
 	NewSiteInitData(engine)
 
-	log.Info("NewSite|%-8s|Success", "SQLite")
+	log.Info("NewSite | %-8s | Success", "SQLite")
 	engine.Close()
 }
 
@@ -133,7 +133,7 @@ func NewSiteInitData(engine *xorm.Engine) {
 		AuthorId:      user.Id,
 	}
 	if _, err := engine.Insert(article); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
@@ -145,7 +145,7 @@ func NewSiteInitData(engine *xorm.Engine) {
 	settings = append(settings, &model.Setting{"keyword", "purine,blog,golang", 0})
 	settings = append(settings, &model.Setting{"theme", "default", 0})
 	if _, err := engine.Insert(settings...); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 }

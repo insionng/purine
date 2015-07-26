@@ -7,7 +7,7 @@ import (
 
 func init() {
 	vars.Cli.Commands = []cli.Command{
-		newCmd,
+		installCmd,
 		versionCmd,
 		servCmd,
 	}
