@@ -54,7 +54,10 @@
             height: 600,
             name: "body",
             path: "/static/admin/editor-md/lib/",
-            markdown:mdContent
+            markdown:mdContent,
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png"],
+            imageUploadURL : "/admin/upload?type=image&from=editor"
         });
         $('#write-form').on("submit", function (e) {
             e.preventDefault();

@@ -41,10 +41,32 @@ type Upload struct {
 func (u *Upload) Post() {
 	u.Req().ParseMultipartForm(16 << 20)
 	meta := &mapi.UploadMediaMeta{
-		u.Ctx,
-		u.AuthUser,
+		Ctx:      u.Ctx,
+		User:     u.AuthUser,
+		FormName: "file",
+		IsImage:  false,
+	}
+	if u.Form("type") == "image" {
+		meta.IsImage = true
+	}
+	if u.Form("from") == "editor" {
+		meta.FormName = "editormd-image-file"
 	}
 	res := mapi.Call(mapi.UploadMedia, meta)
+	if u.Form("from") == "editor" {
+		m := make(map[string]interface{})
+		m["success"] = 1
+		if !res.Status {
+			m["success"] = 0
+		}
+		m["message"] = res.Error
+		m["url"] = ""
+		if media, ok := res.Data["media"].(*model.Media); ok {
+			m["url"] = "/" + media.FilePath
+		}
+		u.ServeJson(m)
+		return
+	}
 	u.ServeJson(res)
 }
 

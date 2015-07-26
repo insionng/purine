@@ -20,8 +20,10 @@ var (
 )
 
 type UploadMediaMeta struct {
-	Ctx  tango.Ctx
-	User *model.User
+	Ctx      tango.Ctx
+	User     *model.User
+	FormName string
+	IsImage  bool
 }
 
 func UploadMedia(v interface{}) *Res {
@@ -34,7 +36,7 @@ func UploadMedia(v interface{}) *Res {
 		return res
 	}
 	setting := res.Data["media"].(*SettingMedia)
-	f, h, err := meta.Ctx.Req().FormFile("file")
+	f, h, err := meta.Ctx.Req().FormFile(meta.FormName)
 	if err != nil {
 		return Fail(err)
 	}
@@ -51,7 +53,7 @@ func UploadMedia(v interface{}) *Res {
 	// check ext
 	ext := path.Ext(h.Filename)
 	extRule := setting.FileExt
-	if meta.Ctx.Form("type") == "image" {
+	if meta.IsImage {
 		extRule = setting.ImageExt
 	}
 	if !strings.Contains(extRule, ext) {
@@ -68,7 +70,7 @@ func UploadMedia(v interface{}) *Res {
 			return Fail(err)
 		}
 	}
-	if err = meta.Ctx.SaveToFile("file", fileName); err != nil {
+	if err = meta.Ctx.SaveToFile(meta.FormName, fileName); err != nil {
 		return Fail(err)
 	}
 
