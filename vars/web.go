@@ -5,11 +5,15 @@ import (
 	"github.com/lunny/tango"
 )
 
-var Server *tango.Tango
+var (
+	Server          *tango.Tango
+	StaticDirectory map[string]string = map[string]string{
+		"/static": "static",
+	}
+)
 
 func init() {
 	Server = tango.NewWithLog(log.Get().ToTangoLogger(), []tango.Handler{
-		tango.Logging(),
 		tango.Recovery(true),
 		tango.Return(),
 		tango.Param(),

@@ -26,10 +26,10 @@ var servCmd cli.Command = cli.Command{
 		// read config file
 		cfg := ServeConfig(ctx)
 		if cfg == nil {
-			log.Error("Server|%-8s|ReadFail", "Config")
+			log.Error("Server | %-8s | ReadFail", "Config")
 			return
 		}
-		log.Info("Server|%-8s|Read|%s", "Config", configTomlFile)
+		log.Info("Server | %-8s | Read | %s", "Config", configTomlFile)
 
 		// start Db
 		ServeDb(ctx)
@@ -37,7 +37,7 @@ var servCmd cli.Command = cli.Command{
 		// start server
 		ServeMiddleware(ctx)
 		ServeRouting(ctx)
-		log.Info("Server|%-8s|%s:%s", "Http", cfg.Server.Host, cfg.Server.Port)
+		log.Info("Server | %-8s | %s:%s", "Http", cfg.Server.Host, cfg.Server.Port)
 
 		vars.Server.Run(fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port))
 	},
@@ -46,7 +46,7 @@ var servCmd cli.Command = cli.Command{
 func ServeConfig(ctx *cli.Context) *model.Config {
 	cfg := new(model.Config)
 	if _, err := toml.DecodeFile(configTomlFile, cfg); err != nil {
-		log.Error("Server|%-8s|%s", "Config", err.Error())
+		log.Error("Server | %-8s | %s", "Config", err.Error())
 		return nil
 	}
 	return cfg
@@ -54,11 +54,11 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 
 func ServeDb(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("Server|%-8s|%s|%s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("Server | %-8s | %s | %s", "SQLite", sqliteVersion, databaseFile)
 
 	engine, err := xorm.NewEngine("sqlite3", databaseFile)
 	if err != nil {
-		log.Error("Server|%s", err.Error())
+		log.Error("Server | %s", err.Error())
 		return
 	}
 	engine.SetLogger(nil) // close logger
@@ -66,16 +66,15 @@ func ServeDb(ctx *cli.Context) {
 }
 
 func ServeMiddleware(ctx *cli.Context) {
+	vars.Server.Use(base.LoggingHandler())
+	for prefix, path := range vars.StaticDirectory {
+		vars.Server.Use(tango.Static(tango.StaticOptions{
+			RootPath: path,
+			Prefix:   prefix,
+		}))
+	}
 	vars.Server.Use(binding.Bind())
 	vars.Server.Use(base.AuthHandler())
-	vars.Server.Use(tango.Static(tango.StaticOptions{
-		RootPath: "static",
-		Prefix:   "/static",
-	}))
-	vars.Server.Use(tango.Static(tango.StaticOptions{
-		RootPath: "upload",
-		Prefix:   "/upload",
-	}))
 	vars.Server.Use(renders.New(renders.Options{
 		Reload:     true,
 		Directory:  "static",

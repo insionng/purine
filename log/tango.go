@@ -1,6 +1,8 @@
 package log
 
-import "strings"
+import (
+	"strings"
+)
 
 // implement to tango.Logger, so receive tango's logs
 type TangoLogger struct {

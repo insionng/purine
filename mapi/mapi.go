@@ -44,7 +44,7 @@ func funcName(fn Func) string {
 
 func Call(fn Func, param interface{}) *Res {
 	name := funcName(fn)
-	log.Debug("Action|Call|%s", name)
+	log.Debug("Action | Call | %s", name)
 	return fn(param)
 }
 
