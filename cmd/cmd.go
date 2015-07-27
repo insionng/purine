@@ -10,5 +10,6 @@ func init() {
 		installCmd,
 		versionCmd,
 		servCmd,
+		packCmd,
 	}
 }

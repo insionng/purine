@@ -39,12 +39,15 @@ func funcName(fn Func) string {
 	if len(nameData) > 2 {
 		nameData = nameData[len(nameData)-2:]
 	}
+	if runtime.GOOS == "windows" {
+		return strings.TrimSuffix(strings.Join(nameData, "."), "-fm")
+	}
 	return strings.TrimSuffix(strings.Join(nameData, "."), "·fm")
 }
 
 func Call(fn Func, param interface{}) *Res {
 	name := funcName(fn)
-	log.Debug("Action | Call | %s", name)
+	log.Debug("Action | %-8s | %s", "Call", name)
 	return fn(param)
 }
 
