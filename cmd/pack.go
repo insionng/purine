@@ -2,14 +2,15 @@ package cmd
 
 import (
 	"encoding/base64"
-	"github.com/Unknwon/cae/zip"
-	"github.com/codegangsta/cli"
-	"github.com/fuxiaohei/purine/log"
-	"github.com/fuxiaohei/purine/utils"
 	"io/ioutil"
 	"os"
 	"path"
 	"time"
+
+	"github.com/Unknwon/cae/zip"
+	"github.com/codegangsta/cli"
+	"github.com/fuxiaohei/purine/log"
+	"github.com/fuxiaohei/purine/utils"
 )
 
 var packCmd cli.Command = cli.Command{
@@ -23,6 +24,7 @@ var packCmd cli.Command = cli.Command{
 			PackSrc(ctx)
 			return
 		}
+		log.Error("Pack | only support --src flag")
 	},
 }
 
@@ -46,6 +48,7 @@ func packSrcZip() (string, error) {
 	if e != nil {
 		return "", e
 	}
+	z.Close()
 	return filename, nil
 }
 
@@ -64,7 +67,11 @@ func PackSrc(ctx *cli.Context) {
 		log.Error("Pack | %-8s | %s", "Zip", err.Error())
 		return
 	}
-	zipWriter, _ := os.OpenFile("cmd/asset.go", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	zipWriter, err := os.OpenFile("cmd/asset.go", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		log.Error("Pack | %-8s | %s", "Zip", err.Error())
+		return
+	}
 	header := `package cmd
 const zipBytes="`
 	zipWriter.Write([]byte(header))
@@ -74,7 +81,10 @@ const zipBytes="`
 	zipWriter.Write([]byte(`"`))
 	zipWriter.Sync()
 	zipWriter.Close()
-    os.Remove(file)
+	if err = os.Remove(file); err != nil {
+		log.Error("Pack | %-8s | %s", "Zip", err.Error())
+		return
+	}
 	log.Info("Pack | %-8s | %s", "Zip", utils.FriendBytesSize(int64(len(bytes))))
 
 	log.Info("Pack | %-8s | %.1f ms", "Source", time.Since(t).Seconds()*1000)
