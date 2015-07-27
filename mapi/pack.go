@@ -14,6 +14,7 @@ var (
 type PackApi struct{}
 
 type PackOption struct {
+	File        string
 	IsStaticAll bool
 	IsData      bool
 }
@@ -25,8 +26,10 @@ func (_ *PackApi) Pack(v interface{}) *Res {
 	}
 	zip.Verbose = false
 	// create zip file name from time unix
-	filename := time.Now().Format("20060102150405.zip")
-	z, err := zip.Create(filename)
+	if opt.File == "" {
+		opt.File = time.Now().Format("20060102150405.zip")
+	}
+	z, err := zip.Create(opt.File)
 	if err != nil {
 		return Fail(err)
 	}
@@ -52,6 +55,6 @@ func (_ *PackApi) Pack(v interface{}) *Res {
 	}
 	z.Close()
 	return Success(map[string]interface{}{
-		"file": filename,
+		"file": opt.File,
 	})
 }
