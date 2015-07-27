@@ -11,6 +11,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"encoding/base64"
+	"github.com/Unknwon/cae/zip"
 	"github.com/fuxiaohei/purine/utils"
 	"github.com/mattn/go-sqlite3"
 	"reflect"
@@ -29,6 +31,7 @@ var installCmd cli.Command = cli.Command{
 		}
 		NewSite(ctx)
 		NewSiteData(ctx)
+		NewSiteAsset(ctx)
 		log.Info("NewSite | %-8s | %.1fms", "Finish", time.Since(t).Seconds()*1e3)
 	},
 }
@@ -115,7 +118,7 @@ func NewSiteInitData(engine *xorm.Engine) {
 	user.Salt = utils.Md5String("123456789")[8:24]
 	user.Password = utils.Sha256String("123456789" + user.Salt)
 	if _, err := engine.Insert(user); err != nil {
-		log.Error("NewSite|%s", err.Error())
+		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
@@ -148,6 +151,25 @@ func NewSiteInitData(engine *xorm.Engine) {
 		log.Error("NewSite | %s", err.Error())
 		return
 	}
+}
+
+// new site assets
+func NewSiteAsset(ctx *cli.Context) {
+	tmpZipFile := "tmp.zip"
+	decoder := base64.NewDecoder(base64.StdEncoding, bytes.NewBufferString(zipBytes))
+	b, _ := ioutil.ReadAll(decoder)
+	if err := ioutil.WriteFile(tmpZipFile, b, os.ModePerm); err != nil {
+		log.Fatal("NewSite | %s", err.Error())
+	}
+	z, err := zip.Open(tmpZipFile)
+	if err != nil {
+		log.Fatal("NewSite | %s", err.Error())
+	}
+	z.ExtractTo("")
+	z.Close()
+	decoder = nil
+	os.Remove(tmpZipFile)
+	log.Info("NewSite | %-8s | Success", "Asset")
 }
 
 // check is new
