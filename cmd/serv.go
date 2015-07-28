@@ -43,6 +43,7 @@ var servCmd cli.Command = cli.Command{
 	},
 }
 
+// load config to server
 func ServeConfig(ctx *cli.Context) *model.Config {
 	cfg := new(model.Config)
 	if _, err := toml.DecodeFile(configTomlFile, cfg); err != nil {
@@ -52,6 +53,7 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 	return cfg
 }
 
+// connect database to server
 func ServeDb(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
 	log.Info("Server | %-8s | %s | %s", "SQLite", sqliteVersion, databaseFile)
@@ -65,6 +67,7 @@ func ServeDb(ctx *cli.Context) {
 	vars.Db = engine
 }
 
+// add middleware to server
 func ServeMiddleware(ctx *cli.Context) {
 	vars.Server.Use(base.LoggingHandler())
 	for prefix, path := range vars.StaticDirectory {
@@ -91,6 +94,7 @@ func ServeMiddleware(ctx *cli.Context) {
 	}))
 }
 
+// add routing to server
 func ServeRouting(ctx *cli.Context) {
 	adminGroup := tango.NewGroup()
 	adminGroup.Any("/login", new(admin.Login))

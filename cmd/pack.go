@@ -46,6 +46,7 @@ var packCmd cli.Command = cli.Command{
 	},
 }
 
+// pack source zip
 func packSrcZip() (string, error) {
 	opt := &mapi.PackOption{
 		IsStaticAll: false,
@@ -58,6 +59,7 @@ func packSrcZip() (string, error) {
 	return res.Data["file"].(string), nil
 }
 
+// pack static files to source
 func PackSrc(ctx *cli.Context) {
 	t := time.Now()
 	log.Info("Pack | %-8s", "Source")

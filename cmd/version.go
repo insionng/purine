@@ -13,6 +13,7 @@ var versionCmd cli.Command = cli.Command{
 	},
 }
 
+// print version
 func VersionPrint(ctx *cli.Context) {
 	println("version", vars.VERSION)
 	println("publish date", vars.VERSION_DATE)

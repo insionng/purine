@@ -9,11 +9,13 @@ import (
 )
 
 var (
-	Setting = new(SettingApi)
+	Setting = new(SettingApi) // setting api group
 )
 
+// setting api group struct
 type SettingApi struct{}
 
+// general setting post form
 type SettingGeneralForm struct {
 	Title    string `form:"title" binding:"Required"`
 	Subtitle string `form:"subtitle"`
@@ -21,8 +23,10 @@ type SettingGeneralForm struct {
 	Keyword  string `form:"keyword"`
 }
 
+// general setting data
 type SettingGeneral SettingGeneralForm // alias as value usage , not form binding
 
+// get item in general setting
 func (sg *SettingGeneral) Get(key string) string {
 	key = strings.ToLower(key)
 	switch key {
@@ -38,6 +42,7 @@ func (sg *SettingGeneral) Get(key string) string {
 	return ""
 }
 
+// convert struct to map
 func struct2Map(v interface{}) (map[string]interface{}, error) {
 	bytes, err := json.Marshal(v)
 	if err != nil {
@@ -50,6 +55,11 @@ func struct2Map(v interface{}) (map[string]interface{}, error) {
 	return mapData, nil
 }
 
+// save general setting
+//
+//  in  : *SettingGeneralForm
+//  out : nil
+//
 func (_ *SettingApi) SaveGeneral(v interface{}) *Res {
 	form, ok := v.(*SettingGeneralForm)
 	if !ok {
@@ -68,6 +78,13 @@ func (_ *SettingApi) SaveGeneral(v interface{}) *Res {
 	return Success(nil)
 }
 
+// read general setting
+//
+//  in  : nil
+//  out : {
+//          "general":*SettingGeneral
+//        }
+//
 func (_ *SettingApi) ReadGeneral(v interface{}) *Res {
 	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
 	if err != nil {
@@ -95,6 +112,7 @@ func ListTheme(_ interface{}) *Res {
     })
 }*/
 
+// media setting post form
 type SettingMediaForm struct {
 	MaxSize    int64  `form:"max_size" binding:"Required"`
 	ImageExt   string `form:"image_ext"`
@@ -102,8 +120,16 @@ type SettingMediaForm struct {
 	NameFormat string `form:"form_format"`
 }
 
+// media setting data
 type SettingMedia SettingMediaForm
 
+// read media setting
+//
+//  in  : nil
+//  out : {
+//          "media":*SettingMedia
+//        }
+//
 func (_ *SettingApi) ReadMedia(v interface{}) *Res {
 	settings, err := model.GetSettings("media_maxsize",
 		"media_imageext",
@@ -124,6 +150,11 @@ func (_ *SettingApi) ReadMedia(v interface{}) *Res {
 	})
 }
 
+// save media setting
+//
+//  in  : *SettingMediaForm
+//  out : nil
+//
 func (_ *SettingApi) SaveMedia(v interface{}) *Res {
 	form, ok := v.(*SettingMediaForm)
 	if !ok {
@@ -147,6 +178,7 @@ func (_ *SettingApi) SaveMedia(v interface{}) *Res {
 	return Success(nil)
 }
 
+// fill default media setting
 func prepareMediaSetting(m *SettingMedia) {
 	if m.MaxSize == 0 {
 		m.MaxSize = 1024 * 1024 // 1M

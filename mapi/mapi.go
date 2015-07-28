@@ -1,3 +1,4 @@
+// Package mapi provides core api methods
 package mapi
 
 import (
@@ -9,14 +10,17 @@ import (
 	"strings"
 )
 
+// api result
 type Res struct {
 	Status bool                   `json:"status"`
 	Error  string                 `json:"error,omitempty"`
-	Data   map[string]interface{} `json:"data"`
+	Data   map[string]interface{} `json:"data,omitempty"`
 }
 
+// api func
 type Func func(interface{}) *Res
 
+// return success result
 func Success(data map[string]interface{}) *Res {
 	return &Res{
 		Status: true,
@@ -24,6 +28,7 @@ func Success(data map[string]interface{}) *Res {
 	}
 }
 
+// return fail result
 func Fail(err error) *Res {
 	return &Res{
 		Status: false,
@@ -45,6 +50,11 @@ func funcName(fn Func) string {
 	return strings.TrimSuffix(strings.Join(nameData, "."), "·fm")
 }
 
+// call api function with param
+//
+// usage:
+//      mapi.Call(mapi.Article.Write,*ArticleForm)
+//
 func Call(fn Func, param interface{}) *Res {
 	name := funcName(fn)
 	log.Debug("Action | %-8s | %s", "Call", name)

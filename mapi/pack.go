@@ -8,17 +8,26 @@ import (
 )
 
 var (
-	Pack = new(PackApi)
+	Pack = new(PackApi) // pack api group
 )
 
+// pack api group struct
 type PackApi struct{}
 
+// pack option
 type PackOption struct {
-	File        string
-	IsStaticAll bool
-	IsData      bool
+	File        string // output file name
+	IsStaticAll bool   // include static files
+	IsData      bool   // include data file
 }
 
+// pack static asset and data
+//
+//  in  : *PackOption
+//  out : {
+//          "file":string
+//        }
+//
 func (_ *PackApi) Pack(v interface{}) *Res {
 	opt, ok := v.(*PackOption)
 	if !ok {

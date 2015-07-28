@@ -18,20 +18,29 @@ var (
 	ERR_MEDIA_LARGE      = errors.New("media-too-large")
 	ERR_MEDIA_WRONG_TYPE = errors.New("media-error-type")
 
-	Media = new(MediaApi)
+	Media = new(MediaApi) // media api group
 )
 
+// media api group struct
 type MediaApi struct{}
 
-type MediaUploadMeta struct {
+// media upload option
+type MediaUploadOption struct {
 	Ctx      tango.Ctx
-	User     *model.User
-	FormName string
-	IsImage  bool
+	User     *model.User // media's owner
+	FormName string      // form field name
+	IsImage  bool        // is image type
 }
 
+// upload media
+//
+//  in  : *MediaUploadOption
+//  out : {
+//          "media":*Media
+//        }
+//
 func (_ *MediaApi) Upload(v interface{}) *Res {
-	meta, ok := v.(*MediaUploadMeta)
+	meta, ok := v.(*MediaUploadOption)
 	if !ok {
 		return Fail(paramTypeError(meta))
 	}
@@ -96,10 +105,12 @@ func (_ *MediaApi) Upload(v interface{}) *Res {
 	})
 }
 
+// an interface to check Size() method
 type fileSizer interface {
 	Size() int64
 }
 
+// get file size
 func getUploadFileSize(f multipart.File) (int64, error) {
 	// if return *http.sectionReader, it is alias to *io.SectionReader
 	if s, ok := f.(fileSizer); ok {
@@ -116,10 +127,19 @@ func getUploadFileSize(f multipart.File) (int64, error) {
 	return 0, nil
 }
 
+// media list option
 type MediaListOption struct {
 	Page, Size int64
 }
 
+// list media data
+//
+//  in  : *MediaListOption
+//  out : {
+//          "media":[]*Media,
+//          "pager":*utils.Pager
+//        }
+//
 func (_ *MediaApi) List(v interface{}) *Res {
 	opt, ok := v.(*MediaListOption)
 	if !ok {
@@ -139,6 +159,11 @@ func (_ *MediaApi) List(v interface{}) *Res {
 	})
 }
 
+// remove media file
+//
+//  in  : int64
+//  out : nil
+//
 func (_ *MediaApi) Remove(v interface{}) *Res {
 	id, ok := v.(int64)
 	if !ok {

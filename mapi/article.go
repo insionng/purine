@@ -17,18 +17,21 @@ var (
 	ERR_ARTICLE_MISSING = errors.New("article-missing")
 	ERR_ARTICLE_PARAM   = errors.New("article-param-fail")
 
-	Article *ArticleApi = new(ArticleApi)
+	Article *ArticleApi = new(ArticleApi) // article api group
 )
 
+// article api group struct
 type ArticleApi struct{}
 
+// article list option
 type ArticleListOption struct {
-	Status string
+	Status string // if status, query where only status
 	Page   int64
 	Size   int64
-	Order  string
+	Order  string // order string, default "id DESC"
 }
 
+// fill default article list option
 func prepareArticleListOption(opt *ArticleListOption) *ArticleListOption {
 	if opt.Size == 0 {
 		opt.Size = 10
@@ -42,6 +45,14 @@ func prepareArticleListOption(opt *ArticleListOption) *ArticleListOption {
 	return opt
 }
 
+// list articles
+//
+//  in  : *ArticleListOption
+//  out : {
+//          "articles":[]*Article,
+//          "pager":*utils.Pager
+//        }
+//
 func (_ *ArticleApi) List(v interface{}) *Res {
 	opt, ok := v.(*ArticleListOption)
 	if !ok {
@@ -78,6 +89,14 @@ func (_ *ArticleApi) List(v interface{}) *Res {
 	})
 }
 
+// list articles archive
+//
+//  in  : nil
+//  out : {
+//          "articles":[]*Article,
+//          "pager":*utils.Pager
+//        }
+//
 func (a *ArticleApi) ListArchive(_ interface{}) *Res {
 	opt := &ArticleListOption{
 		Status: model.ARTICLE_STATUS_PUBLISH,
@@ -87,6 +106,7 @@ func (a *ArticleApi) ListArchive(_ interface{}) *Res {
 	return a.List(opt)
 }
 
+// article post form
 type ArticleForm struct {
 	Title    string `form:"title" binding:"Required"`
 	Link     string `form:"link" binding:"Required;AlphaDashDot"`
@@ -98,6 +118,15 @@ type ArticleForm struct {
 	AuthorId int64
 }
 
+// write an article,
+// if input id, update article by id,
+// or save new article
+//
+//  in  : *ArticleForm
+//  out : {
+//          "article":*Article
+//        }
+//
 func (_ *ArticleApi) Write(v interface{}) *Res {
 	form, ok := v.(*ArticleForm)
 	if !ok {
@@ -145,6 +174,11 @@ func (_ *ArticleApi) Write(v interface{}) *Res {
 	})
 }
 
+// remove an article by id
+//
+//  in  : int64
+//  out : nil
+//
 func (_ *ArticleApi) Remove(v interface{}) *Res {
 	id, ok := v.(int64)
 	if !ok {
@@ -156,11 +190,13 @@ func (_ *ArticleApi) Remove(v interface{}) *Res {
 	return Success(nil)
 }
 
+// article route param
 type ArticleRouteParam struct {
 	Id   int64
 	Link string
 }
 
+// parse article route with path and rule
 func (_ *ArticleApi) ParseRoute(rule string, routeRule string) (*ArticleRouteParam, error) {
 	rules := strings.Split(rule, "/")
 	paramRules := strings.Split(routeRule, "/")
@@ -182,6 +218,13 @@ func (_ *ArticleApi) ParseRoute(rule string, routeRule string) (*ArticleRoutePar
 	return p, nil
 }
 
+// get an article
+//
+//  in  : *ArticleRouteParam
+//  out : {
+//          "article":*Article
+//        }
+//
 func (_ *ArticleApi) Get(v interface{}) *Res {
 	param, ok := v.(*ArticleRouteParam)
 	if !ok {

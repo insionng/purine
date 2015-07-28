@@ -10,17 +10,27 @@ var (
 	ERR_USER_MISSING        = errors.New("user-missing")
 	ERR_USER_WRONG_PASSWORD = errors.New("user-wrong-password")
 
-	User = new(UserApi)
+	User = new(UserApi) // user api group
 )
 
+// user api group struct
 type UserApi struct{}
 
+// user login post form
 type UserLoginForm struct {
 	Name     string `form:"username" binding:"Required"`
 	Password string `form:"password" binding:"Required"`
 	Remember int64  `form:"remember"`
 }
 
+// user login
+//
+//  in  : *UserLoginForm
+//  out : {
+//          "user":*User,
+//          "token":*Token,
+//        }
+//
 func (_ *UserApi) Login(v interface{}) *Res {
 	form, ok := v.(*UserLoginForm)
 	if !ok {
@@ -58,6 +68,14 @@ func (_ *UserApi) Login(v interface{}) *Res {
 	})
 }
 
+// user auth by token
+//
+//  in  : string
+//  out : {
+//          "user":*User,
+//          "token":*Token,
+//        }
+//
 func (_ *UserApi) Auth(v interface{}) *Res {
 	token, ok := v.(string)
 	if !ok {
@@ -92,6 +110,7 @@ var (
 	ERR_PASSWORD_CONFIRM = errors.New("password-confirm-fail")
 )
 
+// user profile post form
 type UserProfileForm struct {
 	User    string `form:"user" binding:"Required;AlphaDashDot"`
 	Nick    string `form:"nick" binding:"Required"`
@@ -101,6 +120,13 @@ type UserProfileForm struct {
 	Id      int64
 }
 
+// update user profile
+//
+//  in  : *UserProfileForm
+//  out : {
+//          "user":*User,
+//        }
+//
 func (_ *UserApi) UpdateProfile(v interface{}) *Res {
 	form, ok := v.(*UserProfileForm)
 	if !ok {
@@ -139,6 +165,7 @@ func (_ *UserApi) UpdateProfile(v interface{}) *Res {
 	})
 }
 
+// user password post form
 type UserPasswordForm struct {
 	User    *model.User
 	Old     string `form:"old" binding:"Required"`
@@ -146,6 +173,11 @@ type UserPasswordForm struct {
 	Confirm string `form:"confirm" binding:"Required"`
 }
 
+// update user password
+//
+//  in  : *UserPasswordForm
+//  out : nil
+//
 func (_ *UserApi) UpdatePassword(v interface{}) *Res {
 	form, ok := v.(*UserPasswordForm)
 	if !ok {

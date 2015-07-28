@@ -172,7 +172,7 @@ func NewSiteAsset(ctx *cli.Context) {
 	log.Info("NewSite | %-8s | Success", "Asset")
 }
 
-// check is new
+// check is new site
 func IsNewSite(ctx *cli.Context) bool {
 	if com.IsFile(configTomlFile) && com.IsFile(databaseFile) {
 		return false

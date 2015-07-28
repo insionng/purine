@@ -40,7 +40,7 @@ type Upload struct {
 
 func (u *Upload) Post() {
 	u.Req().ParseMultipartForm(16 << 20)
-	meta := &mapi.MediaUploadMeta{
+	meta := &mapi.MediaUploadOption{
 		Ctx:      u.Ctx,
 		User:     u.AuthUser,
 		FormName: "file",
