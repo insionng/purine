@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// pager struct
 type Pager struct {
 	Current int64
 	All     int64
@@ -13,6 +14,7 @@ type Pager struct {
 	Size    int64
 }
 
+// create pager
 func CreatePager(page, size, all int64) *Pager {
 	p := &Pager{
 		Current: page,
@@ -26,6 +28,7 @@ func CreatePager(page, size, all int64) *Pager {
 	return p
 }
 
+// pager to HTML with number elements
 func Pager2HTML(p *Pager, layout string) template.HTML {
 	tpl := ` <ul class="pager">`
 	for i := 1; i <= int(p.Pages); i++ {
@@ -39,6 +42,7 @@ func Pager2HTML(p *Pager, layout string) template.HTML {
 	return template.HTML(tpl)
 }
 
+// pager to HTML with navigator elements
 func Pager2HTMLSimple(p *Pager, layout string) template.HTML {
 	tpl := `<div class="pager clear">`
 	if p.Current > 1 {

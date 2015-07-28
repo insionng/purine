@@ -7,14 +7,18 @@ import (
 	"time"
 )
 
+// string to html
 func Str2HTML(str string) template.HTML {
 	return template.HTML(str)
 }
 
+// format time unixstamp
 func TimeUnixFormat(unixStamp int64, layout string) string {
 	return time.Unix(unixStamp, 0).Format(layout)
 }
 
+// format time unixstamp friendly,
+// like xxx seconds ago
 func FriendTimeUnixFormat(unixStamp int64) string {
 	t := time.Unix(unixStamp, 0)
 	seconds := int64(time.Since(t).Seconds())
@@ -30,10 +34,13 @@ func FriendTimeUnixFormat(unixStamp int64) string {
 	return fmt.Sprintf("%d Days Ago", seconds/86400)
 }
 
+// markdown to html
 func Md2Html(str string) template.HTML {
 	return template.HTML(string(blackfriday.MarkdownCommon([]byte(str))))
 }
 
+// format bytes size friendly,
+// like xx.x MB
 func FriendBytesSize(size int64) string {
 	sFloat := float64(size)
 	if sFloat >= 1024*1024 {

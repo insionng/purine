@@ -1,3 +1,4 @@
+// Package model provides database and files operation
 package model
 
 import "github.com/fuxiaohei/purine/vars"
