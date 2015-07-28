@@ -10,6 +10,7 @@ const (
 	MEDIA_TYPE_FILE  = "file"
 )
 
+// media struct
 type Media struct {
 	Id int64
 
@@ -24,6 +25,7 @@ type Media struct {
 	Downloads  int
 }
 
+// save new media
 func SaveMedia(m *Media) error {
 	if _, err := vars.Db.Insert(m); err != nil {
 		return err
@@ -31,6 +33,7 @@ func SaveMedia(m *Media) error {
 	return nil
 }
 
+// list media files
 func ListMedia(page, size int64) ([]*Media, error) {
 	media := make([]*Media, 0)
 	if err := vars.Db.
@@ -43,10 +46,12 @@ func ListMedia(page, size int64) ([]*Media, error) {
 	return media, nil
 }
 
+// count media files
 func CountMedia() (int64, error) {
 	return vars.Db.Count(new(Media))
 }
 
+// get media by column and value
 func GetMediaBy(col string, value interface{}) (*Media, error) {
 	m := new(Media)
 	if _, err := vars.Db.Where(col+" = ?", value).Get(m); err != nil {
@@ -55,6 +60,7 @@ func GetMediaBy(col string, value interface{}) (*Media, error) {
 	return m, nil
 }
 
+// remove media by id
 func RemoveMedia(id int64) error {
 	_, err := vars.Db.Where("id = ?", id).Delete(new(Media))
 	return err

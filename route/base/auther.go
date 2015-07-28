@@ -6,9 +6,9 @@ import (
 	"github.com/lunny/tango"
 )
 
-var _ Auther = new(BaseAuther)
+var _ IAuther = new(BaseAuther)
 
-type Auther interface {
+type IAuther interface {
 	GetAuthToken(*tango.Context) string
 	SetAuthUser(*model.User)
 	SuccessRedirect() string
@@ -44,7 +44,7 @@ func (a *BaseAuther) FailRedirect() string {
 
 func AuthHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
-		auth, ok := ctx.Action().(Auther)
+		auth, ok := ctx.Action().(IAuther)
 		if !ok {
 			ctx.Next()
 			return

@@ -10,12 +10,14 @@ import (
 	"strings"
 )
 
+// setting struct
 type Setting struct {
 	Name   string
 	Value  string
 	UserId int64
 }
 
+// save setting with key, value and owner id
 func SaveSetting(key, value string, uid int64) error {
 	if _, err := vars.Db.Where("name = ?", key).Delete(new(Setting)); err != nil {
 		log.Error("Db|SaveSetting|%s,%s,%d|%s", key, value, uid, err.Error())
@@ -33,6 +35,7 @@ func SaveSetting(key, value string, uid int64) error {
 	return nil
 }
 
+// get settings by keys
 func GetSettings(keys ...string) (map[string]string, error) {
 	str := `"` + strings.Join(keys, `","`) + `"`
 	settings := make([]*Setting, 0)
@@ -47,6 +50,7 @@ func GetSettings(keys ...string) (map[string]string, error) {
 	return m, nil
 }
 
+// theme struct
 type Theme struct {
 	Name      string
 	Version   string
@@ -54,6 +58,7 @@ type Theme struct {
 	IsCurrent bool
 }
 
+// get themes in diretory
 func GetThemes() ([]*Theme, error) {
 	themeSetting, err := GetSettings("theme")
 	if err != nil {
@@ -104,6 +109,7 @@ func GetThemes() ([]*Theme, error) {
 	return themes, nil
 }
 
+// get current theme
 func GetCurrentTheme() (*Theme, error) {
 	themeSetting, err := GetSettings("theme")
 	if err != nil {

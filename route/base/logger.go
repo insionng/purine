@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	logFormat      = "Http   | %s | %s | %d | %s | %.1f ms "
-	logErrorFormat = "Http   | %s | %s | %d | %s | %.1f ms | %v"
+	logFormat      = "Http   | %s | %s | %d | %s | %.1fms "
+	logErrorFormat = "Http   | %s | %s | %d | %s | %.1fms | %v"
 )
 
 func LoggingHandler() tango.HandlerFunc {

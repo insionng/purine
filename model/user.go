@@ -18,6 +18,7 @@ const (
 	USER_STATUS_DELETE = "deleted"
 )
 
+// user struct
 type User struct {
 	Id       int64
 	Name     string `xorm:"unique"`
@@ -35,10 +36,12 @@ type User struct {
 	Status string
 }
 
+// check user's password
 func (u *User) CheckPassword(pwd string) bool {
 	return u.Password == utils.Sha256String(pwd+u.Salt)
 }
 
+// get user by column and value
 func GetUserBy(col string, v interface{}) (*User, error) {
 	u := new(User)
 	if _, err := vars.Db.Where(col+" = ?", v).Get(u); err != nil {
@@ -51,6 +54,7 @@ func GetUserBy(col string, v interface{}) (*User, error) {
 	return u, nil
 }
 
+// update user profile columns
 func UpdateUser(u *User) error {
 	if _, err := vars.Db.Cols("name,nick,email,url,profile,avatar_url").
 		Where("id = ?", u.Id).Update(u); err != nil {
@@ -60,6 +64,7 @@ func UpdateUser(u *User) error {
 	return nil
 }
 
+// update user password with user id and new password
 func UpdatePassword(id int64, newPassword string) error {
 	u := new(User)
 	u.Salt = utils.Md5String(newPassword)[8:24]
@@ -71,6 +76,7 @@ func UpdatePassword(id int64, newPassword string) error {
 	return nil
 }
 
+// token struct
 type Token struct {
 	Id         int64
 	UserId     int64
@@ -79,6 +85,7 @@ type Token struct {
 	ExpireTime int64
 }
 
+// create new token with user id and expiration duration
 func CreateToken(user, expire int64) (*Token, error) {
 	t := &Token{
 		UserId:     user,
@@ -92,6 +99,8 @@ func CreateToken(user, expire int64) (*Token, error) {
 	return t, nil
 }
 
+// get valid token.
+// it checks expiration.
 func GetValidToken(token string) (*Token, error) {
 	t := new(Token)
 	if _, err := vars.Db.Where("token = ?", token).Get(t); err != nil {

@@ -1,3 +1,4 @@
+// Package cmd contains all commands
 package cmd
 
 import (

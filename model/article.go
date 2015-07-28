@@ -19,6 +19,7 @@ const (
 	ARTICLE_COMMENT_WAIT  = "wait" // waiting 30 days to close
 )
 
+// article struct
 type Article struct {
 	Id       int64
 	AuthorId int64
@@ -41,10 +42,12 @@ type Article struct {
 	userData *User  `xorm:"-"`
 }
 
+// format article create time
 func (a *Article) Date(layout string) string {
 	return time.Unix(a.CreateTime, 0).Format(layout)
 }
 
+// article visitable link
 func (a *Article) Href() string {
 	l := a.Link
 	if l == "" {
@@ -53,14 +56,17 @@ func (a *Article) Href() string {
 	return fmt.Sprintf("%d/%s.html", a.Id, l)
 }
 
+// article is draft
 func (a *Article) IsDraft() bool {
 	return a.Status == ARTICLE_STATUS_DRAFT
 }
 
+// article has comment
 func (a *Article) HasComment() bool {
 	return a.Comments > 0
 }
 
+// read article's owner
 func (a *Article) User() *User {
 	if a.userData == nil {
 		u, err := GetUserBy("id", a.AuthorId)
@@ -76,6 +82,8 @@ func (a *Article) User() *User {
 	return a.userData
 }
 
+// list general articles,
+// contains publish and draft articles
 func ListGeneralArticle(page, size int64, order string) ([]*Article, error) {
 	articles := make([]*Article, 0)
 	if err := vars.Db.Where("status != ?", ARTICLE_STATUS_DELETE).
@@ -86,10 +94,12 @@ func ListGeneralArticle(page, size int64, order string) ([]*Article, error) {
 	return articles, nil
 }
 
+// count general articles
 func CountGeneralArticle() (int64, error) {
 	return vars.Db.Where("status != ?", ARTICLE_STATUS_DELETE).Count(new(Article))
 }
 
+// list articles with one status
 func ListStatusArticle(status string, page, size int64, order string) ([]*Article, error) {
 	articles := make([]*Article, 0)
 	if err := vars.Db.Where("status = ?", status).
@@ -100,10 +110,12 @@ func ListStatusArticle(status string, page, size int64, order string) ([]*Articl
 	return articles, nil
 }
 
+// count articles with one status
 func CountStatusArticle(status string) (int64, error) {
 	return vars.Db.Where("status = ?", status).Count(new(Article))
 }
 
+// get article by column and value
 func GetArticleBy(col string, v interface{}) (*Article, error) {
 	a := new(Article)
 	if _, err := vars.Db.Where(col+" = ?", v).Get(a); err != nil {
@@ -116,6 +128,10 @@ func GetArticleBy(col string, v interface{}) (*Article, error) {
 	return nil, nil
 }
 
+// save article.
+// if Article.Id, update article,
+// or insert new article;
+// return the saved article.
 func SaveArticle(a *Article) (*Article, error) {
 	if a.Id > 0 {
 		if _, err := vars.Db.Where("id = ?", a.Id).
@@ -156,6 +172,7 @@ func saveTags(id int64, tagStr string) error {
 	return nil
 }
 
+// remove article by id
 func RemoveArticle(id int64) error {
 	a := new(Article)
 	a.Status = ARTICLE_STATUS_DELETE
@@ -166,6 +183,7 @@ func RemoveArticle(id int64) error {
 	return nil
 }
 
+// tag struct
 type Tag struct {
 	Id        int64
 	ArticleId int64
