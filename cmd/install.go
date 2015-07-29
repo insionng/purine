@@ -16,6 +16,7 @@ import (
 	"github.com/fuxiaohei/purine/utils"
 	"github.com/mattn/go-sqlite3"
 	"reflect"
+	"strconv"
 	"time"
 )
 
@@ -147,7 +148,11 @@ func NewSiteInitData(engine *xorm.Engine) {
 	settings = append(settings, &model.Setting{"desc", "a simple blog engine by golang", 0})
 	settings = append(settings, &model.Setting{"keyword", "purine,blog,golang", 0})
 	settings = append(settings, &model.Setting{"theme", "default", 0})
-    settings = append(settings, &model.Setting{"baseurl", "http://localhost:9999/", 0})
+	settings = append(settings, &model.Setting{"baseurl", "http://localhost:9999/", 0})
+	settings = append(settings, &model.Setting{"media_imageext", ".jpg,.jpeg,.png,.gif", 0})
+	settings = append(settings, &model.Setting{"media_fileext", ".txt,.zip,.doc,.xls,.ppt,.pdf", 0})
+	settings = append(settings, &model.Setting{"media_nameformat", ":hash", 0})
+	settings = append(settings, &model.Setting{"media_maxsize", strconv.Itoa(2 * 1024 * 1024), 0})
 	if _, err := engine.Insert(settings...); err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
