@@ -21,6 +21,7 @@ type SettingGeneralForm struct {
 	Subtitle string `form:"subtitle"`
 	Desc     string `form:"description"`
 	Keyword  string `form:"keyword"`
+	BaseUrl  string `form:"base_url"`
 }
 
 // general setting data
@@ -38,6 +39,8 @@ func (sg *SettingGeneral) Get(key string) string {
 		return sg.Desc
 	case "keyword":
 		return sg.Keyword
+	case "base_url":
+		return sg.BaseUrl
 	}
 	return ""
 }
@@ -86,7 +89,7 @@ func (_ *SettingApi) SaveGeneral(v interface{}) *Res {
 //        }
 //
 func (_ *SettingApi) ReadGeneral(v interface{}) *Res {
-	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword")
+	generalSettings, err := model.GetSettings("title", "subtitle", "desc", "keyword", "baseurl")
 	if err != nil {
 		return Fail(err)
 	}
@@ -95,6 +98,7 @@ func (_ *SettingApi) ReadGeneral(v interface{}) *Res {
 		Subtitle: generalSettings["subtitle"],
 		Desc:     generalSettings["desc"],
 		Keyword:  generalSettings["keyword"],
+		BaseUrl:  generalSettings["baseurl"],
 	}
 	return Success(map[string]interface{}{
 		"general": general,

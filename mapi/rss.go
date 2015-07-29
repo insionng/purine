@@ -42,7 +42,7 @@ func (_ *RssApi) RSS(v interface{}) *Res {
 func articles2Rss(generalSetting *SettingGeneral, articles []*model.Article) *model.Rss {
 	rss := &model.Rss{
 		Title:       generalSetting.Title + " - " + generalSetting.Subtitle,
-		Link:        "http://localhost",
+		Link:        generalSetting.BaseUrl,
 		Description: generalSetting.Desc,
 		Items:       make([]*model.Rss, len(articles)),
 		PubDate:     time.Now(),

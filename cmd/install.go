@@ -147,6 +147,7 @@ func NewSiteInitData(engine *xorm.Engine) {
 	settings = append(settings, &model.Setting{"desc", "a simple blog engine by golang", 0})
 	settings = append(settings, &model.Setting{"keyword", "purine,blog,golang", 0})
 	settings = append(settings, &model.Setting{"theme", "default", 0})
+    settings = append(settings, &model.Setting{"baseurl", "http://localhost:9999/", 0})
 	if _, err := engine.Insert(settings...); err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
