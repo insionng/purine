@@ -18,7 +18,7 @@ type Index struct {
 func (idx *Index) Get() {
 	page := idx.ParamInt64(":page", 1)
 	if page > 1 {
-		idx.Assign("Title", idx.GetSetting("title")+" - Page "+strconv.FormatInt(page, 10))
+		idx.Assign("Title", idx.GetGeneralByKey("title")+" - Page "+strconv.FormatInt(page, 10))
 	}
 	opt := &mapi.ArticleListOption{
 		Page:   page,

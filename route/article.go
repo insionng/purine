@@ -26,7 +26,7 @@ func (a *Article) Get() {
 	if res.Status {
 		article := res.Data["article"].(*model.Article)
 		a.Assign("Article", article)
-		a.Assign("Title", article.Title+" - "+a.GetSetting("title"))
+		a.Assign("Title", article.Title+" - "+a.GetGeneralByKey("title"))
 		a.Render("article.tmpl")
 		return
 	}

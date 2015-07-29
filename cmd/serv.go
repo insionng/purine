@@ -78,6 +78,7 @@ func ServeMiddleware(ctx *cli.Context) {
 	}
 	vars.Server.Use(binding.Bind())
 	vars.Server.Use(base.AuthHandler())
+	vars.Server.Use(base.SettingHandler())
 	vars.Server.Use(renders.New(renders.Options{
 		Reload:     true,
 		Directory:  "static",
@@ -115,5 +116,7 @@ func ServeRouting(ctx *cli.Context) {
 	vars.Server.Get("/archive", new(route.Archive))
 	vars.Server.Get("/article/page/:page", new(route.Index))
 	vars.Server.Get("/article/*article.html", new(route.Article))
+	vars.Server.Get("/rss.xml", new(route.Rss))
+	vars.Server.Get("/sitemap.xml", new(route.Sitemap))
 	vars.Server.Get("/", new(route.Index))
 }

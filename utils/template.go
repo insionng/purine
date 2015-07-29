@@ -36,7 +36,12 @@ func FriendTimeUnixFormat(unixStamp int64) string {
 
 // markdown to html
 func Md2Html(str string) template.HTML {
-	return template.HTML(string(blackfriday.MarkdownCommon([]byte(str))))
+	return template.HTML(Md2String(str))
+}
+
+// markdown to string
+func Md2String(str string) string {
+	return string(blackfriday.MarkdownCommon([]byte(str)))
 }
 
 // format bytes size friendly,

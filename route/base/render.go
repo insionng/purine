@@ -1,13 +1,24 @@
 package base
 
 import (
-	"errors"
-	"github.com/fuxiaohei/purine/mapi"
 	"github.com/fuxiaohei/purine/model"
 	"github.com/tango-contrib/renders"
 	"net/http"
 	"path"
 )
+
+var (
+	_ IRender = new(AdminRender)
+	_ IRender = new(ThemeRender)
+)
+
+type IRender interface {
+	Title(string)
+	Assign(string, interface{})
+	HasAssign(string) bool
+	Render(string)
+	RenderError(int, error)
+}
 
 type BaseRender struct {
 	renders.Renderer
@@ -88,13 +99,8 @@ func (r *AdminRender) RenderError(status int, err error) {
 
 type ThemeRender struct {
 	BaseRender
-	generalSettings *mapi.SettingGeneral
-	isFillDefault   bool
-}
-
-func (t *ThemeRender) GetSetting(key string) string {
-	t.fillDefault()
-	return t.generalSettings.Get(key)
+	BaseSetting
+	isFillDefault bool
 }
 
 func (t *ThemeRender) fillDefault() {
@@ -109,17 +115,10 @@ func (t *ThemeRender) fillDefault() {
 		t.themePrefix = theme.Directory
 		t.Assign("ThemeLink", "/"+path.Join("static", t.themePrefix))
 	}
-	// assign general data
-	res := mapi.Call(mapi.Setting.ReadGeneral, nil)
-	if !res.Status {
-		panic(errors.New(res.Error))
-	}
-	generalSettings := res.Data["general"].(*mapi.SettingGeneral)
-	t.generalSettings = generalSettings
+
 	if !t.HasAssign("Title") {
-		t.Title(generalSettings.Title)
+		t.Title(t.GetGeneralByKey("title"))
 	}
-	t.Assign("General", generalSettings)
 }
 
 func (t *ThemeRender) Render(tpl string) {
