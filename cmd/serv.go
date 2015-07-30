@@ -70,6 +70,7 @@ func ServeDb(ctx *cli.Context) {
 // add middleware to server
 func ServeMiddleware(ctx *cli.Context) {
 	vars.Server.Use(base.LoggingHandler())
+	vars.Server.Use(base.Recovery(true))
 	for prefix, path := range vars.StaticDirectory {
 		vars.Server.Use(tango.Static(tango.StaticOptions{
 			RootPath: path,

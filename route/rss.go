@@ -32,4 +32,9 @@ func (r *Rss) Get() {
 }
 
 type Sitemap struct {
+	base.ThemeRender
+}
+
+func (s *Sitemap) Get() {
+	s.Render("test.tmpl")
 }

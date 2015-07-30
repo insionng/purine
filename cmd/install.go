@@ -161,6 +161,7 @@ func NewSiteInitData(engine *xorm.Engine) {
 
 // new site assets
 func NewSiteAsset(ctx *cli.Context) {
+	zip.Verbose = false
 	tmpZipFile := "tmp.zip"
 	decoder := base64.NewDecoder(base64.StdEncoding, bytes.NewBufferString(zipBytes))
 	b, _ := ioutil.ReadAll(decoder)
