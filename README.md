@@ -2,6 +2,10 @@
 
 A Fast and Powerful Blog Framework built in Go.
 
+![Logo](LOGO.png)
+
+------
+
 [![Build Status](https://drone.io/github.com/fuxiaohei/purine/status.png)](https://drone.io/github.com/fuxiaohei/purine/latest)
 
 ### Features
