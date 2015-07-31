@@ -53,6 +53,7 @@ func (_ *MediaApi) Upload(v interface{}) *Res {
 	if err != nil {
 		return Fail(err)
 	}
+    defer f.Close()
 
 	// check file size
 	size, err := getUploadFileSize(f)
