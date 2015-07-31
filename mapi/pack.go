@@ -53,6 +53,7 @@ func (_ *PackApi) Pack(v interface{}) *Res {
 		// only pack default static files
 		z.AddDir("static/admin", path.Join(root, "static", "admin"))
 		z.AddDir("static/default", path.Join(root, "static", "default"))
+		z.AddFile("static/sitemap.xsl", path.Join(root, "static", "sitemap.xsl"))
 	}
 	if opt.IsData {
 		// pack data
