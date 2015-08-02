@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// rss struct
 type Rss struct {
 	Title       string
 	Link        string
@@ -15,6 +16,7 @@ type Rss struct {
 	Items       []*Rss
 }
 
+// convert rss item to string
 func (rss *Rss) toStringItem() string {
 	var buf bytes.Buffer
 	buf.WriteString("<item>")
@@ -39,6 +41,7 @@ func (rss *Rss) toStringItem() string {
 	return buf.String()
 }
 
+// rss to xml string
 func (rss *Rss) String() string {
 	var buf bytes.Buffer
 	buf.WriteString(`<?xml version="1.0" encoding="UTF-8"?>
@@ -69,6 +72,7 @@ func (rss *Rss) String() string {
 	return buf.String()
 }
 
+// convert articles to rss struct
 func Articles2Rss(articles []*Article, link string) *Rss {
 	rss := &Rss{
 		PubDate: time.Now(),
@@ -91,6 +95,7 @@ func Articles2Rss(articles []*Article, link string) *Rss {
 	return rss
 }
 
+// sitemap url struct
 type SiteMapUrl struct {
 	Loc             string
 	LastMod         time.Time
@@ -98,6 +103,7 @@ type SiteMapUrl struct {
 	Priority        string
 }
 
+// convert sitemap url to string
 func (s *SiteMapUrl) String() string {
 	var buf bytes.Buffer
 	buf.WriteString("<loc>")
@@ -119,12 +125,15 @@ func (s *SiteMapUrl) String() string {
 	return buf.String()
 }
 
+// sitemap group struct,
+// contains main url and site urls
 type SiteMapGroup struct {
 	Url     []*SiteMapUrl
 	Loc     string
 	LastMod time.Time
 }
 
+// convert sitemap group to string
 func (s *SiteMapGroup) String() string {
 	var buf bytes.Buffer
 	buf.WriteString(`<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/static/sitemap.xsl"?>`)
@@ -151,6 +160,7 @@ func (s *SiteMapGroup) String() string {
 	return buf.String()
 }
 
+// convert articles to sitemap group
 func Articles2SiteMap(articles []*Article, link string) *SiteMapGroup {
 	group := &SiteMapGroup{
 		Url: make([]*SiteMapUrl, len(articles)),

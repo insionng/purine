@@ -48,22 +48,31 @@ func articles2Rss(generalSetting *SettingGeneral, articles []*model.Article) *mo
 	return rss
 }
 
+// sitemap option
 type SiteMapOption struct {
 	Setting  *SettingGeneral
 	Articles []*model.Article
 }
 
+// create sitemap data
+//
+//  in  : *SiteMapOption
+//  out : {
+//          "rss":*SiteMapGroup
+//        }
+//
 func (_ *RssApi) ListSitemap(v interface{}) *Res {
 	opt, ok := v.(*SiteMapOption)
 	if !ok {
 		return Fail(paramTypeError(opt))
 	}
-	sitemap := sitemap2Rss(opt.Setting, opt.Articles)
+	sitemap := articles2Sitemap(opt.Setting, opt.Articles)
 	return Success(map[string]interface{}{
 		"sitemap": sitemap,
 	})
 }
 
-func sitemap2Rss(generalSetting *SettingGeneral, articles []*model.Article) *model.SiteMapGroup {
+// change articles to sitemap data
+func articles2Sitemap(generalSetting *SettingGeneral, articles []*model.Article) *model.SiteMapGroup {
 	return model.Articles2SiteMap(articles, generalSetting.BaseUrl)
 }

@@ -80,6 +80,7 @@ func NewSiteData(ctx *cli.Context) {
 	if err = engine.Sync2(new(model.User),
 		new(model.Token),
 		new(model.Article),
+		new(model.Page),
 		new(model.Tag),
 		new(model.Setting),
 		new(model.Media)); err != nil {
@@ -87,10 +88,11 @@ func NewSiteData(ctx *cli.Context) {
 		return
 	}
 
-	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s", "SQLite",
+	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 		reflect.TypeOf(new(model.Article)).String(),
+		reflect.TypeOf(new(model.Page)).String(),
 		reflect.TypeOf(new(model.Tag)).String(),
 		reflect.TypeOf(new(model.Setting)).String(),
 		reflect.TypeOf(new(model.Media)).String(),

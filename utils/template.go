@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/russross/blackfriday"
 	"html/template"
+	"strings"
 	"time"
 )
 
@@ -55,4 +56,9 @@ func FriendBytesSize(size int64) string {
 		return fmt.Sprintf("%.1f KB", sFloat/1024)
 	}
 	return fmt.Sprintf("%.1f B", sFloat)
+}
+
+// newline 2 break
+func Nl2Br(str string) template.HTML {
+	return template.HTML(strings.Replace(str, "\n", "<br/>", -1))
 }

@@ -37,6 +37,10 @@ type Write struct {
 }
 
 func (w *Write) Get() {
+	if w.Form("type") == "page" {
+		w.getPage()
+		return
+	}
 	w.Title("Write")
 	id := w.FormInt64("id")
 	if id > 0 {
@@ -51,8 +55,17 @@ func (w *Write) Get() {
 	w.Render("write.tmpl")
 }
 
+func (w *Write) getPage() {
+	w.Title("Write Page")
+	w.Render("write_page.tmpl")
+}
+
 // ajax callback
 func (w *Write) Post() {
+	if w.Form("type") == "page" {
+		w.postPage()
+		return
+	}
 	form := new(mapi.ArticleForm)
 	if err := w.Bind(form); err != nil {
 		w.ServeJson(mapi.Fail(err))
@@ -62,6 +75,10 @@ func (w *Write) Post() {
 
 	res := mapi.Call(mapi.Article.Write, form)
 	w.ServeJson(res)
+}
+
+func (w *Write) postPage() {
+
 }
 
 type Delete struct {
