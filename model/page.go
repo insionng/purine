@@ -113,3 +113,47 @@ func SavePage(p *Page) (*Page, error) {
 	}
 	return GetPageBy("id", p.Id)
 }
+
+// list general pages,
+// contains publish and draft pages
+func ListGeneralPage(page, size int64, order string) ([]*Page, error) {
+	pages := make([]*Page, 0)
+	if err := vars.Db.Where("status != ?", PAGE_STATUS_DELETE).
+		Limit(int(size), int((page-1)*size)).OrderBy(order).Find(&pages); err != nil {
+		log.Error("Db|ListGeneralPage|%d,%d|%s|%s", page, size, order, err.Error())
+		return nil, err
+	}
+	return pages, nil
+}
+
+// count general pages
+func CountGeneralPage() (int64, error) {
+	return vars.Db.Where("status != ?", PAGE_STATUS_DELETE).Count(new(Page))
+}
+
+// list pages with one status
+func ListStatusPage(status string, page, size int64, order string) ([]*Page, error) {
+	pages := make([]*Page, 0)
+	if err := vars.Db.Where("status = ?", status).
+		Limit(int(size), int((page-1)*size)).OrderBy(order).Find(&pages); err != nil {
+		log.Error("Db|ListStatusPage|%s|%d,%d|%s|%s", status, page, size, order, err.Error())
+		return nil, err
+	}
+	return pages, nil
+}
+
+// count pages with one status
+func CountStatusPage(status string) (int64, error) {
+	return vars.Db.Where("status = ?", status).Count(new(Page))
+}
+
+// remove page by id
+func RemovePage(id int64) error {
+	a := new(Page)
+	a.Status = PAGE_STATUS_DELETE
+	if _, err := vars.Db.Where("id = ?", id).Cols("status").Update(a); err != nil {
+		log.Error("Db|RemovePage|%d|%s", id, err.Error())
+		return err
+	}
+	return nil
+}
