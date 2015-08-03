@@ -14,6 +14,7 @@ import (
 	"encoding/base64"
 	"github.com/Unknwon/cae/zip"
 	"github.com/fuxiaohei/purine/utils"
+	"github.com/fuxiaohei/purine/vars"
 	"github.com/mattn/go-sqlite3"
 	"reflect"
 	"strconv"
@@ -37,11 +38,6 @@ var installCmd cli.Command = cli.Command{
 	},
 }
 
-var (
-	configTomlFile = "config.toml"
-	databaseFile   = "purine.db"
-)
-
 // new site
 func NewSite(ctx *cli.Context) {
 	config := model.NewConfig()
@@ -55,12 +51,12 @@ func NewSite(ctx *cli.Context) {
 	}
 
 	// write config.toml
-	if err := ioutil.WriteFile(configTomlFile, buf.Bytes(), os.ModePerm); err != nil {
+	if err := ioutil.WriteFile(vars.CONFIG_FILE, buf.Bytes(), os.ModePerm); err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
-	log.Info("NewSite | %-8s | %s", "Init", configTomlFile)
+	log.Info("NewSite | %-8s | %s", "Init", vars.CONFIG_FILE)
 	log.Info("NewSite | %-8s | %s", "Version", config.Version)
 	log.Info("NewSite | %-8s | %s:%s", "Server", config.Server.Host, config.Server.Port)
 }
@@ -68,9 +64,9 @@ func NewSite(ctx *cli.Context) {
 // new site data
 func NewSiteData(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("NewSite | %-8s | %s | %s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("NewSite | %-8s | %s | %s", "SQLite", sqliteVersion, vars.DATA_FILE)
 
-	engine, err := xorm.NewEngine("sqlite3", databaseFile)
+	engine, err := xorm.NewEngine("sqlite3", vars.DATA_FILE)
 	if err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
@@ -183,7 +179,7 @@ func NewSiteAsset(ctx *cli.Context) {
 
 // check is new site
 func IsNewSite(ctx *cli.Context) bool {
-	if com.IsFile(configTomlFile) && com.IsFile(databaseFile) {
+	if com.IsFile(vars.CONFIG_FILE) && com.IsFile(vars.DATA_FILE) {
 		return false
 	}
 	return true

@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/BurntSushi/toml"
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/log"
 	"github.com/fuxiaohei/purine/model"
@@ -11,7 +10,6 @@ import (
 	"github.com/fuxiaohei/purine/route/base"
 	"github.com/fuxiaohei/purine/utils"
 	"github.com/fuxiaohei/purine/vars"
-	"github.com/go-xorm/xorm"
 	"github.com/lunny/tango"
 	"github.com/mattn/go-sqlite3"
 	"github.com/tango-contrib/binding"
@@ -29,7 +27,13 @@ var servCmd cli.Command = cli.Command{
 			log.Error("Server | %-8s | ReadFail", "Config")
 			return
 		}
-		log.Info("Server | %-8s | Read | %s", "Config", configTomlFile)
+		log.Info("Server | %-8s | Read | %s", "Config", vars.CONFIG_FILE)
+
+		if IsNeedUpgrade(cfg) {
+			log.Info("Server | %-8s | %s -> %s", "Upgrade", cfg.Version, vars.VERSION)
+			log.Info("Please run 'purine.exe upgrade'")
+			return
+		}
 
 		// start Db
 		ServeDb(ctx)
@@ -45,8 +49,8 @@ var servCmd cli.Command = cli.Command{
 
 // load config to server
 func ServeConfig(ctx *cli.Context) *model.Config {
-	cfg := new(model.Config)
-	if _, err := toml.DecodeFile(configTomlFile, cfg); err != nil {
+	cfg, err := loadConfig()
+	if err != nil {
 		log.Error("Server | %-8s | %s", "Config", err.Error())
 		return nil
 	}
@@ -56,15 +60,12 @@ func ServeConfig(ctx *cli.Context) *model.Config {
 // connect database to server
 func ServeDb(ctx *cli.Context) {
 	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("Server | %-8s | %s | %s", "SQLite", sqliteVersion, databaseFile)
+	log.Info("Server | %-8s | %s | %s", "SQLite", sqliteVersion, vars.DATA_FILE)
 
-	engine, err := xorm.NewEngine("sqlite3", databaseFile)
-	if err != nil {
+	if err := loadDb(); err != nil {
 		log.Error("Server | %s", err.Error())
 		return
 	}
-	engine.SetLogger(nil) // close logger
-	vars.Db = engine
 }
 
 // add middleware to server

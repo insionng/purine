@@ -1,8 +1,8 @@
 package vars
 
 const (
-	VERSION      = "0.1 - Beta"
-	VERSION_DATE = "20150714"
+	VERSION      = "0.2 - Beta"
+	VERSION_DATE = "20150801"
 
 	NAME         = "Purine"
 	DESCRIPTION  = "Purine is a simple site generator"
@@ -11,4 +11,7 @@ const (
 	AUTHOR_URL   = "http://fuxiaohei.me"
 
 	GITHUB_URL = "https://github.com/fuxiaohei/purine"
+
+	CONFIG_FILE = "config.toml"
+	DATA_FILE   = "purine.db"
 )
