@@ -14,4 +14,5 @@ const (
 
 	CONFIG_FILE = "config.toml"
 	DATA_FILE   = "purine.db"
+	I18N_DIR    = "lang"
 )

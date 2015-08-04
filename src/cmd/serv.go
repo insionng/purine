@@ -10,7 +10,6 @@ import (
 	"github.com/fuxiaohei/purine/src/utils"
 	"github.com/fuxiaohei/purine/src/vars"
 	"github.com/lunny/tango"
-	"github.com/mattn/go-sqlite3"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/renders"
 	"html/template"
@@ -20,39 +19,28 @@ var servCmd cli.Command = cli.Command{
 	Name:  "server",
 	Usage: "run http server to render and show pages",
 	Action: func(ctx *cli.Context) {
-		// read config file
-		cfg, err := loadConfig()
+		// do prepare
+		opt := &PrepareOption{true, true, true}
+		pre, err := Prepare(opt)
 		if err != nil {
-			log.Error("Server | %-8s | %s", "Config", err.Error())
+			log.Error("Server | %-8s | %s", "Prepare", err.Error())
 			return
 		}
-		if cfg == nil {
-			log.Error("Server | %-8s | ReadFail", "Config")
-			return
-		}
+
 		log.Info("Server | %-8s | Read | %s", "Config", vars.CONFIG_FILE)
 
-		if IsNeedUpgrade(cfg) {
-			log.Info("Server | %-8s | %s -> %s", "Upgrade", cfg.Version, vars.VERSION)
+		if IsNeedUpgrade(pre.Config) {
+			log.Info("Server | %-8s | %s -> %s", "Upgrade", pre.Config.Version, vars.VERSION)
 			log.Info("Please run 'purine.exe upgrade'")
-			return
-		}
-
-		// start Db
-		sqliteVersion, _, _ := sqlite3.Version()
-		log.Info("Server | %-8s | %s | %s", "SQLite", sqliteVersion, vars.DATA_FILE)
-
-		if err := loadDb(); err != nil {
-			log.Error("Server | %s", err.Error())
 			return
 		}
 
 		// start server
 		ServeMiddleware(ctx)
 		ServeRouting(ctx)
-		log.Info("Server | %-8s | %s:%s", "Http", cfg.Server.Host, cfg.Server.Port)
+		log.Info("Server | %-8s | %s:%s", "Http", pre.Config.Server.Host, pre.Config.Server.Port)
 
-		vars.Server.Run(fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port))
+		vars.Server.Run(fmt.Sprintf("%s:%s", pre.Config.Server.Host, pre.Config.Server.Port))
 	},
 }
 

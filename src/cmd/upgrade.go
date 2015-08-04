@@ -43,22 +43,19 @@ func IsNeedUpgrade(cfg *model.Config) bool {
 	return vars.VERSION_DATE != cfg.Date
 }
 
-// prepare upgrade processes
-func prepareUpgrade() error {
-	return loadDb()
-}
-
 // upgrade action
 func UpgradeAction(cfg *model.Config) {
 	t := time.Now()
 	log.Debug("Upgrade | %-8s | %s -> %s", "Upgrade", cfg.Version, vars.VERSION)
 
-	if err := prepareUpgrade(); err != nil {
-		log.Error("Upgrade | %-8s | Fail", "Prepare")
+	opt := &PrepareOption{true, true, true}
+	pre, err := Prepare(opt)
+	if err != nil {
+		log.Error("Upgrade | %-8s | %s", "Prepare", err.Error())
 		return
 	}
 
-	oldVersion, _ := strconv.Atoi(cfg.Date)
+	oldVersion, _ := strconv.Atoi(pre.Config.Date)
 	scriptIndex := []int{}
 	for vr, _ := range upg.Script {
 		if vr > oldVersion {
@@ -75,9 +72,9 @@ func UpgradeAction(cfg *model.Config) {
 		}
 	}
 
-	cfg.Version = vars.VERSION
-	cfg.Date = vars.VERSION_DATE
-	if err := model.SyncConfig(cfg); err != nil {
+	pre.Config.Version = vars.VERSION
+	pre.Config.Date = vars.VERSION_DATE
+	if err := model.SyncConfig(pre.Config); err != nil {
 		log.Error("Upgrade | %-8s | SyncFail", "Config")
 		return
 	}
