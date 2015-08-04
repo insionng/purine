@@ -1,0 +1,30 @@
+{{template "default/_header.tmpl" .}}
+<div id="body">
+    <div class="container960" id="body-container">
+        <article class="article">
+            <aside class="meta clear">
+                <span class="date left">
+                    <i class="fa fa-clock-o"></i>
+                   {{TimeUnixFormatFriend .Page.CreateTime}}
+                </span>
+                <span class="right author">
+                    <i class="fa fa-user"></i>
+                    {{.Page.User.Nick}}
+                </span>
+                {{if .Page.HasComment}}
+                <span class="right comment">
+                    <i class="fa fa-comment"></i>
+                    {{.Page.Comments}}
+                </span>
+                {{end}}
+            </aside>
+            <header class="title">
+                <h2><a href="/article/{{.Page.Href}}" title="{{.Page.Title}}">{{.Page.Title}}</a></h2>
+            </header>
+            <div class="body markdown">
+                {{Md2HTML .Page.Body}}
+            </div>
+        </article>
+    </div>
+</div>
+{{template "default/_footer.tmpl" .}}
