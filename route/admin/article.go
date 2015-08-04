@@ -57,6 +57,16 @@ func (w *Write) Get() {
 
 func (w *Write) getPage() {
 	w.Title("Write Page")
+	id := w.FormInt64("id")
+	if id > 0 {
+		page, err := model.GetPageBy("id", id)
+		if err != nil {
+			w.RenderError(500, err)
+			return
+		}
+		w.Title("Write Page - " + page.Title)
+		w.Assign("Page", page)
+	}
 	w.Render("write_page.tmpl")
 }
 
@@ -78,7 +88,34 @@ func (w *Write) Post() {
 }
 
 func (w *Write) postPage() {
+	form := new(mapi.PageForm)
+	if err := w.Bind(form); err != nil {
+		w.ServeJson(mapi.Fail(err))
+		return
+	}
+	form.AuthorId = w.AuthUser.Id
+	res := mapi.Call(mapi.Page.Write, form)
+	w.ServeJson(res)
+}
 
+type Page struct {
+	base.AdminRender
+	base.BaseAuther
+	tango.Ctx
+}
+
+func (p *Page) Get() {
+	opt := &mapi.PageListOption{
+		Page: p.FormInt64("page", 1),
+	}
+	res := mapi.Call(mapi.Page.List, opt)
+	if !res.Status {
+		panic(res.Error)
+	}
+	p.Assign("Pages", res.Data["pages"].([]*model.Page))
+	p.Assign("Pager", res.Data["pager"].(*utils.Pager))
+	p.Title("Page")
+	p.Render("page.tmpl")
 }
 
 type Delete struct {

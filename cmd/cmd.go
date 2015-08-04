@@ -20,6 +20,7 @@ func init() {
 	}
 }
 
+// load config
 func loadConfig() (*model.Config, error) {
 	cfg := new(model.Config)
 	if _, err := toml.DecodeFile(vars.CONFIG_FILE, cfg); err != nil {
@@ -28,6 +29,7 @@ func loadConfig() (*model.Config, error) {
 	return cfg, nil
 }
 
+// load database
 func loadDb() error {
 	engine, err := xorm.NewEngine("sqlite3", vars.DATA_FILE)
 	if err != nil {

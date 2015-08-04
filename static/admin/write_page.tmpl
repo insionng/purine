@@ -2,7 +2,7 @@
 <div id="index-container" class="clear">
     {{template "admin/_nav.tmpl" .}}
     <div id="write-container">
-        <h3>Write Page{{if .Article}} - {{.Article.Title}}{{end}}</h3>
+        <h3>Write Page{{if .Article}} - {{.Page.Title}}{{end}}</h3>
         <hr/>
         <form id="write-form" action="/admin/write" method="post" class="form">
             <div class="group success hide">
@@ -11,11 +11,11 @@
             <div class="group alert hide"></div>
             <div class="group">
                 <label for="title">Title</label>
-                <input id="title" class="ipt" type="text" name="title" required="required" value="{{.Article.Title}}"/>
+                <input id="title" class="ipt" type="text" name="title" required="required" value="{{.Page.Title}}"/>
             </div>
             <div class="group">
                 <label for="link">Link</label>
-                <input id="link" class="ipt" type="text" name="link" required="required" value="{{.Article.Link}}"/>
+                <input id="link" class="ipt" type="text" name="link" required="required" value="{{.Page.Link}}"/>
             </div>
             <div class="group">
                 <div id="editormd"></div>
@@ -28,13 +28,13 @@
             </div>
             <div class="group">
                 <label>&nbsp;</label>
-                <input class="chk" type="checkbox" name="draft" value="draft"{{if .Article.IsDraft}} checked{{end}}/>
+                <input class="chk" type="checkbox" name="draft" value="draft"{{if .Page.IsDraft}} checked{{end}}/>
                 <span class="chk-txt">As Draft</span>
             </div>
             <div class="group">
                 <label>&nbsp;</label>
                 <input class="btn" type="submit" value="Publish"/>
-                <input id="id" type="hidden" name="id" value="{{.Article.Id}}"/>
+                <input id="id" type="hidden" name="id" value="{{.Page.Id}}"/>
             </div>
         </form>
     </div>
@@ -44,7 +44,7 @@
 <script src="/static/admin/editor-md/languages/en.js"></script>
 <script>
     $(function () {
-        var mdContent = "{{.Article.Body}}";
+        var mdContent = "{{.Page.Body}}";
         var indexMarkdownEditor = editormd("editormd", {
             width: 1266,
             height: 600,
@@ -67,7 +67,7 @@
                 success: function (res) {
                     if (res.status) {
                         $('.group.success').show();
-                        $('#id').val(res.data.article.Id);
+                        $('#id').val(res.data.Page.Id);
                         return;
                     }
                     $(".group.alert").html("<strong>" + res.error + "</strong>").show();

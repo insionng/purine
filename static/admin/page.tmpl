@@ -8,6 +8,32 @@
             </a>
         </h3>
         <hr/>
+        <div id="page-container-all">
+            {{range .Pages}}
+            <div class="page">
+                <h5 class="title">
+                    <span class="date">{{.Date "01.02"}}</span>
+                    <a href="/page/{{.Href}}" target="_blank">{{.Title}}</a>
+                </h5>
+                <span class="href">/{{.Link}}/</span>
+                {{if .IsDraft}}
+                <span class="status lbl">draft</span>
+                {{end}}
+                <span class="act">
+                    <!--<a class="preview" href="#">
+                        <i class="fa fa-eye"></i>Preview
+                    </a>-->
+                    <a class="edit" href="/admin/write?id={{.Id}}&type=page" data-id="{{.Id}}">
+                        <i class="fa fa-edit"></i>Edit
+                    </a>
+                    <a class="del" href="/admin/delete?id={{.Id}}&type=page" data-id="{{.Id}}">
+                        <i class="fa fa-remove"></i>Delete
+                    </a>
+                </span>
+            </div>
+            {{end}}
+            {{Pager2HTML .Pager "/admin/page?page=%d"}}
+        </div>
     </div>
 </div>
 {{template "admin/_footer.tmpl" .}}

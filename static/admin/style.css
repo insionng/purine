@@ -276,23 +276,27 @@ hr {
     padding-left: 144px;
 }
 
-#article-container .article .title {
+#article-container .article .title,
+#page-container .page .title {
     font-size: 1.1em;
     display: inline-block;
     padding-right: 1em;
 }
 
-#article-container .article .title a {
+#article-container .article .title a,
+#page-container .page .title a {
     font-weight: bold;
 }
 
-#article-container .article {
+#article-container .article,
+#page-container .page {
     line-height: 40px;
     margin-bottom: 8px;
     border-bottom: 1px solid #DDD;
 }
 
-#article-container .article .act a {
+#article-container .article .act a,
+#page-container .page .act a {
     margin-left: 1em;
 }
 
@@ -300,28 +304,34 @@ hr {
     color: #666;
 }
 
-#article-container .article .edit {
+#article-container .article .edit,
+#page-container .page .edit {
     color: #c66545;
 }
 
-#article-container .article .del {
+#article-container .article .del,
+#page-container .page .del {
     color: #9d110f;
 }
 
-#article-container .article .act {
+#article-container .article .act,
+#page-container .article .act {
     display: none;
 }
 
-#article-container .article:hover .act {
+#article-container .article:hover .act,
+#page-container .page:hover .act {
     display: inline-block;
 }
 
-#article-container .article .cmt {
+#article-container .article .cmt,
+#article-container .page .cmt {
     background-color: #649d5a;
     color: #FFF;
 }
 
-#article-container .article-new {
+#article-container .article-new,
+#page-container .article-new {
     font-size: 13px;
     margin-left: 1em;
     color: #ba4936;

@@ -50,7 +50,7 @@ func (p *Page) Href() string {
 	if l == "" {
 		l = url.QueryEscape(p.Title)
 	}
-	return fmt.Sprintf("%d/%s.html", p.Id, l)
+	return fmt.Sprintf("%s.html", l)
 }
 
 // page is draft

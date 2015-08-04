@@ -45,7 +45,7 @@ func preparePageListOption(opt *PageListOption) *PageListOption {
 //
 //  in  : *ArticleListOption
 //  out : {
-//          "articles":[]*Article,
+//          "articles":[]*Page,
 //          "pager":*utils.Pager
 //        }
 //
