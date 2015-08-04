@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "github.com/fuxiaohei/purine/cmd"
-	"github.com/fuxiaohei/purine/vars"
+	_ "github.com/fuxiaohei/purine/src/cmd"
+	"github.com/fuxiaohei/purine/src/vars"
 )
 
 func main() {
