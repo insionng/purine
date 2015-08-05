@@ -9,25 +9,32 @@ import (
 var (
 	langCookieName = "lang"
 	langParamName  = "lang"
+
+	_ ILanguager = new(BaseLanguager)
 )
 
+// language interface
 type ILanguager interface {
 	SetLang(lang string)
 	LangTr(format string, args ...interface{}) string
 }
 
+// base language struct
 type BaseLanguager struct {
 	Lang string
 }
 
+// set language
 func (bl *BaseLanguager) SetLang(lang string) {
 	bl.Lang = lang
 }
 
+// current translate method
 func (bl *BaseLanguager) LangTr(format string, args ...interface{}) string {
 	return i18n.Tr(bl.Lang, format, args...)
 }
 
+// language middleware handler
 func I18nHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		// get language
@@ -49,6 +56,7 @@ func I18nHandler() tango.HandlerFunc {
 	}
 }
 
+// get language from context
 func getContextLanguage(ctx *tango.Context) string {
 	// get from cookie
 	lang := ctx.Cookie(langCookieName)

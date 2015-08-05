@@ -6,12 +6,16 @@ import (
 	"github.com/lunny/tango"
 )
 
+var _ ISetting = new(BaseSetting)
+
+// setting handler interface
 type ISetting interface {
 	SetGeneral(*mapi.SettingGeneral)
 	GetGeneral() *mapi.SettingGeneral
 	GetGeneralByKey(key string) string
 }
 
+// base setting struct, maintains all general settings
 type BaseSetting struct {
 	setting *mapi.SettingGeneral
 }
@@ -28,6 +32,7 @@ func (bs *BaseSetting) GetGeneralByKey(key string) string {
 	return bs.setting.Get(key)
 }
 
+// setting middleware handler
 func SettingHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		setter, ok := ctx.Action().(ISetting)

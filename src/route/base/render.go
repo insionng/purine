@@ -12,14 +12,16 @@ var (
 	_ IRender = new(ThemeRender)
 )
 
+// render interface
 type IRender interface {
-	Title(string)
-	Assign(string, interface{})
-	HasAssign(string) bool
-	Render(string)
-	RenderError(int, error)
+	Title(string)               // set page title
+	Assign(string, interface{}) // assign value
+	HasAssign(string) bool      // check data is assigned
+	Render(string)              // render template
+	RenderError(int, error)     // render error template with status code and error
 }
 
+// base render struct
 type BaseRender struct {
 	renders.Renderer
 
@@ -65,6 +67,7 @@ func (r *BaseRender) RenderError(status int, err error) {
 	r.Render(status, "error.tmpl")
 }
 
+// admin render, parse admin templates
 type AdminRender struct {
 	BaseRender
 }
@@ -97,7 +100,10 @@ func (r *AdminRender) RenderError(status int, err error) {
 	r.BaseRender.RenderError(status, err)
 }
 
+// theme render, parse current theme template,
+// contains settings and language
 type ThemeRender struct {
+	BaseLanguager
 	BaseRender
 	BaseSetting
 	isFillDefault bool

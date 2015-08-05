@@ -6,8 +6,9 @@ import (
 	"github.com/lunny/tango"
 )
 
-var _ IAuther = new(BaseAuther)
+var _ IAuther = new(BaseAuther) // check BaseAuther implement IAuther
 
+// authorize interface
 type IAuther interface {
 	GetAuthToken(*tango.Context) string
 	SetAuthUser(*model.User)
@@ -15,10 +16,12 @@ type IAuther interface {
 	FailRedirect() string
 }
 
+// base auth handler
 type BaseAuther struct {
 	AuthUser *model.User
 }
 
+// get auth token
 func (a *BaseAuther) GetAuthToken(ctx *tango.Context) string {
 	var token string
 	if token = ctx.Header().Get("X-Token"); token != "" {
@@ -30,18 +33,22 @@ func (a *BaseAuther) GetAuthToken(ctx *tango.Context) string {
 	return ctx.Form("x-token")
 }
 
+// set auth user
 func (a *BaseAuther) SetAuthUser(u *model.User) {
 	a.AuthUser = u
 }
 
+// return success redirect url string
 func (a *BaseAuther) SuccessRedirect() string {
 	return ""
 }
 
+// return fail url string
 func (a *BaseAuther) FailRedirect() string {
 	return "/admin/login"
 }
 
+// auth middleware handler
 func AuthHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		auth, ok := ctx.Action().(IAuther)

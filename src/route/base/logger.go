@@ -13,6 +13,7 @@ var (
 	logErrorFormat = "Http   | %s | %s | %d | %s | %.1fms | %v"
 )
 
+// log middleware handler
 func LoggingHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		start := time.Now()
@@ -69,6 +70,7 @@ func LoggingHandler() tango.HandlerFunc {
 	}
 }
 
+// return friendly remote string
 func friendRemoteString(remote string) string {
 	if len(remote) < 21 {
 		remote += strings.Repeat(" ", 21-len(remote))

@@ -8,6 +8,7 @@ import (
 	"runtime"
 )
 
+// recovery middleware handler
 func Recovery(debug bool) tango.HandlerFunc {
 	return func(ctx *tango.Context) {
 		defer func() {
