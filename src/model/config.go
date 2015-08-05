@@ -34,6 +34,7 @@ func NewConfig() *Config {
 	}
 }
 
+// sync config file
 func SyncConfig(cfg *Config) error {
 	// encode config
 	var buf bytes.Buffer

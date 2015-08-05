@@ -2,7 +2,9 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/Unknwon/i18n"
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/src/model"
 	"github.com/fuxiaohei/purine/src/vars"
@@ -10,6 +12,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func init() {
@@ -84,9 +87,20 @@ func loadDb() error {
 	return nil
 }
 
+// load i18n
 func loadI18n() error {
 	filepath.Walk(vars.I18N_DIR, func(path string, info os.FileInfo, err error) error {
+		// only parse ini
+		if filepath.Ext(path) != ".ini" {
+			return nil
+		}
+		langName := strings.ToLower(filepath.Base(path))
+		langName = strings.TrimSuffix(langName, ".ini")
+		if err = i18n.SetMessage(langName, path); err != nil {
+			return err
+		}
 		return nil
 	})
+	fmt.Println(i18n.Tr("zh-cn", "test"))
 	return nil
 }
