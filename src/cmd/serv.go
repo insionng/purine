@@ -57,6 +57,7 @@ func ServeMiddleware(ctx *cli.Context) {
 	vars.Server.Use(binding.Bind())
 	vars.Server.Use(base.AuthHandler())
 	vars.Server.Use(base.SettingHandler())
+	vars.Server.Use(base.I18nHandler())
 	vars.Server.Use(renders.New(renders.Options{
 		Reload:     true,
 		Directory:  "static",
