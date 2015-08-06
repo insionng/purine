@@ -118,9 +118,16 @@ func CountStatusArticle(status string) (int64, error) {
 // get article by column and value
 func GetArticleBy(col string, v interface{}) (*Article, error) {
 	a := new(Article)
-	if _, err := vars.Db.Where(col+" = ?", v).Get(a); err != nil {
-		log.Error("Db|GetArticleBy|%s,%v|%s", col, v, err.Error())
-		return nil, err
+	if isIdColumn(col) {
+		if _, err := vars.Db.Id(v).Get(a); err != nil {
+			log.Error("Db|GetArticleBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
+	} else {
+		if _, err := vars.Db.Where(col+" = ?", v).Get(a); err != nil {
+			log.Error("Db|GetArticleBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
 	}
 	if a.Id > 0 {
 		return a, nil

@@ -82,9 +82,16 @@ func (p *Page) User() *User {
 // get page by column and value
 func GetPageBy(col string, v interface{}) (*Page, error) {
 	p := new(Page)
-	if _, err := vars.Db.Where(col+" = ?", v).Get(p); err != nil {
-		log.Error("Db|GEtPageBy|%s,%v|%s", col, v, err.Error())
-		return nil, err
+	if isIdColumn(col) {
+		if _, err := vars.Db.Id(v).Get(p); err != nil {
+			log.Error("Db|GetPageBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
+	} else {
+		if _, err := vars.Db.Where(col+" = ?", v).Get(p); err != nil {
+			log.Error("Db|GetPageBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
 	}
 	if p.Id > 0 {
 		return p, nil

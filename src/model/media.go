@@ -54,8 +54,14 @@ func CountMedia() (int64, error) {
 // get media by column and value
 func GetMediaBy(col string, value interface{}) (*Media, error) {
 	m := new(Media)
-	if _, err := vars.Db.Where(col+" = ?", value).Get(m); err != nil {
-		return nil, err
+	if isIdColumn(col) {
+		if _, err := vars.Db.Id(value).Get(m); err != nil {
+			return nil, err
+		}
+	} else {
+		if _, err := vars.Db.Where(col+" = ?", value).Get(m); err != nil {
+			return nil, err
+		}
 	}
 	return m, nil
 }

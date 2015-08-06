@@ -44,9 +44,16 @@ func (u *User) CheckPassword(pwd string) bool {
 // get user by column and value
 func GetUserBy(col string, v interface{}) (*User, error) {
 	u := new(User)
-	if _, err := vars.Db.Where(col+" = ?", v).Get(u); err != nil {
-		log.Error("Db|GetUserBy|%s,%v|%s", col, v, err.Error())
-		return nil, err
+	if isIdColumn(col) {
+		if _, err := vars.Db.Id(v).Get(u); err != nil {
+			log.Error("Db|GetUserBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
+	} else {
+		if _, err := vars.Db.Where(col+" = ?", v).Get(u); err != nil {
+			log.Error("Db|GetUserBy|%s,%v|%s", col, v, err.Error())
+			return nil, err
+		}
 	}
 	if u.Id == 0 {
 		return nil, nil
