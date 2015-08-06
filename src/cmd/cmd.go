@@ -8,8 +8,9 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/src/model"
 	"github.com/fuxiaohei/purine/src/vars"
+	_ "github.com/go-xorm/ql"
 	"github.com/go-xorm/xorm"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lunny/ql/driver"
 	"os"
 	"path/filepath"
 	"strings"
@@ -78,7 +79,7 @@ func loadConfig() (*model.Config, error) {
 
 // load database
 func loadDb() error {
-	engine, err := xorm.NewEngine("sqlite3", vars.DATA_FILE)
+	engine, err := xorm.NewEngine("ql", vars.DATA_FILE)
 	if err != nil {
 		return err
 	}

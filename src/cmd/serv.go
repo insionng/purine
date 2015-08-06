@@ -23,7 +23,7 @@ var servCmd cli.Command = cli.Command{
 		opt := &PrepareOption{true, true, true}
 		pre, err := Prepare(opt)
 		if err != nil {
-			log.Error("Server | %-8s | %s", "Prepare", err.Error())
+			log.Fatal("Server | %-8s | %s", "Prepare", err.Error())
 			return
 		}
 

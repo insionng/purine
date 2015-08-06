@@ -51,7 +51,7 @@ func UpgradeAction(cfg *model.Config) {
 	opt := &PrepareOption{true, true, true}
 	pre, err := Prepare(opt)
 	if err != nil {
-		log.Error("Upgrade | %-8s | %s", "Prepare", err.Error())
+		log.Fatal("Upgrade | %-8s | %s", "Prepare", err.Error())
 		return
 	}
 

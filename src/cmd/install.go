@@ -2,23 +2,26 @@ package cmd
 
 import (
 	"bytes"
+	"encoding/base64"
+	"io/ioutil"
+	"os"
+	"reflect"
+	"strconv"
+	"time"
+
 	"github.com/BurntSushi/toml"
 	"github.com/Unknwon/com"
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/src/log"
 	"github.com/fuxiaohei/purine/src/model"
 	"github.com/go-xorm/xorm"
-	"io/ioutil"
-	"os"
 
-	"encoding/base64"
 	"github.com/Unknwon/cae/zip"
 	"github.com/fuxiaohei/purine/src/utils"
 	"github.com/fuxiaohei/purine/src/vars"
-	"github.com/mattn/go-sqlite3"
-	"reflect"
-	"strconv"
-	"time"
+
+	_ "github.com/go-xorm/ql"
+	_ "github.com/lunny/ql/driver"
 )
 
 var installCmd cli.Command = cli.Command{
@@ -71,12 +74,11 @@ func NewSite(ctx *cli.Context) {
 
 // new site data
 func NewSiteData(ctx *cli.Context) {
-	sqliteVersion, _, _ := sqlite3.Version()
-	log.Info("NewSite | %-8s | %s | %s", "SQLite", sqliteVersion, vars.DATA_FILE)
+	log.Info("NewSite | %-8s | %s ", "QL", vars.DATA_FILE)
 
-	engine, err := xorm.NewEngine("sqlite3", vars.DATA_FILE)
+	engine, err := xorm.NewEngine("ql", vars.DATA_FILE)
 	if err != nil {
-		log.Error("NewSite | %s", err.Error())
+		log.Fatal("NewSite | %s", err.Error())
 		return
 	}
 	engine.SetLogger(nil) // close logger
@@ -88,11 +90,11 @@ func NewSiteData(ctx *cli.Context) {
 		new(model.Tag),
 		new(model.Setting),
 		new(model.Media)); err != nil {
-		log.Error("NewSite | %s", err.Error())
+		log.Fatal("NewSite | %s", err.Error())
 		return
 	}
 
-	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s,%s", "SQLite",
+	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s,%s", "QL",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 		reflect.TypeOf(new(model.Article)).String(),
@@ -105,7 +107,7 @@ func NewSiteData(ctx *cli.Context) {
 	// site init data
 	NewSiteInitData(engine)
 
-	log.Info("NewSite | %-8s | Success", "SQLite")
+	log.Info("NewSite | %-8s | Success", "QL")
 	engine.Close()
 }
 
