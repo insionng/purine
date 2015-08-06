@@ -34,6 +34,14 @@ func (bl *BaseLanguager) LangTr(format string, args ...interface{}) string {
 	return i18n.Tr(bl.Lang, format, args...)
 }
 
+type i18nHandle struct {
+	Lang string
+}
+
+func (i *i18nHandle) Tr(format string, args ...interface{}) string {
+	return i18n.Tr(i.Lang, format, args...)
+}
+
 // language middleware handler
 func I18nHandler() tango.HandlerFunc {
 	return func(ctx *tango.Context) {
@@ -47,10 +55,7 @@ func I18nHandler() tango.HandlerFunc {
 
 		// set to view
 		if r, ok := ctx.Action().(IRender); ok {
-			r.Assign("Lang", lang)
-			r.Assign("Tr", func(format string, args ...interface{}) string {
-				return i18n.Tr(lang, format, args...)
-			})
+			r.Assign("i18n", &i18nHandle{lang})
 		}
 		ctx.Next()
 	}

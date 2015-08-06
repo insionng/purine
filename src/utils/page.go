@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/Unknwon/i18n"
 	"html/template"
 	"strconv"
 )
@@ -29,7 +30,7 @@ func CreatePager(page, size, all int64) *Pager {
 }
 
 // pager to HTML with number elements
-func Pager2HTML(p *Pager, layout string) template.HTML {
+func Pager2HTML(p *Pager, layout, lang string) template.HTML {
 	tpl := ` <ul class="pager">`
 	for i := 1; i <= int(p.Pages); i++ {
 		if i == int(p.Current) {
@@ -43,13 +44,13 @@ func Pager2HTML(p *Pager, layout string) template.HTML {
 }
 
 // pager to HTML with navigator elements
-func Pager2HTMLSimple(p *Pager, layout string) template.HTML {
+func Pager2HTMLSimple(p *Pager, layout, lang string) template.HTML {
 	tpl := `<div class="pager clear">`
 	if p.Current > 1 {
-		tpl += `<a class="prev left" href="` + fmt.Sprintf(layout, p.Current-1) + `">prev</a>`
+		tpl += `<a class="prev left" href="` + fmt.Sprintf(layout, p.Current-1) + `">` + i18n.Tr(lang, "pager.prev") + `</a>`
 	}
 	if p.Current < p.Pages {
-		tpl += `<a class="next right" href="` + fmt.Sprintf(layout, p.Current+1) + `">next</a>`
+		tpl += `<a class="next right" href="` + fmt.Sprintf(layout, p.Current+1) + `">` + i18n.Tr(lang, "pager.next") + `</a>`
 	}
 	tpl += "</div>"
 	return template.HTML(tpl)

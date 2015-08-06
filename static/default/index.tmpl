@@ -26,11 +26,11 @@
                 {{Md2HTML .Preview}}
             </div>
             <div class="more center">
-                <a href="/article/{{.Href}}" target="_blank">-- Read More-- </a>
+                <a href="/article/{{.Href}}" target="_blank">-- {{$.i18n.Tr "article.read.more"}} -- </a>
             </div>
         </article>
         {{end}}
-        {{Pager2Simple .Pager "/article/page/%d/"}}
+        {{Pager2Simple .Pager "/article/page/%d/" .i18n.Lang}}
     </div>
 </div>
 {{template "default/_footer.tmpl" .}}
