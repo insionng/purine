@@ -1,9 +1,9 @@
 {{template "admin/_header.tmpl" .}}
 <div id="index-container" class="clear">
     <div id="error-container">
-        <h3>An Error Occur !!</h3>
+        <h3 class="alert">An Error Occur !!</h3>
         <hr/>
-        <h4><strong>{{.Error}}</strong></h4>
+        <div>{{Nl2Br .Error}}</div>
     </div>
 </div>
 {{template "admin/_footer.tmpl" .}}
