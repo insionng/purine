@@ -1,0 +1,27 @@
+<div class="comments">
+    <h1>Comments</h1>
+    {{if .Article.IsEnableComment}}
+    <hr/>
+    <form id="comment-form" action="/comment/article/{{.Article.Id}}" method="post" class="form clear">
+        <div class="left">
+            <div class="group">
+                <input id="comment-user" class="ipt" type="text" name="user" required="required" placeholder="your name, required"/>
+            </div>
+            <div class="group">
+                <input id="comment-email" class="ipt" type="email" name="email" required="required" placeholder="your email, required"/>
+            </div>
+            <div class="group">
+                <input id="comment-url" class="ipt" type="url" name="url" placeholder="your url, optional"/>
+            </div>
+        </div>
+        <div class="right">
+            <div class="group">
+                <textarea class="ipt" name="body" id="comment-content" required="required"></textarea>
+            </div>
+            <div class="group">
+                <button class="btn">Submit</button>
+            </div>
+        </div>
+    </form>
+    {{end}}
+</div>

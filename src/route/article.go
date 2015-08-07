@@ -23,6 +23,8 @@ func (a *Article) Get() {
 		a.RenderError(500, err)
 		return
 	}
+
+	// get article
 	res := mapi.Call(mapi.Article.Get, param)
 	if res.Status {
 		article := res.Data["article"].(*model.Article)
@@ -32,9 +34,24 @@ func (a *Article) Get() {
 		}
 		a.Assign("Article", article)
 		a.Assign("Title", article.Title+" - "+a.GetGeneralByKey("title"))
+
+		// get comments
+		opt := &mapi.CommentListOption{
+			ArticleId: article.Id,
+			Page:      1,
+			Size:      999,
+			Status:    model.COMMENT_STATUS_APPROVED,
+		}
+		res = mapi.Call(mapi.Comment.List, opt)
+		if res.Status {
+			comments := res.Data["comments"].([]*model.Comment)
+			a.Assign("Comments", comments)
+		}
 		a.Render("article.tmpl")
 		return
 	}
+
+	// not found
 	a.RenderError(404, nil)
 }
 

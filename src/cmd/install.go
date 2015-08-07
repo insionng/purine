@@ -2,20 +2,19 @@ package cmd
 
 import (
 	"bytes"
+	"encoding/base64"
 	"github.com/BurntSushi/toml"
+	"github.com/Unknwon/cae/zip"
 	"github.com/Unknwon/com"
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/src/log"
 	"github.com/fuxiaohei/purine/src/model"
-	"github.com/go-xorm/xorm"
-	"io/ioutil"
-	"os"
-
-	"encoding/base64"
-	"github.com/Unknwon/cae/zip"
 	"github.com/fuxiaohei/purine/src/utils"
 	"github.com/fuxiaohei/purine/src/vars"
+	"github.com/go-xorm/xorm"
 	"github.com/mattn/go-sqlite3"
+	"io/ioutil"
+	"os"
 	"reflect"
 	"strconv"
 	"time"
@@ -87,12 +86,13 @@ func NewSiteData(ctx *cli.Context) {
 		new(model.Page),
 		new(model.Tag),
 		new(model.Setting),
-		new(model.Media)); err != nil {
+		new(model.Media),
+		new(model.Comment)); err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
 	}
 
-	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s,%s", "SQLite",
+	log.Info("NewSite | %-8s | SyncDb | %s,%s,%s,%s,%s,%s,%s,%s", "SQLite",
 		reflect.TypeOf(new(model.User)).String(),
 		reflect.TypeOf(new(model.Token)).String(),
 		reflect.TypeOf(new(model.Article)).String(),
@@ -100,6 +100,7 @@ func NewSiteData(ctx *cli.Context) {
 		reflect.TypeOf(new(model.Tag)).String(),
 		reflect.TypeOf(new(model.Setting)).String(),
 		reflect.TypeOf(new(model.Media)).String(),
+		reflect.TypeOf(new(model.Comment)).String(),
 	)
 
 	// site init data

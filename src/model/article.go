@@ -66,6 +66,20 @@ func (a *Article) HasComment() bool {
 	return a.Comments > 0
 }
 
+// article comment enable or not
+func (a *Article) IsEnableComment() bool {
+	if a.CommentStatus == ARTICLE_COMMENT_OPEN {
+		return true
+	}
+	if a.CommentStatus == ARTICLE_COMMENT_WAIT {
+		// open comment in 30 days
+		if time.Now().Unix()-a.CreateTime <= 3600*24*30 {
+			return true
+		}
+	}
+	return false
+}
+
 // read article's owner
 func (a *Article) User() *User {
 	if a.userData == nil {

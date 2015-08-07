@@ -2,7 +2,7 @@ package vars
 
 const (
 	VERSION      = "0.2 - Beta"
-	VERSION_DATE = "20150801"
+	VERSION_DATE = "20150807"
 
 	NAME         = "Purine"
 	DESCRIPTION  = "Purine is a simple site generator"

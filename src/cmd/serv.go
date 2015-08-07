@@ -97,6 +97,8 @@ func ServeRouting(ctx *cli.Context) {
 	vars.Server.Get("/archive", new(route.Archive))
 	vars.Server.Get("/article/page/:page", new(route.Index))
 	vars.Server.Get("/article/*article.html", new(route.Article))
+	vars.Server.Get("/comment/:from/:id", new(route.Comment))
+	vars.Server.Post("/comment/:from/:id", new(route.Comment))
 	vars.Server.Get("/page/*page.html", new(route.Page))
 	vars.Server.Get("/rss.xml", new(route.Rss))
 	vars.Server.Get("/sitemap.xml", new(route.Sitemap))

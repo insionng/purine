@@ -11,7 +11,7 @@ func init() {
 
 func Update20150801() error {
 	// sync new models
-	if err := vars.Db.Sync(new(model.Page)); err != nil {
+	if err := vars.Db.Sync(new(model.Page), new(model.Comment)); err != nil {
 		return err
 	}
 	return nil
