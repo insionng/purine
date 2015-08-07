@@ -2,8 +2,6 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/BurntSushi/toml"
 	"github.com/Unknwon/i18n"
 	"github.com/codegangsta/cli"
 	"github.com/fuxiaohei/purine/src/model"
@@ -30,6 +28,21 @@ type PrepareOption struct {
 	LoadConfig bool
 	LoadDb     bool
 	LoadI18n   bool
+}
+
+// print option
+func (po *PrepareOption) String() string {
+	str := []string{}
+	if po.LoadConfig {
+		str = append(str, "Config")
+	}
+	if po.LoadDb {
+		str = append(str, "Database")
+	}
+	if po.LoadI18n {
+		str = append(str, "I18n")
+	}
+	return strings.Join(str, ",")
 }
 
 // prepare loaded data
@@ -69,11 +82,7 @@ func Prepare(opt *PrepareOption) (*PreparedData, error) {
 
 // load config
 func loadConfig() (*model.Config, error) {
-	cfg := new(model.Config)
-	if _, err := toml.DecodeFile(vars.CONFIG_FILE, cfg); err != nil {
-		return nil, err
-	}
-	return cfg, nil
+	return model.ReadConfig(vars.CONFIG_FILE)
 }
 
 // load database
@@ -101,6 +110,5 @@ func loadI18n() error {
 		}
 		return nil
 	})
-	fmt.Println(i18n.Tr("zh-cn", "test"))
 	return nil
 }

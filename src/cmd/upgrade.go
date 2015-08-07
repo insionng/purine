@@ -74,7 +74,7 @@ func UpgradeAction(cfg *model.Config) {
 
 	pre.Config.Version = vars.VERSION
 	pre.Config.Date = vars.VERSION_DATE
-	if err := model.SyncConfig(pre.Config); err != nil {
+	if err := model.WriteConfig(pre.Config, vars.CONFIG_FILE); err != nil {
 		log.Error("Upgrade | %-8s | SyncFail", "Config")
 		return
 	}

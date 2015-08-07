@@ -12,7 +12,7 @@ const (
 
 	GITHUB_URL = "https://github.com/fuxiaohei/purine"
 
-	CONFIG_FILE = "config.toml"
+	CONFIG_FILE = "config.ini"
 	DATA_FILE   = "purine.db"
 	I18N_DIR    = "lang"
 )

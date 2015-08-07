@@ -3,7 +3,6 @@ package cmd
 import (
 	"bytes"
 	"encoding/base64"
-	"github.com/BurntSushi/toml"
 	"github.com/Unknwon/cae/zip"
 	"github.com/Unknwon/com"
 	"github.com/codegangsta/cli"
@@ -50,15 +49,7 @@ func NewSite(ctx *cli.Context) {
 	config := model.NewConfig()
 
 	// encode config
-	var buf bytes.Buffer
-	encoder := toml.NewEncoder(&buf)
-	if err := encoder.Encode(config); err != nil {
-		log.Error("NewSite | %s", err.Error())
-		return
-	}
-
-	// write config.toml
-	if err := ioutil.WriteFile(vars.CONFIG_FILE, buf.Bytes(), os.ModePerm); err != nil {
+	if err := model.WriteConfig(config, vars.CONFIG_FILE); err != nil {
 		log.Error("NewSite | %s", err.Error())
 		return
 	}

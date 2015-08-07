@@ -26,8 +26,7 @@ var servCmd cli.Command = cli.Command{
 			log.Error("Server | %-8s | %s", "Prepare", err.Error())
 			return
 		}
-
-		log.Info("Server | %-8s | Read | %s", "Config", vars.CONFIG_FILE)
+		log.Info("Server | %-8s | %s", "Prepare", opt.String())
 
 		if IsNeedUpgrade(pre.Config) {
 			log.Info("Server | %-8s | %s -> %s", "Upgrade", pre.Config.Version, vars.VERSION)
@@ -86,6 +85,7 @@ func ServeRouting(ctx *cli.Context) {
 	adminGroup.Any("/delete", new(admin.Delete))
 	adminGroup.Get("/article", new(admin.Article))
 	adminGroup.Get("/page", new(admin.Page))
+	adminGroup.Any("/comment", new(admin.Comment))
 	adminGroup.Any("/setting", new(admin.Setting))
 	adminGroup.Get("/media", new(admin.Media))
 	adminGroup.Get("/media/delete", new(admin.MediaDelete))

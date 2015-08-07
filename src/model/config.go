@@ -2,11 +2,8 @@
 package model
 
 import (
-	"bytes"
-	"github.com/BurntSushi/toml"
 	"github.com/fuxiaohei/purine/src/vars"
-	"io/ioutil"
-	"os"
+	"gopkg.in/ini.v1"
 )
 
 // main config
@@ -34,17 +31,28 @@ func NewConfig() *Config {
 	}
 }
 
-// sync config file
-func SyncConfig(cfg *Config) error {
-	// encode config
-	var buf bytes.Buffer
-	encoder := toml.NewEncoder(&buf)
-	if err := encoder.Encode(cfg); err != nil {
+// write config to ini file
+func WriteConfig(cfg *Config, file string) error {
+	f := ini.Empty()
+	if err := f.ReflectFrom(cfg); err != nil {
 		return err
 	}
-	// write config.toml
-	if err := ioutil.WriteFile(vars.CONFIG_FILE, buf.Bytes(), os.ModePerm); err != nil {
+	if err := f.SaveToIndent(file, "  "); err != nil {
 		return err
 	}
+	f = nil
 	return nil
+}
+
+// read config from file
+func ReadConfig(file string) (*Config, error) {
+	f, err := ini.Load(file)
+	if err != nil {
+		return nil, err
+	}
+	cfg := new(Config)
+	if err = f.MapTo(cfg); err != nil {
+		return nil, err
+	}
+	return cfg, nil
 }
