@@ -46,14 +46,15 @@ func IsNeedUpgrade(cfg *model.Config) bool {
 // upgrade action
 func UpgradeAction(cfg *model.Config) {
 	t := time.Now()
-	log.Debug("Upgrade | %-8s | %s -> %s", "Upgrade", cfg.Version, vars.VERSION)
+	log.Debug("Upgrade | %-8s | %s(%s) -> %s(%s)", "Upgrade", cfg.Version, cfg.Date, vars.VERSION, vars.VERSION_DATE)
 
-	opt := &PrepareOption{true, true, true}
+	opt := &PrepareOption{true, true, false}
 	pre, err := Prepare(opt)
 	if err != nil {
 		log.Error("Upgrade | %-8s | %s", "Prepare", err.Error())
 		return
 	}
+	log.Info("Upgrade | %-8s | %s", "Prepare", opt.String())
 
 	oldVersion, _ := strconv.Atoi(pre.Config.Date)
 	scriptIndex := []int{}

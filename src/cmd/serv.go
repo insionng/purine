@@ -29,7 +29,7 @@ var servCmd cli.Command = cli.Command{
 		log.Info("Server | %-8s | %s", "Prepare", opt.String())
 
 		if IsNeedUpgrade(pre.Config) {
-			log.Info("Server | %-8s | %s -> %s", "Upgrade", pre.Config.Version, vars.VERSION)
+			log.Info("Server | %-8s | %s(%s) -> %s(%s)", "Upgrade", pre.Config.Version, pre.Config.Date, vars.VERSION, vars.VERSION_DATE)
 			log.Info("Please run 'purine.exe upgrade'")
 			return
 		}

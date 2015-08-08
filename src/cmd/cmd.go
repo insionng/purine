@@ -42,7 +42,7 @@ func (po *PrepareOption) String() string {
 	if po.LoadI18n {
 		str = append(str, "I18n")
 	}
-	return strings.Join(str, ",")
+	return strings.Join(str, " | ")
 }
 
 // prepare loaded data
