@@ -5,6 +5,7 @@ import (
 	"github.com/fuxiaohei/purine/src/model"
 	"github.com/fuxiaohei/purine/src/route/base"
 	"github.com/lunny/tango"
+	"github.com/tango-contrib/xsrf"
 )
 
 var (
@@ -15,6 +16,7 @@ var (
 type Article struct {
 	base.ThemeRender
 	tango.Ctx
+	xsrf.Checker
 }
 
 func (a *Article) Get() {
@@ -47,6 +49,7 @@ func (a *Article) Get() {
 			comments := res.Data["comments"].([]*model.Comment)
 			a.Assign("Comments", comments)
 		}
+		a.Assign("XsrfHtml", a.XsrfFormHtml())
 		a.Render("article.tmpl")
 		return
 	}

@@ -1,9 +1,15 @@
 package mapi
 
-import "github.com/fuxiaohei/purine/src/model"
+import (
+	"errors"
+	"github.com/fuxiaohei/purine/src/model"
+	"strings"
+)
 
 var (
 	Comment = new(CommentApi)
+
+	ERR_COMMENT_TOO_MANY_LINKS = errors.New("too-many-links")
 )
 
 type CommentApi struct{}
@@ -67,5 +73,38 @@ func (_ *CommentApi) List(v interface{}) *Res {
 	return Success(map[string]interface{}{
 		"comments": comments,
 		"article":  opt.ArticleId,
+	})
+}
+
+type CommentForm struct {
+	Name  string `form:"name" binding:"Required"`
+	Email string `form:"email" binding:"Required;Email"`
+	Url   string `form:"url" binding:"Url"`
+	Body  string `form:"body" binding:"Required"`
+}
+
+var (
+	emails = []string{
+		"qq.com",
+		"163.com",
+		"sina.com",
+		"126.com",
+		"gmail.com",
+		"outlook.com",
+	}
+)
+
+func (_ *CommentApi) Filter(v interface{}) *Res {
+	form, ok := v.(*CommentForm)
+	if !ok {
+		return Fail(paramTypeError(form))
+	}
+	body := strings.Replace(form.Body, " ", "", -1) // clean black spaces
+	if strings.Count(body, "href") > 0 {
+		return Fail(ERR_COMMENT_TOO_MANY_LINKS)
+	}
+
+	return Success(map[string]interface{}{
+		"form": form,
 	})
 }

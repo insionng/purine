@@ -12,7 +12,9 @@ import (
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/binding"
 	"github.com/tango-contrib/renders"
+	"github.com/tango-contrib/xsrf"
 	"html/template"
+	"time"
 )
 
 var servCmd cli.Command = cli.Command{
@@ -53,6 +55,7 @@ func ServeMiddleware(ctx *cli.Context) {
 			Prefix:   prefix,
 		}))
 	}
+	vars.Server.Use(xsrf.New(time.Second * 3600))
 	vars.Server.Use(binding.Bind())
 	vars.Server.Use(base.AuthHandler())
 	vars.Server.Use(base.SettingHandler())

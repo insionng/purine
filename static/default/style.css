@@ -448,19 +448,43 @@ sup, sub {
     box-sizing: border-box;
 }
 
+#comment-form .group{
+    margin-top: 21px;
+    position: relative;
+}
+
 #comment-form .left{
     padding-left: 100px;
-    padding-right: 12px;
     width: 40%;
+    text-align: right;
+}
+
+#comment-form .left .fa{
+    position: absolute;
+    top:10px;
+    left:6px;
+    font-size: 16px;
+    color: #AAA;
 }
 
 #comment-form .right{
     padding-right: 100px;
-    padding-left: 12px;
+    padding-left: 24px;
     width: 60%;
+    padding-bottom: 30px;
 }
 
 #comment-content{
-    width: 80%;
-    height: 120px;
+    width: 99%;
+    height: 200px;
+    resize: horizontal;
+}
+
+#comment-form .ipt{
+    font-size: 1.1em;
+    padding: 8px 12px;
+}
+
+#comment-form .left .ipt{
+    padding-left: 28px;
 }
