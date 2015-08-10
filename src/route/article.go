@@ -1,6 +1,7 @@
 package route
 
 import (
+	"fmt"
 	"github.com/fuxiaohei/purine/src/mapi"
 	"github.com/fuxiaohei/purine/src/model"
 	"github.com/fuxiaohei/purine/src/route/base"
@@ -49,6 +50,7 @@ func (a *Article) Get() {
 			comments := res.Data["comments"].([]*model.Comment)
 			a.Assign("Comments", comments)
 		}
+		prepareComment(article, a.ThemeRender)
 		a.Assign("XsrfHtml", a.XsrfFormHtml())
 		a.Render("article.tmpl")
 		return
@@ -82,4 +84,13 @@ func (p *Page) Get() {
 		return
 	}
 	p.RenderError(404, nil)
+}
+
+// prepare comment for theme
+
+func prepareComment(v interface{}, r base.ThemeRender) {
+	if a, ok := v.(*model.Article); ok {
+		r.Assign("EnableComment", a.IsEnableComment())
+		r.Assign("CommentUrl", fmt.Sprintf("/comment/article/%d", a.Id))
+	}
 }

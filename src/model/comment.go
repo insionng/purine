@@ -75,12 +75,12 @@ func ChangeCommentStatus(cid int64, status string) (*Comment, error) {
 }
 
 // list all comments
-func ListAllCommments(page, size int64, order string) ([]*Comment, error) {
+func ListAllComments(page, size int64, order string) ([]*Comment, error) {
 	comments := make([]*Comment, 0)
 	if err := vars.Db.OrderBy(order).
 		Where("status != ?", COMMENT_STATUS_DELETED).
 		Limit(int(size), int((page-1)*size)).Find(&comments); err != nil {
-		log.Error("Db|ListAllCommments|%s|%d,%d|%s|%s", "all", page, size, order, err.Error())
+		log.Error("Db|ListAllComments|%s|%d,%d|%s|%s", "all", page, size, order, err.Error())
 		return nil, err
 	}
 	return comments, nil
@@ -121,4 +121,14 @@ func ListStatusCommentsInArticle(status string, aid, page, size int64, order str
 		return nil, err
 	}
 	return comments, nil
+}
+
+// check email's approved comment count
+func CountApprovedCommentsByEmail(email string) int64 {
+	c, err := vars.Db.Where("status = ? AND email = ?", COMMENT_STATUS_APPROVED, email).Count(new(Comment))
+	if err != nil {
+		log.Error("Db|CountApprovedCommentsByEmail|%s|%s", email, err.Error())
+		return 0
+	}
+	return c
 }

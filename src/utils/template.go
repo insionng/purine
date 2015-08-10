@@ -60,5 +60,10 @@ func FriendBytesSize(size int64) string {
 
 // newline 2 break
 func Nl2Br(str string) template.HTML {
-	return template.HTML(strings.Replace(str, "\n", "<br/>", -1))
+	return template.HTML(Nl2BrString(str))
+}
+
+// newline 2 break, return string
+func Nl2BrString(str string) string {
+	return strings.Replace(str, "\n", "<br/>", -1)
 }

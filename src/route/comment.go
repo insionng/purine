@@ -24,5 +24,14 @@ func (c *Comment) Post() {
 		c.ServeJson(mapi.Fail(err))
 		return
 	}
-	c.WriteHeader(401)
+	form.For = c.Param("from")
+	form.ForId = c.ParamInt64("id")
+	// filter comment data
+	if res := mapi.Call(mapi.Comment.Filter, form); !res.Status {
+		c.ServeJson(res)
+		return
+	}
+	// save comment
+	res := mapi.Call(mapi.Comment.Save, form)
+	c.ServeJson(res)
 }

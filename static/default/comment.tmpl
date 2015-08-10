@@ -1,8 +1,8 @@
 <div class="comments">
     <h1>Comments</h1>
-    {{if .Article.IsEnableComment}}
+    {{if .EnableComment}}
     <hr/>
-    <form id="comment-form" action="/comment/article/{{.Article.Id}}" method="post" class="form clear">
+    <form id="comment-form" action="{{.CommentUrl}}" method="post" class="form clear">
         <div class="left">
             <div class="group">
                 <i class="fa fa-user"></i>
