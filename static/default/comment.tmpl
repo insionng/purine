@@ -13,6 +13,17 @@
                 </div>
                 <div class="content">{{Str2HTML .Body}}</div>
             </div>
+            <span class="clear"></span>
+            <div class="comment clear">
+                <img class="avatar left" src="{{.AvatarUrl}}" alt="{{.Name}}"/>
+                <div class="body left">
+                    <div class="header">
+                        <a class="name" href="{{.Url}}"><strong>{{.Name}}</strong></a> -
+                        <span class="time">{{TimeUnixFormatFriend .CreateTime}}</span>
+                    </div>
+                    <div class="content">{{Str2HTML .Body}}</div>
+                </div>
+            </div>
         </div>
         {{end}}
     </div>

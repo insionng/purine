@@ -5,6 +5,7 @@ import (
 	"github.com/fuxiaohei/purine/src/route/base"
 	"github.com/lunny/tango"
 	"github.com/tango-contrib/xsrf"
+	"strings"
 )
 
 type Comment struct {
@@ -14,11 +15,12 @@ type Comment struct {
 	xsrf.Checker
 }
 
-func (c *Comment) Get() {
-	c.WriteHeader(401)
-}
-
 func (c *Comment) Post() {
+	// only support ajax
+	if strings.ToLower(c.Req().Header.Get("X-Requested-With")) != "xmlhttprequest" {
+		c.WriteHeader(400)
+		return
+	}
 	form := new(mapi.CommentForm)
 	if err := c.Bind(form); err != nil {
 		c.ServeJson(mapi.Fail(err))

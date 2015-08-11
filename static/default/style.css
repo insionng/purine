@@ -501,31 +501,47 @@ sup, sub {
     margin-top: 9px;
 }
 
-#comment-list .body{
-    padding-left: 20px;
+#comment-list .body {
+    padding-left: 12px;
+    line-height: 24px;
+    min-height: 70px;
 }
 
-#comment-list .header{
+#comment-list .header {
     line-height: 36px;
 }
 
-#comment-list .name{
+#comment-list .name {
     font-size: 1.2em;
 }
 
-#comment-list .time{
+#comment-list .time {
     text-transform: uppercase;
     color: #999;
 }
 
-#comment-list > .comment{
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border:1px dashed #DDD;
+#comment-list > .comment {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed #DDD;
 }
 
-#comment-list > .comment:last-child{
+#comment-list > .comment:last-child {
     margin: 0;
     padding: 0;
     border: none;
+}
+
+#comment-list .comment .comment{
+    margin-left: 60px;
+    margin-top: 6px;
+}
+
+#comment-list .comment .comment .avatar{
+    width: 48px;
+    height: 48px;
+}
+
+#comment-list .comment .comment .name{
+    font-size: 1em;
 }
