@@ -55,14 +55,14 @@ func (_ *CommentApi) List(v interface{}) *Res {
 				return Fail(err)
 			}
 		} else {
-			comments, err = model.ListStatusCommentsInArticle(opt.Status, opt.ArticleId, opt.Page, opt.Size, opt.Order)
+			comments, err = model.ListAllComments(opt.Page, opt.Size, opt.Order)
 			if err != nil {
 				return Fail(err)
 			}
 		}
 	} else {
 		if opt.ArticleId > 0 {
-			comments, err = model.ListAllComments(opt.Page, opt.Size, opt.Order)
+			comments, err = model.ListStatusCommentsInArticle(opt.Status, opt.ArticleId, opt.Page, opt.Size, opt.Order)
 			if err != nil {
 				return Fail(err)
 			}

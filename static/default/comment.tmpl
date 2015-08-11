@@ -1,5 +1,22 @@
 <div class="comments">
     <h1>Comments</h1>
+    {{if .Comments}}
+    <hr/>
+    <div id="comment-list">
+        {{range .Comments}}
+        <div class="comment clear">
+            <img class="avatar left" src="{{.AvatarUrl}}" alt="{{.Name}}"/>
+            <div class="body left">
+                <div class="header">
+                    <a class="name" href="{{.Url}}"><strong>{{.Name}}</strong></a> -
+                    <span class="time">{{TimeUnixFormatFriend .CreateTime}}</span>
+                </div>
+                <div class="content">{{Str2HTML .Body}}</div>
+            </div>
+        </div>
+        {{end}}
+    </div>
+    {{end}}
     {{if .EnableComment}}
     <hr/>
     <form id="comment-form" action="{{.CommentUrl}}" method="post" class="form clear">
@@ -31,3 +48,11 @@
     </form>
     {{end}}
 </div>
+<script src="http://malsup.github.io/min/jquery.form.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#comment-form').ajaxForm(function(res){
+            console.log(res);
+        })
+    });
+</script>

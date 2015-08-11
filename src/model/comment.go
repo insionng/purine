@@ -16,22 +16,22 @@ const (
 )
 
 type Comment struct {
-	Id         int64
-	Name       string
-	UserId     int64
-	Email      string
-	Url        string
-	AvatarUrl  string
-	Body       string
-	CreateTime int64  `xorm:"created"`
-	Status     string `xorm:"index(status)"`
+	Id         int64  `json:"id"`
+	Name       string `json:"name"`
+	UserId     int64  `json:"user_id"`
+	Email      string `json:"-"`
+	Url        string `json:"url"`
+	AvatarUrl  string `json:"avatar"`
+	Body       string `json:"body"`
+	CreateTime int64  `xorm:"created" json:"created"`
+	Status     string `xorm:"index(status)" json:"status"`
 
-	UserIp    string
-	UserAgent string
+	UserIp    string `json:"ip"`
+	UserAgent string `json:"user_agent"`
 
-	From     string `xorm:"index(from)"`
-	FromId   int64  `xorm:"index(from)"`
-	ParentId int64  `xorm:"index(parent)"`
+	From     string `xorm:"index(from)" json:"-"`
+	FromId   int64  `xorm:"index(from)" json:"-"`
+	ParentId int64  `xorm:"index(parent)" json:"parent"`
 }
 
 // save a comment,
@@ -102,7 +102,7 @@ func ListAllCommentsInArticle(aid, page, size int64, order string) ([]*Comment, 
 	comments := make([]*Comment, 0)
 	if err := vars.Db.
 		OrderBy(order).
-		Where("status != ? AND from = ? AND from_id = ?", COMMENT_STATUS_DELETED, COMMENT_FROM_ARTICLE, aid).
+		Where("status != ? AND `from` = ? AND `from_id` = ?", COMMENT_STATUS_DELETED, COMMENT_FROM_ARTICLE, aid).
 		Limit(int(size), int((page-1)*size)).Find(&comments); err != nil {
 		log.Error("Db|ListAllCommentsInArticle|%s|%d,%d|%s|%s", "all", page, size, order, err.Error())
 		return nil, err
@@ -114,7 +114,7 @@ func ListAllCommentsInArticle(aid, page, size int64, order string) ([]*Comment, 
 func ListStatusCommentsInArticle(status string, aid, page, size int64, order string) ([]*Comment, error) {
 	comments := make([]*Comment, 0)
 	if err := vars.Db.
-		Where("status = ? AND from = ? AND from_id = ?", status, COMMENT_FROM_ARTICLE, aid).
+		Where("status = ? AND `from` = ? AND `from_id` = ?", status, COMMENT_FROM_ARTICLE, aid).
 		OrderBy(order).
 		Limit(int(size), int((page-1)*size)).Find(&comments); err != nil {
 		log.Error("Db|ListStatusCommentsInArticle|%s|%d,%d|%s|%s", status, page, size, order, err.Error())

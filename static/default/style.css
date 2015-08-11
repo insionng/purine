@@ -297,7 +297,7 @@ sup, sub {
     font-size: 1.05rem;
 }
 
-.markdown p{
+.markdown p {
     margin-bottom: 18px;
 }
 
@@ -373,7 +373,7 @@ sup, sub {
 #body-container .article,
 #body-container .comments,
 #error-container,
-#archive-container{
+#archive-container {
     padding: 18px 24px 24px 24px;
     background-color: #FFF;
     box-shadow: 0 2px 8px rgba(34, 34, 34, 0.25);
@@ -428,64 +428,104 @@ sup, sub {
     width: 480px;
 }
 
-#archive-container li{
+#archive-container li {
     line-height: 48px;
 }
 
-#archive-container li .date{
+#archive-container li .date {
     font-size: 16px;
     color: #AAA;
     display: inline-block;
     width: 4em;
 }
 
-#archive-container li .title{
+#archive-container li .title {
     font-size: 16px;
 }
 
 #comment-form .left,
-#comment-form .right{
+#comment-form .right {
     box-sizing: border-box;
 }
 
-#comment-form .group{
+#comment-form .group {
     margin-top: 21px;
     position: relative;
 }
 
-#comment-form .left{
+#comment-form .left {
     padding-left: 100px;
     width: 40%;
 }
 
-#comment-form .left .fa{
+#comment-form .left .fa {
     position: absolute;
-    top:10px;
-    left:8px;
+    top: 10px;
+    left: 8px;
     font-size: 16px;
     color: #AAA;
 }
 
-#comment-form .right{
+#comment-form .right {
     padding-right: 100px;
     padding-left: 24px;
     width: 60%;
     padding-bottom: 30px;
 }
 
-#comment-content{
+#comment-content {
     width: 99%;
     height: 200px;
     resize: horizontal;
 }
 
-#comment-form .ipt{
+#comment-form .ipt {
     font-size: 1.1em;
     padding: 8px 12px;
 }
 
-#comment-form .left .ipt{
+#comment-form .left .ipt {
     padding-left: 28px;
     width: 95%;
     box-sizing: border-box;
+}
+
+#comment-list .comment {
+    position: relative;
+    min-height: 80px;
+}
+
+#comment-list .avatar {
+    width: 60px;
+    height: 60px;
+    margin-top: 9px;
+}
+
+#comment-list .body{
+    padding-left: 20px;
+}
+
+#comment-list .header{
+    line-height: 36px;
+}
+
+#comment-list .name{
+    font-size: 1.2em;
+}
+
+#comment-list .time{
+    text-transform: uppercase;
+    color: #999;
+}
+
+#comment-list > .comment{
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border:1px dashed #DDD;
+}
+
+#comment-list > .comment:last-child{
+    margin: 0;
+    padding: 0;
+    border: none;
 }
